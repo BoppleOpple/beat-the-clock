@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://00bxfurateyx"]
+
+[ext_resource type="PackedScene" uid="uid://cebxki01pqopu" path="res://stages/final_destination.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://cpvcqwg43fwv" path="res://ui/hud.tscn" id="2_0xm2m"]
+
+[node name="Main" type="Node" unique_id=303326613]
+
+[node name="Stage" parent="." unique_id=12831427 instance=ExtResource("1_ig7tw")]
+
+[node name="HUD" parent="." unique_id=856797878 instance=ExtResource("2_0xm2m")]
