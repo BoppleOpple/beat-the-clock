@@ -2,9 +2,15 @@
 
 [ext_resource type="PackedScene" uid="uid://cebxki01pqopu" path="res://stages/final_destination.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://cpvcqwg43fwv" path="res://ui/hud.tscn" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://cna1uay0kbei2" path="res://player/player.tscn" id="3_h2yge"]
 
 [node name="Main" type="Node" unique_id=303326613]
 
 [node name="Stage" parent="." unique_id=12831427 instance=ExtResource("1_ig7tw")]
 
 [node name="HUD" parent="." unique_id=856797878 instance=ExtResource("2_0xm2m")]
+
+[node name="Player" parent="." unique_id=950486434 instance=ExtResource("3_h2yge")]
+position = Vector2(220, -372)
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=1667980090]
