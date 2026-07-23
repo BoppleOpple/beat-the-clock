@@ -1,3 +1,45 @@
 [gd_scene format=3 uid="uid://cna1uay0kbei2"]
 
-[node name="Player" type="Node2D" unique_id=1705288318]
+[ext_resource type="Script" uid="uid://dnxrn16ekf7c4" path="res://player/player.gd" id="1_oul6g"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rkbax"]
+friction = 0.2
+bounce = 0.25
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ikrvj"]
+size = Vector2(40, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3eufj"]
+size = Vector2(42, 42)
+
+[node name="Player" type="RigidBody2D" unique_id=950486434]
+physics_material_override = SubResource("PhysicsMaterial_rkbax")
+script = ExtResource("1_oul6g")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=817671182]
+shape = SubResource("RectangleShape2D_ikrvj")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1284086352]
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+color = Color(0.7593363, 0.42972273, 1, 1)
+
+[node name="LeftAbilityTimer" type="Timer" parent="." unique_id=1406747833]
+process_callback = 0
+one_shot = true
+
+[node name="CoyoteTimer" type="Timer" parent="." unique_id=682038947]
+process_callback = 0
+one_shot = true
+
+[node name="JumpCollision" type="Area2D" parent="." unique_id=282012949]
+
+[node name="Halo" type="CollisionShape2D" parent="JumpCollision" unique_id=218099469]
+shape = SubResource("RectangleShape2D_3eufj")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="timeout" from="CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
+[connection signal="body_entered" from="JumpCollision" to="." method="_on_jump_collision_body_entered"]
+[connection signal="body_exited" from="JumpCollision" to="." method="_on_jump_collision_body_exited"]
