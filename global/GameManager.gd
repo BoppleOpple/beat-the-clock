@@ -22,27 +22,19 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	player.timer -= delta
 	player.ability_1_cooldown -= delta
-	if player.ability_1_cooldown < 0.0:
-		player.ability_1_cooldown = 0.0
 	player.ability_2_cooldown -= delta
-	if player.ability_2_cooldown < 0.0:
-		player.ability_2_cooldown = 0.0
 	player.ability_3_cooldown -= delta
-	if player.ability_3_cooldown < 0.0:
-		player.ability_3_cooldown = 0.0
 	player.ability_c_cooldown -= delta
-	if player.ability_c_cooldown < 0.0:
-		player.ability_c_cooldown = 0.0
-	
-func _ability_used(ability): # TODO: Is this needed?
-	if player.ability_1 == ability and player.ability_1_cooldown == 0.0:
-		player.ability_1_cooldown = ABILITY_COOLDOWN[ability]
-	elif player.ability_2 == ability and player.ability_2_cooldown == 0.0:
-		player.ability_2_cooldown = ABILITY_COOLDOWN[ability]
-	elif player.ability_3 == ability and player.ability_3_cooldown == 0.0:
-		player.ability_3_cooldown = ABILITY_COOLDOWN[ability]
-	elif player.ability_c == ability and player.ability_c_cooldown == 0.0:
-		player.ability_c_cooldown = ABILITY_COOLDOWN[ability]
-	else:
-		return false
-	return true
+
+#func _ability_used(ability): # TODO: Is this needed?
+	#if player.ability_1 == ability and player.ability_1_cooldown == 0.0:
+		#player.ability_1_cooldown = ABILITY_COOLDOWN[ability]
+	#elif player.ability_2 == ability and player.ability_2_cooldown == 0.0:
+		#player.ability_2_cooldown = ABILITY_COOLDOWN[ability]
+	#elif player.ability_3 == ability and player.ability_3_cooldown == 0.0:
+		#player.ability_3_cooldown = ABILITY_COOLDOWN[ability]
+	#elif player.ability_c == ability and player.ability_c_cooldown == 0.0:
+		#player.ability_c_cooldown = ABILITY_COOLDOWN[ability]
+	#else:
+		#return false
+	#return true
