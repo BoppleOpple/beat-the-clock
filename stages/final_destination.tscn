@@ -1,3 +1,16 @@
 [gd_scene format=3 uid="uid://cebxki01pqopu"]
 
+[ext_resource type="PackedScene" uid="uid://chcg32tbpqvul" path="res://stages/components/fixed_platform.tscn" id="1_eqweo"]
+
 [node name="FinalDestination" type="Node2D" unique_id=12831427]
+
+[node name="MainPlatform" parent="." unique_id=706239347 instance=ExtResource("1_eqweo")]
+scale = Vector2(56.693, 3.5480018)
+
+[node name="SmallLeft" parent="." unique_id=2016971759 instance=ExtResource("1_eqweo")]
+position = Vector2(-301, -200)
+scale = Vector2(-11.086036, 1.6930192)
+
+[node name="SmallRight" parent="." unique_id=647153720 instance=ExtResource("1_eqweo")]
+position = Vector2(301, -200)
+scale = Vector2(-11.086036, 1.6930192)
