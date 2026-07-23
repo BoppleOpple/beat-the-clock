@@ -1,0 +1,108 @@
+[gd_scene format=3 uid="uid://dp1pn6ls667vp"]
+
+[sub_resource type="Gradient" id="Gradient_236hy"]
+offsets = PackedFloat32Array(0, 0.006024096, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0.23529412, 0, 0, 0, 0.23529412)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_kwtdr"]
+gradient = SubResource("Gradient_236hy")
+
+[node name="Options" type="Control" unique_id=377516718]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=2002130770]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -512.0
+offset_top = -460.0
+offset_right = 512.0
+offset_bottom = 460.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture1D_kwtdr")
+
+[node name="VSplitContainer" type="VSplitContainer" parent="TextureRect" unique_id=2028141306]
+layout_mode = 1
+anchors_preset = -1
+anchor_bottom = 0.029000001
+offset_right = 40.0
+offset_bottom = 13.32
+
+[node name="HSplitContainer" type="HSplitContainer" parent="TextureRect/VSplitContainer" unique_id=1963248208]
+layout_mode = 2
+split_offsets = PackedInt32Array(123)
+split_offset = 123
+
+[node name="Left Column" type="VSplitContainer" parent="TextureRect/VSplitContainer/HSplitContainer" unique_id=1502878978]
+layout_mode = 2
+
+[node name="Display" type="Button" parent="TextureRect/VSplitContainer/HSplitContainer/Left Column" unique_id=1520735862]
+layout_mode = 2
+text = "Display / Video"
+
+[node name="Audio" type="Button" parent="TextureRect/VSplitContainer/HSplitContainer/Left Column" unique_id=856019803]
+layout_mode = 2
+text = "Audio"
+
+[node name="Right Column" type="Control" parent="TextureRect/VSplitContainer/HSplitContainer" unique_id=714291199]
+layout_mode = 2
+
+[node name="Display" type="VSplitContainer" parent="TextureRect/VSplitContainer/HSplitContainer/Right Column" unique_id=1203586125]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+split_offsets = PackedInt32Array(20, 56, 92)
+split_offset = 20
+
+[node name="Resolution" type="OptionButton" parent="TextureRect/VSplitContainer/HSplitContainer/Right Column/Display" unique_id=1362037103]
+layout_mode = 2
+
+[node name="Fullscreen" type="CheckButton" parent="TextureRect/VSplitContainer/HSplitContainer/Right Column/Display" unique_id=1431858750]
+layout_mode = 2
+
+[node name="VSync" type="CheckButton" parent="TextureRect/VSplitContainer/HSplitContainer/Right Column/Display" unique_id=2083294248]
+layout_mode = 2
+
+[node name="FPS" type="HSlider" parent="TextureRect/VSplitContainer/HSplitContainer/Right Column/Display" unique_id=1009341808]
+layout_mode = 2
+
+[node name="Audio" type="VSplitContainer" parent="TextureRect/VSplitContainer/HSplitContainer/Right Column" unique_id=953158530]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+split_offsets = PackedInt32Array(0, 0)
+
+[node name="Master Volume" type="HSlider" parent="TextureRect/VSplitContainer/HSplitContainer/Right Column/Audio" unique_id=646334610]
+layout_mode = 2
+
+[node name="Music Volume" type="HSlider" parent="TextureRect/VSplitContainer/HSplitContainer/Right Column/Audio" unique_id=847660224]
+layout_mode = 2
+
+[node name="SFX Volume" type="HSlider" parent="TextureRect/VSplitContainer/HSplitContainer/Right Column/Audio" unique_id=955280805]
+layout_mode = 2
+
+[node name="HSplitContainer2" type="HSplitContainer" parent="TextureRect/VSplitContainer" unique_id=983162772]
+layout_mode = 2
+split_offsets = PackedInt32Array(20, 115)
+split_offset = 20
+
+[node name="Apply" type="Button" parent="TextureRect/VSplitContainer/HSplitContainer2" unique_id=764327804]
+layout_mode = 2
+text = "Apply"
+
+[node name="Back" type="Button" parent="TextureRect/VSplitContainer/HSplitContainer2" unique_id=76327595]
+layout_mode = 2
+text = "Back / Cancel"
+
+[node name="Reset" type="Button" parent="TextureRect/VSplitContainer/HSplitContainer2" unique_id=2144007948]
+layout_mode = 2
+text = "Reset to Defaults"

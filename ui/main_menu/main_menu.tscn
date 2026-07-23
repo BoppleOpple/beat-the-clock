@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://l0tik4mhi750"]
 
-[ext_resource type="Script" uid="uid://b6ns73peufyrd" path="res://ui/main_menu.gd" id="1_t7e0r"]
+[ext_resource type="Script" uid="uid://b6ns73peufyrd" path="res://ui/main_menu/main_menu.gd" id="1_t7e0r"]
 [ext_resource type="FontFile" uid="uid://dko5067st2fe4" path="res://assets/fonts/Baksoap.otf" id="2_0dkrt"]
-[ext_resource type="PackedScene" uid="uid://d1ckkl2q5xd4s" path="res://ui/bg_helper/background.tscn" id="2_rmr83"]
+[ext_resource type="PackedScene" uid="uid://d1ckkl2q5xd4s" path="res://ui/bg/background.tscn" id="2_rmr83"]
 [ext_resource type="LabelSettings" uid="uid://chxdvv8elu13o" path="res://assets/fonts/Title.tres" id="2_wk0pr"]
 
 [sub_resource type="Theme" id="Theme_t7e0r"]

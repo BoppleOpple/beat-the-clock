@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://00bxfurateyx"]
 
 [ext_resource type="PackedScene" uid="uid://cebxki01pqopu" path="res://stages/final_destination.tscn" id="1_ig7tw"]
-[ext_resource type="PackedScene" uid="uid://cpvcqwg43fwv" path="res://ui/hud.tscn" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://cpvcqwg43fwv" path="res://ui/hud/hud.tscn" id="2_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://cna1uay0kbei2" path="res://player/player.tscn" id="3_h2yge"]
 
 [node name="Main" type="Node" unique_id=303326613]
