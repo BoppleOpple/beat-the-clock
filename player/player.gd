@@ -76,17 +76,17 @@ func _physics_process(delta: float) -> void:
 	self.apply_torque(righting_torque * righting_dir)
 	print(self.linear_velocity.x, "\t", input_magnitude)
 	# handle 
-	if Input.is_action_just_pressed("gameplay_ability_left") and (GameManager.player.ability_1_cooldown == 0.0):
+	if Input.is_action_just_pressed("gameplay_ability_left") and (GameManager.player.ability_1_cooldown <= 0.0):
 		# TODO: make this modular
 		if GameManager.player.ability_1 == 1: # 1 represents DASH, see PlayerData.gd or GameManager.gd
 			_perform_dash()
 			GameManager.player.ability_1_cooldown = GameManager.ABILITY_COOLDOWN[1]
-	if Input.is_action_just_pressed("gameplay_ability_middle") and (GameManager.player.ability_2_cooldown == 0.0):
+	if Input.is_action_just_pressed("gameplay_ability_middle") and (GameManager.player.ability_2_cooldown <= 0.0):
 		# TODO: make this modular
 		if GameManager.player.ability_2 == 1: # 1 represents DASH, see PlayerData.gd or GameManager.gd
 			_perform_dash()
 			GameManager.player.ability_2_cooldown = GameManager.ABILITY_COOLDOWN[1]
-	if Input.is_action_just_pressed("gameplay_ability_right") and (GameManager.player.ability_3_cooldown == 0.0):
+	if Input.is_action_just_pressed("gameplay_ability_right") and (GameManager.player.ability_3_cooldown <= 0.0):
 		# TODO: make this modular
 		if GameManager.player.ability_3 == 1: # 1 represents DASH, see PlayerData.gd or GameManager.gd
 			_perform_dash()
