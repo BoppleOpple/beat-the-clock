@@ -51,6 +51,9 @@ func _physics_process(delta: float) -> void:
 	# apply the movement force
 	self.apply_central_force(Vector2(input_dir * input_magnitude, 0))
 	
+	# keep ground detector beneath player
+	$JumpCollisionBelow.rotation = -self.rotation
+	
 	# jump force
 	if Input.is_action_just_pressed("gameplay_jump") and is_on_ground:
 		is_mid_jump = true
@@ -71,8 +74,8 @@ func _physics_process(delta: float) -> void:
 	var righting_torque: float = righting_factor * RIGHTING_TORQUE_SCALE
 	
 	self.apply_torque(righting_torque * righting_dir)
-	print(self.linear_velocity.x, "\t", input_magnitude)
-	# handle 
+	
+	# handle abilities
 	if Input.is_action_just_pressed("gameplay_ability_left") and ($LeftAbilityTimer.time_left == 0):
 		# TODO: make this modular
 		_perform_dash()
@@ -95,14 +98,14 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event.is_action_pressed("gameplay_ability_left"):
 		self._perform_dash()
 
-func _on_jump_collision_body_entered(body: Node2D) -> void:
+func _on_jump_collision_nearby_body_entered(body: Node2D) -> void:
 	# potentially change to group-based
-	if body != self:
+	if body != self and $JumpCollisionBelow.overlaps_body(body):
 		$CoyoteTimer.stop()
 		is_mid_jump = false
 		is_on_ground = true
 
-func _on_jump_collision_body_exited(body: Node2D) -> void:
+func _on_jump_collision_below_body_exited(body: Node2D) -> void:
 	# potentially change to group-based
 	if body != self:
 		$CoyoteTimer.stop()
