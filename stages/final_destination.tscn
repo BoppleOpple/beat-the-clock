@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cebxki01pqopu"]
 
 [ext_resource type="PackedScene" uid="uid://chcg32tbpqvul" path="res://stages/components/fixed_platform.tscn" id="1_eqweo"]
-[ext_resource type="PackedScene" uid="uid://d1ckkl2q5xd4s" path="res://ui/bg_helper/background.tscn" id="1_yiruv"]
+[ext_resource type="PackedScene" uid="uid://d1ckkl2q5xd4s" path="res://ui/bg/background.tscn" id="1_yiruv"]
 
 [node name="FinalDestination" type="Node2D" unique_id=12831427]
 
