@@ -74,13 +74,23 @@ func _physics_process(delta: float) -> void:
 	var righting_torque: float = righting_factor * RIGHTING_TORQUE_SCALE
 	
 	self.apply_torque(righting_torque * righting_dir)
-	
-	# handle abilities
-	if Input.is_action_just_pressed("gameplay_ability_left") and ($LeftAbilityTimer.time_left == 0):
+	print(self.linear_velocity.x, "\t", input_magnitude)
+	# handle 
+	if Input.is_action_just_pressed("gameplay_ability_left") and (GameManager.player.ability_1_cooldown == 0.0):
 		# TODO: make this modular
-		_perform_dash()
-		$LeftAbilityTimer.stop()
-		$LeftAbilityTimer.start(DASH_RECHARGE)
+		if GameManager.player.ability_1 == 1: # 1 represents DASH, see PlayerData.gd or GameManager.gd
+			_perform_dash()
+			GameManager.player.ability_1_cooldown = GameManager.ABILITY_COOLDOWN[1]
+	if Input.is_action_just_pressed("gameplay_ability_middle") and (GameManager.player.ability_2_cooldown == 0.0):
+		# TODO: make this modular
+		if GameManager.player.ability_2 == 1: # 1 represents DASH, see PlayerData.gd or GameManager.gd
+			_perform_dash()
+			GameManager.player.ability_2_cooldown = GameManager.ABILITY_COOLDOWN[1]
+	if Input.is_action_just_pressed("gameplay_ability_right") and (GameManager.player.ability_3_cooldown == 0.0):
+		# TODO: make this modular
+		if GameManager.player.ability_3 == 1: # 1 represents DASH, see PlayerData.gd or GameManager.gd
+			_perform_dash()
+			GameManager.player.ability_3_cooldown = GameManager.ABILITY_COOLDOWN[1]
 
 func _perform_dash() -> void:
 	var mouse_pos: Vector2 = get_global_mouse_position()
