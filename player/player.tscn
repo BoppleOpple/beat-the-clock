@@ -9,6 +9,9 @@ bounce = 0.25
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ikrvj"]
 size = Vector2(40, 40)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ikrvj"]
+radius = 21.0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3eufj"]
 size = Vector2(42, 42)
 
@@ -34,12 +37,18 @@ one_shot = true
 process_callback = 0
 one_shot = true
 
-[node name="JumpCollision" type="Area2D" parent="." unique_id=282012949]
+[node name="JumpCollisionBelow" type="Area2D" parent="." unique_id=1117522722]
 
-[node name="Halo" type="CollisionShape2D" parent="JumpCollision" unique_id=218099469]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="JumpCollisionBelow" unique_id=1295610869]
+position = Vector2(0, 21)
+shape = SubResource("CircleShape2D_ikrvj")
+
+[node name="JumpCollisionNearby" type="Area2D" parent="." unique_id=282012949]
+
+[node name="Halo" type="CollisionShape2D" parent="JumpCollisionNearby" unique_id=218099469]
 shape = SubResource("RectangleShape2D_3eufj")
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="timeout" from="CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
-[connection signal="body_entered" from="JumpCollision" to="." method="_on_jump_collision_body_entered"]
-[connection signal="body_exited" from="JumpCollision" to="." method="_on_jump_collision_body_exited"]
+[connection signal="body_exited" from="JumpCollisionBelow" to="." method="_on_jump_collision_below_body_exited"]
+[connection signal="body_entered" from="JumpCollisionNearby" to="." method="_on_jump_collision_nearby_body_entered"]
