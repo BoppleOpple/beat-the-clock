@@ -1,8 +1,11 @@
 [gd_scene format=3 uid="uid://cebxki01pqopu"]
 
 [ext_resource type="PackedScene" uid="uid://chcg32tbpqvul" path="res://stages/components/fixed_platform.tscn" id="1_eqweo"]
+[ext_resource type="PackedScene" uid="uid://d1ckkl2q5xd4s" path="res://ui/bg_helper/background.tscn" id="1_yiruv"]
 
 [node name="FinalDestination" type="Node2D" unique_id=12831427]
+
+[node name="Background" parent="." unique_id=1375401043 instance=ExtResource("1_yiruv")]
 
 [node name="MainPlatform" parent="." unique_id=706239347 instance=ExtResource("1_eqweo")]
 scale = Vector2(56.693, 3.5480018)

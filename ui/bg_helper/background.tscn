@@ -1,0 +1,75 @@
+[gd_scene format=3 uid="uid://d1ckkl2q5xd4s"]
+
+[ext_resource type="Script" uid="uid://hretc705maip" path="res://ui/bg_helper/background.gd" id="1_ke3es"]
+[ext_resource type="Script" uid="uid://ivhmcxohyx0i" path="res://ui/bg_helper/background_parallax.gd" id="2_jbxr2"]
+
+[node name="Background" type="Control" unique_id=1375401043]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ke3es")
+
+[node name="BG" type="ParallaxBackground" parent="." unique_id=1956725756]
+
+[node name="1" type="ParallaxLayer" parent="BG" unique_id=1439400982]
+motion_scale = Vector2(0.1, 0.1)
+motion_mirroring = Vector2(576, 324)
+script = ExtResource("2_jbxr2")
+
+[node name="Texture" type="TextureRect" parent="BG/1" unique_id=1125726239]
+offset_right = 1920.0
+offset_bottom = 1080.0
+stretch_mode = 1
+
+[node name="2" type="ParallaxLayer" parent="BG" unique_id=1192651890]
+motion_scale = Vector2(0.2, 0.2)
+motion_mirroring = Vector2(576, 324)
+script = ExtResource("2_jbxr2")
+
+[node name="Texture" type="TextureRect" parent="BG/2" unique_id=339766219]
+offset_right = 1920.0
+offset_bottom = 1080.0
+stretch_mode = 1
+
+[node name="3" type="ParallaxLayer" parent="BG" unique_id=709451846]
+motion_scale = Vector2(0.3, 0.3)
+motion_mirroring = Vector2(576, 324)
+script = ExtResource("2_jbxr2")
+
+[node name="Texture" type="TextureRect" parent="BG/3" unique_id=592651318]
+offset_right = 1920.0
+offset_bottom = 1080.0
+stretch_mode = 1
+
+[node name="4" type="ParallaxLayer" parent="BG" unique_id=1617576538]
+motion_scale = Vector2(0.4, 0.4)
+motion_mirroring = Vector2(576, 324)
+script = ExtResource("2_jbxr2")
+
+[node name="Texture" type="TextureRect" parent="BG/4" unique_id=1578427285]
+offset_right = 1920.0
+offset_bottom = 1080.0
+stretch_mode = 1
+
+[node name="5" type="ParallaxLayer" parent="BG" unique_id=1429655515]
+motion_scale = Vector2(0.5, 0.5)
+motion_mirroring = Vector2(576, 324)
+script = ExtResource("2_jbxr2")
+
+[node name="Texture" type="TextureRect" parent="BG/5" unique_id=2021682776]
+offset_right = 1920.0
+offset_bottom = 1080.0
+stretch_mode = 1
+
+[node name="6" type="ParallaxLayer" parent="BG" unique_id=836946072]
+motion_scale = Vector2(0.6, 0.6)
+motion_mirroring = Vector2(576, 324)
+script = ExtResource("2_jbxr2")
+
+[node name="Texture" type="TextureRect" parent="BG/6" unique_id=1956298304]
+offset_right = 1920.0
+offset_bottom = 1080.0
+stretch_mode = 1

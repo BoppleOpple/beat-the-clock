@@ -1,26 +1,66 @@
 extends Control
 
+var dash_texture = load("res://assets/textures/dash.png")
+var sword_texture = load("res://assets/textures/sword.png")
+var grenade_texture = load("res://assets/textures/grenade.png")
+
+# -----------
+# ABILITY VALUES
+# 0 - Empty
+# 1 - Dash
+# 2 - Sword
+# 3 - Grenade
+# -----------
 
 func _ready() -> void:
 	# Ability Slot 1
-	$HBoxContainer/Ability1.max_value = GameManager.dash_cooldown
+	$AbilityFG/Ability1.max_value = GameManager.ABILITY_COOLDOWN[GameManager.player.ability_1]
 	# Ability Slot 2
-	$HBoxContainer/Ability2.max_value = GameManager.sword_cooldown
+	$AbilityFG/Ability2.max_value = GameManager.ABILITY_COOLDOWN[GameManager.player.ability_2]
 	# Ability Slot 3
-	$HBoxContainer/Ability3.max_value = GameManager.grenade_cooldown
+	$AbilityFG/Ability3.max_value = GameManager.ABILITY_COOLDOWN[GameManager.player.ability_3]
 	# Ability Slot 1 Cooldown
-	$HBoxContainer/Ability1.value = GameManager.player1_a1_cooldown
+	$AbilityFG/Ability1.value = GameManager.player.ability_1_cooldown
 	# Ability Slot 2 Cooldown
-	$HBoxContainer/Ability2.value = GameManager.player1_a2_cooldown
+	$AbilityFG/Ability2.value = GameManager.player.ability_2_cooldown
 	# Ability Slot 3 Cooldown
-	$HBoxContainer/Ability3.value = GameManager.player1_a3_cooldown
-	$VBoxContainer/Player1/Time.text = str(snapped(GameManager.player_curr_time, 0.1))
+	$AbilityFG/Ability3.value = GameManager.player.ability_3_cooldown
+	$PlayerScores/Player1/Time.text = str(snapped(GameManager.player.timer, 0.1))
+	_ability_texture_update()
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	$HBoxContainer/Ability1.value -= delta
-	$HBoxContainer/Ability2.value -= delta
-	$HBoxContainer/Ability3.value -= delta
-	GameManager.player_curr_time -= delta
-	$VBoxContainer/Player1/Time.text = str(snapped(GameManager.player_curr_time, 0.1))
+	$AbilityFG/Ability1.value = GameManager.player.ability_1_cooldown
+	$AbilityFG/Ability2.value = GameManager.player.ability_2_cooldown
+	$AbilityFG/Ability3.value = GameManager.player.ability_3_cooldown
+	$PlayerScores/Player1/Time.text = str(snapped(GameManager.player.timer, 0.1))
+
+func _ability_texture_update() -> void:
+	# ABILITY 1 TEXTURE
+	if GameManager.player.ability_1 == 0:
+		$AbilityFG/Ability1.texture_under = null
+	elif GameManager.player.ability_1 == 1:
+		$AbilityFG/Ability1.texture_under = dash_texture
+	elif GameManager.player.ability_1 == 2:
+		$AbilityFG/Ability1.texture_under = sword_texture
+	elif GameManager.player.ability_1 == 3:
+		$AbilityFG/Ability1.texture_under = grenade_texture
+	# ABILITY 2 TEXTURE
+	if GameManager.player.ability_2 == 0:
+		$AbilityFG/Ability2.texture_under = null
+	elif GameManager.player.ability_2 == 1:
+		$AbilityFG/Ability2.texture_under = dash_texture
+	elif GameManager.player.ability_2 == 2:
+		$AbilityFG/Ability2.texture_under = sword_texture
+	elif GameManager.player.ability_2 == 3:
+		$AbilityFG/Ability2.texture_under = grenade_texture
+	# ABILITY 3 TEXTURE
+	if GameManager.player.ability_3 == 0:
+		$AbilityFG/Ability3.texture_under = null
+	elif GameManager.player.ability_3 == 1:
+		$AbilityFG/Ability3.texture_under = dash_texture
+	elif GameManager.player.ability_3 == 2:
+		$AbilityFG/Ability3.texture_under = sword_texture
+	elif GameManager.player.ability_3 == 3:
+		$AbilityFG/Ability3.texture_under = grenade_texture
+		

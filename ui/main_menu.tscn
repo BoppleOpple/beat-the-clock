@@ -1,5 +1,14 @@
 [gd_scene format=3 uid="uid://l0tik4mhi750"]
 
+[ext_resource type="Script" uid="uid://b6ns73peufyrd" path="res://ui/main_menu.gd" id="1_t7e0r"]
+[ext_resource type="FontFile" uid="uid://dko5067st2fe4" path="res://assets/fonts/Baksoap.otf" id="2_0dkrt"]
+[ext_resource type="PackedScene" uid="uid://d1ckkl2q5xd4s" path="res://ui/bg_helper/background.tscn" id="2_rmr83"]
+[ext_resource type="LabelSettings" uid="uid://chxdvv8elu13o" path="res://assets/fonts/Title.tres" id="2_wk0pr"]
+
+[sub_resource type="Theme" id="Theme_t7e0r"]
+default_font = ExtResource("2_0dkrt")
+default_font_size = 32
+
 [node name="MainMenu" type="Control" unique_id=1807783136]
 layout_mode = 3
 anchors_preset = 15
@@ -7,3 +16,55 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_t7e0r")
+
+[node name="Background" parent="." unique_id=1375401043 instance=ExtResource("2_rmr83")]
+layout_mode = 1
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1645463473]
+
+[node name="Title" type="Label" parent="UI" unique_id=1182515593]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -211.5
+offset_right = 211.5
+offset_bottom = 84.0
+grow_horizontal = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 200)
+text = "Smashdown"
+label_settings = ExtResource("2_wk0pr")
+
+[node name="MenuButtons" type="VSplitContainer" parent="UI" unique_id=1733872931]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -51.0
+offset_right = 256.0
+offset_bottom = 151.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_t7e0r")
+theme_override_constants/separation = 32
+split_offsets = PackedInt32Array(0, 0)
+dragging_enabled = false
+
+[node name="Play" type="Button" parent="UI/MenuButtons" unique_id=1282584945]
+layout_mode = 2
+text = "Play"
+
+[node name="Options" type="Button" parent="UI/MenuButtons" unique_id=1104439788]
+layout_mode = 2
+text = "Options"
+
+[node name="Exit" type="Button" parent="UI/MenuButtons" unique_id=581076726]
+layout_mode = 2
+text = "Exit"
+
+[connection signal="pressed" from="UI/MenuButtons/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="UI/MenuButtons/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="UI/MenuButtons/Exit" to="." method="_on_exit_pressed"]

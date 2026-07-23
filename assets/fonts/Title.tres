@@ -1,0 +1,10 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://chxdvv8elu13o"]
+
+[ext_resource type="FontFile" uid="uid://dko5067st2fe4" path="res://assets/fonts/Baksoap.otf" id="1_7r5g8"]
+
+[resource]
+font = ExtResource("1_7r5g8")
+font_size = 128
+shadow_size = 24
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(8, 4)

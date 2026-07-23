@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="GMTK 2026"
-run/main_scene="uid://00bxfurateyx"
+run/main_scene="uid://l0tik4mhi750"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -84,4 +84,6 @@ gameplay_ability_combo={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
+textures/canvas_textures/default_texture_repeat=1
 rendering_device/driver.windows="d3d12"
