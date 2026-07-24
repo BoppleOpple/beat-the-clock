@@ -26,6 +26,7 @@ const GRENADE_VELOCITY_SCALE: float = 500.0
 # GLOBALS #
 ###########
 
+var isBlastable: bool = true
 var is_on_ground: bool = false
 var is_mid_jump: bool = false
 
