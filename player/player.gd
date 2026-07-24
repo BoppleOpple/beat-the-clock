@@ -20,6 +20,8 @@ const DEFAULT_COYOTE_TIME: float = 0.2
 const DASH_VELOCITY_SCALE: float = 800.0
 const DASH_RECHARGE: float = 2.0
 
+const GRENADE_VELOCITY_SCALE: float = 500.0
+
 ###########
 # GLOBALS #
 ###########
@@ -74,35 +76,48 @@ func _physics_process(delta: float) -> void:
 	var righting_torque: float = righting_factor * RIGHTING_TORQUE_SCALE
 	
 	self.apply_torque(righting_torque * righting_dir)
-	print(self.linear_velocity.x, "\t", input_magnitude)
-	# handle 
+	
+	# handle abilities
 	if Input.is_action_just_pressed("gameplay_ability_left") and (GameManager.player.ability_1_cooldown <= 0.0):
-		# TODO: make this modular
-		if GameManager.player.ability_1 == 1: # 1 represents DASH, see PlayerData.gd or GameManager.gd
-			_perform_dash()
-			GameManager.player.ability_1_cooldown = GameManager.ABILITY_COOLDOWN[1]
+		GameManager.player.ability_1_cooldown = _activate_ability(GameManager.player.ability_1)
+	
 	if Input.is_action_just_pressed("gameplay_ability_middle") and (GameManager.player.ability_2_cooldown <= 0.0):
-		# TODO: make this modular
-		if GameManager.player.ability_2 == 1: # 1 represents DASH, see PlayerData.gd or GameManager.gd
-			_perform_dash()
-			GameManager.player.ability_2_cooldown = GameManager.ABILITY_COOLDOWN[1]
+		GameManager.player.ability_2_cooldown = _activate_ability(GameManager.player.ability_2)
+	
 	if Input.is_action_just_pressed("gameplay_ability_right") and (GameManager.player.ability_3_cooldown <= 0.0):
-		# TODO: make this modular
-		if GameManager.player.ability_3 == 1: # 1 represents DASH, see PlayerData.gd or GameManager.gd
+		GameManager.player.ability_3_cooldown = _activate_ability(GameManager.player.ability_3)
+
+func _activate_ability(ability: PlayerData.Ability) -> float:
+	match ability:
+		PlayerData.Ability.EMPTY:
+			pass
+		PlayerData.Ability.DASH:
 			_perform_dash()
-			GameManager.player.ability_3_cooldown = GameManager.ABILITY_COOLDOWN[1]
+		PlayerData.Ability.SWORD:
+			pass
+		PlayerData.Ability.GRENADE:
+			_throw_grenade()
+	
+	return GameManager.ABILITY_COOLDOWN[ability]
 
 func _perform_dash() -> void:
-	var mouse_pos: Vector2 = get_global_mouse_position()
-	
-	var dash_direction: Vector2 = (mouse_pos - self.position).normalized()
-	
 	self.linear_velocity = Vector2()
-	self.set_axis_velocity(dash_direction * DASH_VELOCITY_SCALE)
+	self.set_axis_velocity(get_mouse_direction() * DASH_VELOCITY_SCALE)
 
-###########
-# SIGNALS #
-###########
+func _throw_grenade() -> void:
+	var pos: Vector2 = $GrenadeAnchor.global_position
+	var vel: Vector2 = get_mouse_direction() * GRENADE_VELOCITY_SCALE
+	
+	vel += self.linear_velocity
+	
+	emit_signal("throw_grenade", pos, vel)
+
+func get_mouse_direction() -> Vector2:
+	return (get_global_mouse_position() - self.position).normalized()
+
+####################
+# INCOMING SIGNALS #
+####################
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event.is_action_pressed("gameplay_ability_left"):
@@ -123,3 +138,9 @@ func _on_jump_collision_below_body_exited(body: Node2D) -> void:
 
 func _on_coyote_timer_timeout() -> void:
 	is_on_ground = false
+
+####################
+# OUTGOING SIGNALS #
+####################
+
+signal throw_grenade(position: Vector2, velocity: Vector2)

@@ -39,7 +39,7 @@ one_shot = true
 
 [node name="JumpCollisionBelow" type="Area2D" parent="." unique_id=1117522722]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="JumpCollisionBelow" unique_id=1295610869]
+[node name="BelowCollider" type="CollisionShape2D" parent="JumpCollisionBelow" unique_id=1295610869]
 position = Vector2(0, 21)
 shape = SubResource("CircleShape2D_ikrvj")
 
@@ -47,6 +47,9 @@ shape = SubResource("CircleShape2D_ikrvj")
 
 [node name="Halo" type="CollisionShape2D" parent="JumpCollisionNearby" unique_id=218099469]
 shape = SubResource("RectangleShape2D_3eufj")
+
+[node name="GrenadeAnchor" type="Node2D" parent="." unique_id=913797079]
+position = Vector2(0, -31)
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="timeout" from="CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
