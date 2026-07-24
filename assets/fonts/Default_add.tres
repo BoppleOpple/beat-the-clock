@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://co4qggxui7dc5"]
+
+[ext_resource type="FontFile" uid="uid://dko5067st2fe4" path="res://assets/fonts/Baksoap.otf" id="1_5askb"]
+
+[resource]
+font = ExtResource("1_5askb")
+font_color = Color(0, 1, 0, 1)
