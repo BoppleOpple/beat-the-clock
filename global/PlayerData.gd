@@ -20,7 +20,7 @@ enum Ability {
 @export var timer: float = 0.0
 @export var ability_1: Ability = Ability.DASH
 @export var ability_2: Ability = Ability.GRENADE
-@export var ability_3: Ability = Ability.GRENADE
+@export var ability_3: Ability = Ability.SWORD
 @export var ability_c: Ability = Ability.DASH
 @export var ability_1_cooldown: float = 0.0
 @export var ability_2_cooldown: float = 0.0

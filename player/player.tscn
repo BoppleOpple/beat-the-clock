@@ -2,6 +2,13 @@
 
 [ext_resource type="Script" uid="uid://dnxrn16ekf7c4" path="res://player/player.gd" id="1_oul6g"]
 [ext_resource type="LabelSettings" uid="uid://drbt3tyycf7fi" path="res://assets/fonts/Default.tres" id="2_rkbax"]
+[ext_resource type="Texture2D" uid="uid://dx80wff5swrsb" path="res://assets/textures/sword_slash/frame0.png" id="2_rgyib"]
+[ext_resource type="Texture2D" uid="uid://bbvhyp3rc20ts" path="res://assets/textures/sword_slash/frame1.png" id="3_hg6s5"]
+[ext_resource type="Texture2D" uid="uid://drcy16s5fkool" path="res://assets/textures/sword_slash/frame2.png" id="4_8t03j"]
+[ext_resource type="Texture2D" uid="uid://bxv5qu8ebvt66" path="res://assets/textures/sword_slash/frame3.png" id="5_2ieo8"]
+[ext_resource type="Texture2D" uid="uid://s6ij4jjh6psh" path="res://assets/textures/sword_slash/frame4.png" id="6_ebec5"]
+[ext_resource type="Texture2D" uid="uid://catuyy0mef4xr" path="res://assets/textures/sword_slash/frame5.png" id="7_yllr7"]
+[ext_resource type="Texture2D" uid="uid://dmu1jd471d3qg" path="res://assets/textures/sword_slash/frame6.png" id="8_kb6p2"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rkbax"]
 friction = 0.2
@@ -15,6 +22,35 @@ radius = 21.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3eufj"]
 size = Vector2(42, 42)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ikrvj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_rgyib")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_hg6s5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_8t03j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_2ieo8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_ebec5")
+}, {
+"duration": 2.0,
+"texture": ExtResource("7_yllr7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_kb6p2")
+}],
+"loop": 0,
+"name": &"default",
+"speed": 15.0
+}]
 
 [node name="Player" type="RigidBody2D" unique_id=950486434]
 physics_material_override = SubResource("PhysicsMaterial_rkbax")
@@ -98,8 +134,18 @@ offset_bottom = -23.0
 grow_horizontal = 2
 grow_vertical = 0
 alignment = 2
+[node name="SwordAnchor" type="Node2D" parent="." unique_id=1882660560]
+position = Vector2(20, 0)
+
+[node name="SwordSlash" type="AnimatedSprite2D" parent="SwordAnchor" unique_id=916335342]
+visible = false
+position = Vector2(50, -15)
+sprite_frames = SubResource("SpriteFrames_ikrvj")
+frame = 4
+frame_progress = 0.7358051
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="body_exited" from="JumpCollisionBelow" to="." method="_on_jump_collision_below_body_exited"]
 [connection signal="body_entered" from="JumpCollisionNearby" to="." method="_on_jump_collision_nearby_body_entered"]
 [connection signal="timeout" from="Timers/CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
+[connection signal="animation_finished" from="SwordAnchor/SwordSlash" to="." method="_on_sword_slash_animation_finished"]
