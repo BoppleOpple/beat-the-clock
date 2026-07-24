@@ -25,7 +25,7 @@ offset_right = 240.0
 offset_bottom = 360.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.2627451, 0.2627451, 0.2627451, 0.87058824)
+color = Color(0.2627451, 0.2627451, 0.2627451, 0.98039216)
 
 [node name="VSplitContainer" type="VSplitContainer" parent="." unique_id=2028141306]
 custom_minimum_size = Vector2(480, 720)
@@ -77,6 +77,7 @@ split_offset = 23
 [node name="ResolutionLabel" type="Label" parent="VSplitContainer/HSplitContainer/Right Column/Display" unique_id=1022784702]
 layout_mode = 2
 text = "Resolution:"
+vertical_alignment = 1
 
 [node name="Resolution" type="OptionButton" parent="VSplitContainer/HSplitContainer/Right Column/Display" unique_id=1362037103]
 layout_mode = 2
@@ -96,11 +97,13 @@ dragging_enabled = false
 [node name="Label" type="Label" parent="VSplitContainer/HSplitContainer/Right Column/Display/FPSLabel" unique_id=1649542210]
 layout_mode = 2
 text = "Framerate:"
+vertical_alignment = 1
 
 [node name="Value" type="Label" parent="VSplitContainer/HSplitContainer/Right Column/Display/FPSLabel" unique_id=2120385639]
 layout_mode = 2
 text = "60 fps"
 horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="FPS" type="HSlider" parent="VSplitContainer/HSplitContainer/Right Column/Display" unique_id=1009341808]
 layout_mode = 2
@@ -109,6 +112,7 @@ max_value = 240.0
 value = 60.0
 
 [node name="Audio" type="VSplitContainer" parent="VSplitContainer/HSplitContainer/Right Column" unique_id=953158530]
+visible = false
 layout_mode = 2
 split_offsets = PackedInt32Array(23, 51, 86, 114, 149)
 dragging_enabled = false
@@ -185,6 +189,8 @@ layout_mode = 2
 text = "Reset to Defaults"
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
+[connection signal="pressed" from="VSplitContainer/HSplitContainer/Left Column/Display" to="." method="_on_display_pressed"]
+[connection signal="pressed" from="VSplitContainer/HSplitContainer/Left Column/Audio" to="." method="_on_audio_pressed"]
 [connection signal="item_selected" from="VSplitContainer/HSplitContainer/Right Column/Display/Resolution" to="." method="_on_resolution_item_selected"]
 [connection signal="toggled" from="VSplitContainer/HSplitContainer/Right Column/Display/Fullscreen" to="." method="_on_fullscreen_toggled"]
 [connection signal="toggled" from="VSplitContainer/HSplitContainer/Right Column/Display/VSync" to="." method="_on_v_sync_toggled"]
