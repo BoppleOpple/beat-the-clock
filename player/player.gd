@@ -24,6 +24,8 @@ const GRENADE_VELOCITY_SCALE: float = 500.0
 
 const PLAYER_TIMER_OFFSET: Vector2 = Vector2(-30,-25)
 
+const SWORD_POMMEL_DISTANCE: float = 20.0
+
 ###########
 # GLOBALS #
 ###########
@@ -106,7 +108,7 @@ func _activate_ability(ability: PlayerData.Ability) -> float:
 		PlayerData.Ability.DASH:
 			_perform_dash()
 		PlayerData.Ability.SWORD:
-			pass
+			_slash()
 		PlayerData.Ability.GRENADE:
 			_throw_grenade()
 	
@@ -123,6 +125,21 @@ func _throw_grenade() -> void:
 	vel += self.linear_velocity
 	
 	emit_signal("throw_grenade", pos, vel)
+
+func _slash() -> void:
+	$SwordAnchor.position = get_mouse_direction() * SWORD_POMMEL_DISTANCE
+	var sword_rotation = get_mouse_direction().angle()
+	
+	$SwordAnchor.rotation = sword_rotation
+	if abs(sword_rotation) < PI/2:
+		$SwordAnchor/SwordSlash.position.y = -abs($SwordAnchor/SwordSlash.position.y)
+		$SwordAnchor/SwordSlash.flip_v = false
+	else:
+		$SwordAnchor/SwordSlash.position.y = abs($SwordAnchor/SwordSlash.position.y)
+		$SwordAnchor/SwordSlash.flip_v = true
+	
+	$SwordAnchor/SwordSlash.visible = true
+	$SwordAnchor/SwordSlash.play("default")
 
 func get_mouse_direction() -> Vector2:
 	return (get_global_mouse_position() - self.position).normalized()
@@ -175,6 +192,10 @@ func _on_jump_collision_below_body_exited(body: Node2D) -> void:
 
 func _on_coyote_timer_timeout() -> void:
 	is_on_ground = false
+
+func _on_sword_slash_animation_finished() -> void:
+	$SwordAnchor/SwordSlash.visible = false
+	$SwordAnchor/SwordSlash.stop()
 
 ####################
 # OUTGOING SIGNALS #
