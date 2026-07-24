@@ -4,6 +4,8 @@
 [ext_resource type="FontFile" uid="uid://dko5067st2fe4" path="res://assets/fonts/Baksoap.otf" id="2_0dkrt"]
 [ext_resource type="PackedScene" uid="uid://d1ckkl2q5xd4s" path="res://ui/bg/background.tscn" id="2_rmr83"]
 [ext_resource type="LabelSettings" uid="uid://chxdvv8elu13o" path="res://assets/fonts/Title.tres" id="2_wk0pr"]
+[ext_resource type="AudioStream" uid="uid://cxuxth58budjv" path="res://assets/audio/music/menu/bg.mp3" id="5_3c04x"]
+[ext_resource type="PackedScene" uid="uid://dp1pn6ls667vp" path="res://ui/options/options.tscn" id="5_joh67"]
 
 [sub_resource type="Theme" id="Theme_t7e0r"]
 default_font = ExtResource("2_0dkrt")
@@ -64,6 +66,13 @@ text = "Options"
 [node name="Exit" type="Button" parent="UI/MenuButtons" unique_id=581076726]
 layout_mode = 2
 text = "Exit"
+
+[node name="Options" parent="UI" unique_id=377516718 instance=ExtResource("5_joh67")]
+
+[node name="AudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=525584265]
+stream = ExtResource("5_3c04x")
+autoplay = true
+bus = &"Music"
 
 [connection signal="pressed" from="UI/MenuButtons/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="UI/MenuButtons/Options" to="." method="_on_options_pressed"]

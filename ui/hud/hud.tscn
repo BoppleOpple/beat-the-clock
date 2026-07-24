@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bscxd7id3ahll" path="res://assets/textures/ability_bg.png" id="1_rbyyf"]
 [ext_resource type="Texture2D" uid="uid://da66hbj2d3yek" path="res://assets/textures/ability_fg.png" id="2_546lt"]
 [ext_resource type="LabelSettings" uid="uid://drbt3tyycf7fi" path="res://assets/fonts/Default.tres" id="4_7ihmi"]
+[ext_resource type="AudioStream" uid="uid://c4mvmv8fx47i2" path="res://assets/audio/music/battle/bg.mp3" id="5_imuuq"]
 
 [node name="HUD" type="Control" unique_id=2141567131]
 layout_mode = 3
@@ -85,3 +86,9 @@ label_settings = ExtResource("4_7ihmi")
 layout_mode = 2
 text = "seconds"
 label_settings = ExtResource("4_7ihmi")
+
+[node name="AudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1005709824]
+stream = ExtResource("5_imuuq")
+volume_db = -10.0
+autoplay = true
+bus = &"Music"
