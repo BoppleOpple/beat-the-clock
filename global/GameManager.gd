@@ -14,7 +14,7 @@ const SAVE_OPTIONS_PATH := "user://options.save"
 # 2 - Sword
 # 3 - Grenade
 # -----------
-const ABILITY_COOLDOWN: Array[float] = [10.0, 2.0, 2.5, 3.0]
+const ABILITY_COOLDOWN: Array[float] = [10.0, 2.0, 2.5, 0.0]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

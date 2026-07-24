@@ -16,5 +16,7 @@ func _bg_select() -> void:
 	$BG/"2"/Texture.texture = load("res://assets/textures/Clouds/Clouds " + str(random) + "/2.png")
 	$BG/"3"/Texture.texture = load("res://assets/textures/Clouds/Clouds " + str(random) + "/3.png")
 	$BG/"4"/Texture.texture = load("res://assets/textures/Clouds/Clouds " + str(random) + "/4.png")
-	$BG/"5"/Texture.texture = load("res://assets/textures/Clouds/Clouds " + str(random) + "/5.png")
-	$BG/"6"/Texture.texture = load("res://assets/textures/Clouds/Clouds " + str(random) + "/6.png")
+	if ResourceLoader.exists("res://assets/textures/Clouds/Clouds " + str(random) + "/5.png"):
+		$BG/"5"/Texture.texture = load("res://assets/textures/Clouds/Clouds " + str(random) + "/5.png")
+	if ResourceLoader.exists("res://assets/textures/Clouds/Clouds " + str(random) + "/6.png"):
+		$BG/"6"/Texture.texture = load("res://assets/textures/Clouds/Clouds " + str(random) + "/6.png")
