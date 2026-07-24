@@ -1,6 +1,6 @@
 extends Node
 
-const PLAYER_MAX_TIME: float = 300.0
+const PLAYER_MAX_TIME: float = 300.5
 var player: PlayerData
 var options: Options
 

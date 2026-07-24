@@ -22,6 +22,8 @@ const DASH_RECHARGE: float = 2.0
 
 const GRENADE_VELOCITY_SCALE: float = 500.0
 
+const PLAYER_TIMER_OFFSET: Vector2 = Vector2(-30,-25)
+
 ###########
 # GLOBALS #
 ###########
@@ -36,7 +38,7 @@ var is_mid_jump: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	$Timers/PlayerClock.start(GameManager.PLAYER_MAX_TIME / 2)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
@@ -79,18 +81,23 @@ func _physics_process(delta: float) -> void:
 	self.apply_torque(righting_torque * righting_dir)
 	
 	# handle abilities
-	if Input.is_action_just_pressed("gameplay_ability_left") and (GameManager.player.ability_1_cooldown <= 0.0):
-		GameManager.player.ability_1_cooldown = _activate_ability(GameManager.player.ability_1)
+	if Input.is_action_just_pressed("gameplay_ability_left") and $Timers/LeftAbilityTimer.is_stopped():
+		$Timers/LeftAbilityTimer.start(_activate_ability(GameManager.player.ability_1))
+		_handle_mod_timer(30.0)
 	
-	if Input.is_action_just_pressed("gameplay_ability_middle") and (GameManager.player.ability_2_cooldown <= 0.0):
-		GameManager.player.ability_2_cooldown = _activate_ability(GameManager.player.ability_2)
+	if Input.is_action_just_pressed("gameplay_ability_middle") and $Timers/MiddleAbilityTimer.is_stopped():
+		$Timers/MiddleAbilityTimer.start(_activate_ability(GameManager.player.ability_2))
+		_handle_mod_timer(-30.0)
 	
-	if Input.is_action_just_pressed("gameplay_ability_right") and (GameManager.player.ability_3_cooldown <= 0.0):
-		GameManager.player.ability_3_cooldown = _activate_ability(GameManager.player.ability_3)
+	if Input.is_action_just_pressed("gameplay_ability_right") and $Timers/RightAbilityTimer.is_stopped():
+		$Timers/RightAbilityTimer.start(_activate_ability(GameManager.player.ability_3))
 		
-	# handle timer
-	$VisualTimer/Label.text = str(snapped(GameManager.player.timer, 0.1))
-	$VisualTimer/Label.set_position(self.get_position() + Vector2(-30,-25))
+	# handle timers
+	$Timers/VisualTimer/TimerLabel.text = str(snapped($Timers/PlayerClock.time_left, 0.1))
+	$Timers/VisualTimer/TimerLabel.set_position(self.get_position() + PLAYER_TIMER_OFFSET)
+	GameManager.player.ability_1_cooldown = $Timers/LeftAbilityTimer.time_left
+	GameManager.player.ability_2_cooldown = $Timers/MiddleAbilityTimer.time_left
+	GameManager.player.ability_3_cooldown = $Timers/RightAbilityTimer.time_left
 
 func _activate_ability(ability: PlayerData.Ability) -> float:
 	match ability:
@@ -119,6 +126,31 @@ func _throw_grenade() -> void:
 
 func get_mouse_direction() -> Vector2:
 	return (get_global_mouse_position() - self.position).normalized()
+	
+func _handle_mod_timer(time: float) -> void:
+	var label = Label.new()
+	$Timers/VisualTimer/TimerLabel/ModTime.add_child(label)
+	$Timers/VisualTimer/TimerLabel/ModTime.move_child(label,0)
+	var opacity_tween = create_tween()
+	var timer_tween = create_tween()
+	if time > 0.0:
+		label.label_settings = load("res://assets/fonts/Default_add.tres")
+		label.text = "+ " + str(time)
+		$Timers/VisualTimer/TimerLabel.modulate = Color.GREEN
+	elif time < 0.0:
+		label.label_settings = load("res://assets/fonts/Default_remove.tres")
+		label.text = "- " + str(abs(time))
+		$Timers/VisualTimer/TimerLabel.modulate = Color.RED
+	else:
+		return
+	$Timers/PlayerClock.start($Timers/PlayerClock.time_left + time)
+	if $Timers/PlayerClock.time_left >= GameManager.PLAYER_MAX_TIME:
+		$Timers/PlayerClock.start(GameManager.PLAYER_MAX_TIME)
+		$Timers/VisualTimer/TimerLabel.modulate = Color.ROYAL_BLUE
+	timer_tween.tween_property($Timers/VisualTimer/TimerLabel, "modulate", Color.WHITE, 0.5)
+	opacity_tween.tween_property(label, "modulate:a", 0.0, 1.0)
+	opacity_tween.tween_callback(label.queue_free)
+
 
 ####################
 # INCOMING SIGNALS #
@@ -131,15 +163,15 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 func _on_jump_collision_nearby_body_entered(body: Node2D) -> void:
 	# potentially change to group-based
 	if body != self and $JumpCollisionBelow.overlaps_body(body):
-		$CoyoteTimer.stop()
+		$Timers/CoyoteTimer.stop()
 		is_mid_jump = false
 		is_on_ground = true
 
 func _on_jump_collision_below_body_exited(body: Node2D) -> void:
 	# potentially change to group-based
 	if body != self:
-		$CoyoteTimer.stop()
-		$CoyoteTimer.start(DEFAULT_COYOTE_TIME)
+		$Timers/CoyoteTimer.stop()
+		$Timers/CoyoteTimer.start(DEFAULT_COYOTE_TIME)
 
 func _on_coyote_timer_timeout() -> void:
 	is_on_ground = false
