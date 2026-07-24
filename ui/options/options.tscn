@@ -27,7 +27,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.2627451, 0.2627451, 0.2627451, 0.98039216)
 
-[node name="VSplitContainer" type="VSplitContainer" parent="." unique_id=2028141306]
+[node name="Margin" type="MarginContainer" parent="." unique_id=1505811979]
 custom_minimum_size = Vector2(480, 720)
 layout_mode = 1
 anchors_preset = 8
@@ -35,169 +35,171 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -163.5
-offset_top = -224.5
-offset_right = 163.5
-offset_bottom = 224.5
+offset_left = -240.0
+offset_top = -360.0
+offset_right = 240.0
+offset_bottom = 360.0
 grow_horizontal = 2
 grow_vertical = 2
-split_offsets = PackedInt32Array(393)
-dragging_enabled = false
-split_offset = 393
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
 
-[node name="HSplitContainer" type="HSplitContainer" parent="VSplitContainer" unique_id=1963248208]
+[node name="HSplitContainer" type="HSplitContainer" parent="Margin" unique_id=1963248208]
 layout_mode = 2
 split_offsets = PackedInt32Array(123)
 dragging_enabled = false
 split_offset = 123
 
-[node name="Left Column" type="VSplitContainer" parent="VSplitContainer/HSplitContainer" unique_id=1502878978]
+[node name="Left Column" type="VSplitContainer" parent="Margin/HSplitContainer" unique_id=1502878978]
 layout_mode = 2
 dragging_enabled = false
 
-[node name="Display" type="Button" parent="VSplitContainer/HSplitContainer/Left Column" unique_id=1520735862]
+[node name="Display" type="Button" parent="Margin/HSplitContainer/Left Column" unique_id=1520735862]
 layout_mode = 2
 text = "Display / Video"
 
-[node name="Audio" type="Button" parent="VSplitContainer/HSplitContainer/Left Column" unique_id=856019803]
+[node name="Audio" type="Button" parent="Margin/HSplitContainer/Left Column" unique_id=856019803]
 layout_mode = 2
 size_flags_vertical = 0
 text = "Audio"
 
-[node name="Right Column" type="VSplitContainer" parent="VSplitContainer/HSplitContainer" unique_id=617077920]
+[node name="Right Column" type="VSplitContainer" parent="Margin/HSplitContainer" unique_id=617077920]
 layout_mode = 2
 dragging_enabled = false
 
-[node name="Display" type="VSplitContainer" parent="VSplitContainer/HSplitContainer/Right Column" unique_id=1203586125]
+[node name="Display" type="VSplitContainer" parent="Margin/HSplitContainer/Right Column" unique_id=1203586125]
 layout_mode = 2
 split_offsets = PackedInt32Array(23, 55, 98, 141, 153)
 dragging_enabled = false
 split_offset = 23
 
-[node name="ResolutionLabel" type="Label" parent="VSplitContainer/HSplitContainer/Right Column/Display" unique_id=1022784702]
+[node name="ResolutionLabel" type="Label" parent="Margin/HSplitContainer/Right Column/Display" unique_id=1022784702]
 layout_mode = 2
 text = "Resolution:"
 vertical_alignment = 1
 
-[node name="Resolution" type="OptionButton" parent="VSplitContainer/HSplitContainer/Right Column/Display" unique_id=1362037103]
+[node name="Resolution" type="OptionButton" parent="Margin/HSplitContainer/Right Column/Display" unique_id=1362037103]
 layout_mode = 2
 
-[node name="Fullscreen" type="CheckButton" parent="VSplitContainer/HSplitContainer/Right Column/Display" unique_id=1431858750]
+[node name="Fullscreen" type="CheckButton" parent="Margin/HSplitContainer/Right Column/Display" unique_id=1431858750]
 layout_mode = 2
 text = "Fullscreen:"
 
-[node name="VSync" type="CheckButton" parent="VSplitContainer/HSplitContainer/Right Column/Display" unique_id=2083294248]
+[node name="VSync" type="CheckButton" parent="Margin/HSplitContainer/Right Column/Display" unique_id=2083294248]
 layout_mode = 2
 text = "VSync:"
 
-[node name="FPSLabel" type="HSplitContainer" parent="VSplitContainer/HSplitContainer/Right Column/Display" unique_id=1149835101]
+[node name="FPSLabel" type="HSplitContainer" parent="Margin/HSplitContainer/Right Column/Display" unique_id=1149835101]
 layout_mode = 2
 dragging_enabled = false
 
-[node name="Label" type="Label" parent="VSplitContainer/HSplitContainer/Right Column/Display/FPSLabel" unique_id=1649542210]
+[node name="Label" type="Label" parent="Margin/HSplitContainer/Right Column/Display/FPSLabel" unique_id=1649542210]
 layout_mode = 2
 text = "Framerate:"
 vertical_alignment = 1
 
-[node name="Value" type="Label" parent="VSplitContainer/HSplitContainer/Right Column/Display/FPSLabel" unique_id=2120385639]
+[node name="Value" type="Label" parent="Margin/HSplitContainer/Right Column/Display/FPSLabel" unique_id=2120385639]
 layout_mode = 2
 text = "60 fps"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="FPS" type="HSlider" parent="VSplitContainer/HSplitContainer/Right Column/Display" unique_id=1009341808]
+[node name="FPS" type="HSlider" parent="Margin/HSplitContainer/Right Column/Display" unique_id=1009341808]
 layout_mode = 2
 min_value = 10.0
 max_value = 240.0
 value = 60.0
 
-[node name="Audio" type="VSplitContainer" parent="VSplitContainer/HSplitContainer/Right Column" unique_id=953158530]
+[node name="Audio" type="VSplitContainer" parent="Margin/HSplitContainer/Right Column" unique_id=953158530]
 visible = false
 layout_mode = 2
 split_offsets = PackedInt32Array(23, 51, 86, 114, 149)
 dragging_enabled = false
 split_offset = 23
 
-[node name="MasterVolumeLabel" type="HSplitContainer" parent="VSplitContainer/HSplitContainer/Right Column/Audio" unique_id=1745323601]
+[node name="MasterVolumeLabel" type="HSplitContainer" parent="Margin/HSplitContainer/Right Column/Audio" unique_id=1745323601]
 layout_mode = 2
 dragging_enabled = false
 
-[node name="Label" type="Label" parent="VSplitContainer/HSplitContainer/Right Column/Audio/MasterVolumeLabel" unique_id=1071254659]
+[node name="Label" type="Label" parent="Margin/HSplitContainer/Right Column/Audio/MasterVolumeLabel" unique_id=1071254659]
 layout_mode = 2
 text = "Master Volume:"
 
-[node name="Value" type="Label" parent="VSplitContainer/HSplitContainer/Right Column/Audio/MasterVolumeLabel" unique_id=307877430]
+[node name="Value" type="Label" parent="Margin/HSplitContainer/Right Column/Audio/MasterVolumeLabel" unique_id=307877430]
 layout_mode = 2
 text = "60%"
 horizontal_alignment = 2
 
-[node name="MasterVolume" type="HSlider" parent="VSplitContainer/HSplitContainer/Right Column/Audio" unique_id=646334610]
+[node name="MasterVolume" type="HSlider" parent="Margin/HSplitContainer/Right Column/Audio" unique_id=646334610]
 layout_mode = 2
 value = 60.0
 
-[node name="MusicVolumeLabel" type="HSplitContainer" parent="VSplitContainer/HSplitContainer/Right Column/Audio" unique_id=1234002546]
+[node name="MusicVolumeLabel" type="HSplitContainer" parent="Margin/HSplitContainer/Right Column/Audio" unique_id=1234002546]
 layout_mode = 2
 dragging_enabled = false
 
-[node name="Label" type="Label" parent="VSplitContainer/HSplitContainer/Right Column/Audio/MusicVolumeLabel" unique_id=1435243632]
+[node name="Label" type="Label" parent="Margin/HSplitContainer/Right Column/Audio/MusicVolumeLabel" unique_id=1435243632]
 layout_mode = 2
 text = "Music Volume:"
 
-[node name="Value" type="Label" parent="VSplitContainer/HSplitContainer/Right Column/Audio/MusicVolumeLabel" unique_id=2135239687]
+[node name="Value" type="Label" parent="Margin/HSplitContainer/Right Column/Audio/MusicVolumeLabel" unique_id=2135239687]
 layout_mode = 2
 text = "100%"
 horizontal_alignment = 2
 
-[node name="MusicVolume" type="HSlider" parent="VSplitContainer/HSplitContainer/Right Column/Audio" unique_id=847660224]
+[node name="MusicVolume" type="HSlider" parent="Margin/HSplitContainer/Right Column/Audio" unique_id=847660224]
 layout_mode = 2
 value = 100.0
 
-[node name="SFXVolumeLabel" type="HSplitContainer" parent="VSplitContainer/HSplitContainer/Right Column/Audio" unique_id=836280429]
+[node name="SFXVolumeLabel" type="HSplitContainer" parent="Margin/HSplitContainer/Right Column/Audio" unique_id=836280429]
 layout_mode = 2
 dragging_enabled = false
 
-[node name="Label" type="Label" parent="VSplitContainer/HSplitContainer/Right Column/Audio/SFXVolumeLabel" unique_id=46359151]
+[node name="Label" type="Label" parent="Margin/HSplitContainer/Right Column/Audio/SFXVolumeLabel" unique_id=46359151]
 layout_mode = 2
 text = "SFX Volume:"
 
-[node name="Value" type="Label" parent="VSplitContainer/HSplitContainer/Right Column/Audio/SFXVolumeLabel" unique_id=96973492]
+[node name="Value" type="Label" parent="Margin/HSplitContainer/Right Column/Audio/SFXVolumeLabel" unique_id=96973492]
 layout_mode = 2
 text = "100%"
 horizontal_alignment = 2
 
-[node name="SFXVolume" type="HSlider" parent="VSplitContainer/HSplitContainer/Right Column/Audio" unique_id=955280805]
+[node name="SFXVolume" type="HSlider" parent="Margin/HSplitContainer/Right Column/Audio" unique_id=955280805]
 layout_mode = 2
 value = 100.0
 
-[node name="HSplitContainer2" type="HSplitContainer" parent="VSplitContainer" unique_id=983162772]
+[node name="HSplitContainer2" type="HSplitContainer" parent="Margin" unique_id=983162772]
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 8
 split_offsets = PackedInt32Array(20, 115)
 dragging_enabled = false
 split_offset = 20
 
-[node name="Apply" type="Button" parent="VSplitContainer/HSplitContainer2" unique_id=764327804]
+[node name="Apply" type="Button" parent="Margin/HSplitContainer2" unique_id=764327804]
 layout_mode = 2
 text = "Apply"
 
-[node name="Back" type="Button" parent="VSplitContainer/HSplitContainer2" unique_id=76327595]
+[node name="Back" type="Button" parent="Margin/HSplitContainer2" unique_id=76327595]
 layout_mode = 2
 text = "Back / Cancel"
 
-[node name="Reset" type="Button" parent="VSplitContainer/HSplitContainer2" unique_id=2144007948]
+[node name="Reset" type="Button" parent="Margin/HSplitContainer2" unique_id=2144007948]
 layout_mode = 2
 text = "Reset to Defaults"
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
-[connection signal="pressed" from="VSplitContainer/HSplitContainer/Left Column/Display" to="." method="_on_display_pressed"]
-[connection signal="pressed" from="VSplitContainer/HSplitContainer/Left Column/Audio" to="." method="_on_audio_pressed"]
-[connection signal="item_selected" from="VSplitContainer/HSplitContainer/Right Column/Display/Resolution" to="." method="_on_resolution_item_selected"]
-[connection signal="toggled" from="VSplitContainer/HSplitContainer/Right Column/Display/Fullscreen" to="." method="_on_fullscreen_toggled"]
-[connection signal="toggled" from="VSplitContainer/HSplitContainer/Right Column/Display/VSync" to="." method="_on_v_sync_toggled"]
-[connection signal="value_changed" from="VSplitContainer/HSplitContainer/Right Column/Display/FPS" to="." method="_on_fps_value_changed"]
-[connection signal="value_changed" from="VSplitContainer/HSplitContainer/Right Column/Audio/MasterVolume" to="." method="_on_master_volume_value_changed"]
-[connection signal="value_changed" from="VSplitContainer/HSplitContainer/Right Column/Audio/MusicVolume" to="." method="_on_music_volume_value_changed"]
-[connection signal="value_changed" from="VSplitContainer/HSplitContainer/Right Column/Audio/SFXVolume" to="." method="_on_sfx_volume_value_changed"]
-[connection signal="pressed" from="VSplitContainer/HSplitContainer2/Apply" to="." method="_on_apply_pressed"]
-[connection signal="pressed" from="VSplitContainer/HSplitContainer2/Back" to="." method="_on_back_pressed"]
-[connection signal="pressed" from="VSplitContainer/HSplitContainer2/Reset" to="." method="_on_reset_pressed"]
+[connection signal="pressed" from="Margin/HSplitContainer/Left Column/Display" to="." method="_on_display_pressed"]
+[connection signal="pressed" from="Margin/HSplitContainer/Left Column/Audio" to="." method="_on_audio_pressed"]
+[connection signal="item_selected" from="Margin/HSplitContainer/Right Column/Display/Resolution" to="." method="_on_resolution_item_selected"]
+[connection signal="toggled" from="Margin/HSplitContainer/Right Column/Display/Fullscreen" to="." method="_on_fullscreen_toggled"]
+[connection signal="toggled" from="Margin/HSplitContainer/Right Column/Display/VSync" to="." method="_on_v_sync_toggled"]
+[connection signal="value_changed" from="Margin/HSplitContainer/Right Column/Display/FPS" to="." method="_on_fps_value_changed"]
+[connection signal="value_changed" from="Margin/HSplitContainer/Right Column/Audio/MasterVolume" to="." method="_on_master_volume_value_changed"]
+[connection signal="value_changed" from="Margin/HSplitContainer/Right Column/Audio/MusicVolume" to="." method="_on_music_volume_value_changed"]
+[connection signal="value_changed" from="Margin/HSplitContainer/Right Column/Audio/SFXVolume" to="." method="_on_sfx_volume_value_changed"]
+[connection signal="pressed" from="Margin/HSplitContainer2/Apply" to="." method="_on_apply_pressed"]
+[connection signal="pressed" from="Margin/HSplitContainer2/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="Margin/HSplitContainer2/Reset" to="." method="_on_reset_pressed"]

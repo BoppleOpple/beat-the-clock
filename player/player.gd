@@ -87,6 +87,10 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("gameplay_ability_right") and (GameManager.player.ability_3_cooldown <= 0.0):
 		GameManager.player.ability_3_cooldown = _activate_ability(GameManager.player.ability_3)
+		
+	# handle timer
+	$VisualTimer/Label.text = str(snapped(GameManager.player.timer, 0.1))
+	$VisualTimer/Label.set_position(self.get_position() + Vector2(-30,-25))
 
 func _activate_ability(ability: PlayerData.Ability) -> float:
 	match ability:

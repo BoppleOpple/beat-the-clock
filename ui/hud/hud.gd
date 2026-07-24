@@ -25,7 +25,6 @@ func _ready() -> void:
 	$AbilityFG/Ability2.value = GameManager.player.ability_2_cooldown
 	# Ability Slot 3 Cooldown
 	$AbilityFG/Ability3.value = GameManager.player.ability_3_cooldown
-	$PlayerScores/Player1/Time.text = str(snapped(GameManager.player.timer, 0.1))
 	_ability_texture_update()
 
 
@@ -33,7 +32,6 @@ func _process(delta: float) -> void:
 	$AbilityFG/Ability1.value = GameManager.player.ability_1_cooldown
 	$AbilityFG/Ability2.value = GameManager.player.ability_2_cooldown
 	$AbilityFG/Ability3.value = GameManager.player.ability_3_cooldown
-	$PlayerScores/Player1/Time.text = str(snapped(GameManager.player.timer, 0.1))
 
 func _ability_texture_update() -> void:
 	# ABILITY 1 TEXTURE

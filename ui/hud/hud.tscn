@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://btmyiech8ybid" path="res://ui/hud/hud.gd" id="1_7ihmi"]
 [ext_resource type="Texture2D" uid="uid://bscxd7id3ahll" path="res://assets/textures/ability_bg.png" id="1_rbyyf"]
 [ext_resource type="Texture2D" uid="uid://da66hbj2d3yek" path="res://assets/textures/ability_fg.png" id="2_546lt"]
-[ext_resource type="LabelSettings" uid="uid://drbt3tyycf7fi" path="res://assets/fonts/Default.tres" id="4_7ihmi"]
 [ext_resource type="AudioStream" uid="uid://c4mvmv8fx47i2" path="res://assets/audio/music/battle/bg.mp3" id="5_imuuq"]
 
 [node name="HUD" type="Control" unique_id=2141567131]
@@ -63,29 +62,6 @@ step = 0.0
 value = 33.0
 fill_mode = 3
 texture_progress = ExtResource("2_546lt")
-
-[node name="PlayerScores" type="VBoxContainer" parent="." unique_id=541040460]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Player1" type="HBoxContainer" parent="PlayerScores" unique_id=1800383847]
-layout_mode = 2
-
-[node name="Name" type="Label" parent="PlayerScores/Player1" unique_id=2046667734]
-layout_mode = 2
-text = "Player 1: "
-label_settings = ExtResource("4_7ihmi")
-
-[node name="Time" type="Label" parent="PlayerScores/Player1" unique_id=356905869]
-layout_mode = 2
-text = "23"
-label_settings = ExtResource("4_7ihmi")
-
-[node name="Label" type="Label" parent="PlayerScores/Player1" unique_id=1421503493]
-layout_mode = 2
-text = "seconds"
-label_settings = ExtResource("4_7ihmi")
 
 [node name="AudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1005709824]
 stream = ExtResource("5_imuuq")
