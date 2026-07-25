@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://s6ij4jjh6psh" path="res://assets/textures/sword_slash/frame4.png" id="6_ebec5"]
 [ext_resource type="Texture2D" uid="uid://catuyy0mef4xr" path="res://assets/textures/sword_slash/frame5.png" id="7_yllr7"]
 [ext_resource type="Texture2D" uid="uid://dmu1jd471d3qg" path="res://assets/textures/sword_slash/frame6.png" id="8_kb6p2"]
+[ext_resource type="Texture2D" uid="uid://dkhr2me2kh6mi" path="res://assets/textures/particles/parry.png" id="9_hg6s5"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rkbax"]
 friction = 0.2
@@ -52,6 +53,25 @@ animations = [{
 "speed": 15.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ikrvj"]
+radius = 38.03295
+height = 118.982315
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_3eufj"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_6fjql"]
+_limits = [-360.0, 360.0, 0.0, 1.0]
+_data = [Vector2(0, 12.413788), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_apgkt"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [node name="Player" type="RigidBody2D" unique_id=950486434]
 physics_material_override = SubResource("PhysicsMaterial_rkbax")
 script = ExtResource("1_oul6g")
@@ -65,6 +85,22 @@ offset_top = -20.0
 offset_right = 20.0
 offset_bottom = 20.0
 color = Color(0.7593363, 0.42972273, 1, 1)
+
+[node name="LeftAbilityTimer" type="Timer" parent="." unique_id=1406747833]
+process_callback = 0
+one_shot = true
+
+[node name="CoyoteTimer" type="Timer" parent="." unique_id=682038947]
+process_callback = 0
+one_shot = true
+
+[node name="SlashStartupDelay" type="Timer" parent="." unique_id=1068765181]
+wait_time = 0.25
+one_shot = true
+
+[node name="ParryTimer" type="Timer" parent="." unique_id=370265111]
+process_callback = 0
+one_shot = true
 
 [node name="JumpCollisionBelow" type="Area2D" parent="." unique_id=1117522722]
 
@@ -141,11 +177,47 @@ position = Vector2(20, 0)
 visible = false
 position = Vector2(50, -15)
 sprite_frames = SubResource("SpriteFrames_ikrvj")
-frame = 4
-frame_progress = 0.7358051
+
+[node name="SlashCollision" type="Area2D" parent="SwordAnchor" unique_id=1804471]
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SwordAnchor/SlashCollision" unique_id=263427324]
+position = Vector2(59, -19.999998)
+rotation = -0.45400715
+shape = SubResource("CapsuleShape2D_ikrvj")
+
+[node name="ParryParticles" type="CPUParticles2D" parent="." unique_id=13434136]
+material = SubResource("CanvasItemMaterial_3eufj")
+emitting = false
+amount = 32
+texture = ExtResource("9_hg6s5")
+one_shot = true
+explosiveness = 1.0
+lifetime_randomness = 0.47
+draw_order = 1
+emission_shape = 5
+emission_points = PackedVector2Array(0, 0, 0, 0)
+emission_normals = PackedVector2Array(0, 1, 0, -1)
+emission_colors = PackedColorArray()
+spread = 25.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 400.0
+angle_min = -90.0
+angle_max = 90.0
+angle_curve = SubResource("Curve_6fjql")
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+anim_speed_curve = SubResource("Curve_apgkt")
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
+<<<<<<< HEAD
+=======
+[connection signal="timeout" from="CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
+[connection signal="timeout" from="SlashStartupDelay" to="." method="_on_slash_startup_delay_timeout"]
+>>>>>>> 1cbd470 (feat: add sword knockback and parrying)
 [connection signal="body_exited" from="JumpCollisionBelow" to="." method="_on_jump_collision_below_body_exited"]
 [connection signal="body_entered" from="JumpCollisionNearby" to="." method="_on_jump_collision_nearby_body_entered"]
 [connection signal="timeout" from="Timers/CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
 [connection signal="animation_finished" from="SwordAnchor/SwordSlash" to="." method="_on_sword_slash_animation_finished"]
+[connection signal="body_entered" from="SwordAnchor/SlashCollision" to="." method="_on_slash_collision_body_entered"]
