@@ -135,9 +135,6 @@ texture = ExtResource("3_ii06v")
 script = ExtResource("4_ii06v")
 socket = NodePath("../Right")
 
-[node name="GrenadeAnchor" type="Node2D" parent="Visual" unique_id=913797079]
-position = Vector2(0, -31)
-
 [node name="SwordAnchor" type="Node2D" parent="Visual" unique_id=1882660560]
 position = Vector2(20, 0)
 
