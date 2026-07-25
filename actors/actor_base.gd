@@ -31,8 +31,11 @@ const SWORD_POMMEL_DISTANCE: float = 20.0
 const SWORD_IMPULSE_SCALE: float = 900.0
 const SWORD_STARTUP_DELAY: float = 0.2
 const SWORD_PARRY_DURATION: float = 0.4
+const SWORD_IMPULSE_UPKICK: float = 500.0
 
 const PARRY_PARTICLE_DISTANCE: float = 25
+
+const HITSTUN_DURATION: float = 1.0
 
 ###########
 # CLASSES #
@@ -57,16 +60,34 @@ var is_slashable: bool = true
 var is_on_ground: bool = false
 var is_mid_jump: bool = false
 
-var left_ability_timer: Timer = Timer.new()
-var middle_ability_timer: Timer = Timer.new()
-var right_ability_timer: Timer = Timer.new()
-var combo_ability_timer: Timer = Timer.new()
+var ability_1: GameManager.Ability = GameManager.Ability.DASH
+var ability_2: GameManager.Ability = GameManager.Ability.GRENADE
+var ability_3: GameManager.Ability = GameManager.Ability.SWORD
+var ability_c: GameManager.Ability = GameManager.Ability.DASH
 
 ###########
 # METHODS #
 ###########
 
-func _apply_actions(actions: Actions, _delta: float):
+func _ready() -> void:
+	$Timers/PlayerClock.start(GameManager.PLAYER_MAX_TIME / 2)
+
+func _process(_delta: float):
+	# handle timers
+	$Timers/VisualTimer/TimerLabel.text = str(snapped($Timers/PlayerClock.time_left, 0.1))
+	$Timers/VisualTimer/TimerLabel.set_position(self.get_position() + PLAYER_TIMER_OFFSET)
+	GameManager.player.ability_1_cooldown = $Timers/LeftAbilityTimer.time_left
+	GameManager.player.ability_2_cooldown = $Timers/MiddleAbilityTimer.time_left
+	GameManager.player.ability_3_cooldown = $Timers/RightAbilityTimer.time_left
+	GameManager.player.ability_c_cooldown = $Timers/ComboAbilityTimer.time_left
+
+func _apply_actions(actions: Actions, _delta: float) -> void:
+	# keep ground detector beneath player
+	$JumpCollisionBelow.rotation = -self.rotation
+	
+	if $Timers/HitstunTimer.time_left > 0.0:
+		return
+
 	# get direction from input
 	var input_x: float = actions.move_x
 	
@@ -76,9 +97,6 @@ func _apply_actions(actions: Actions, _delta: float):
 	
 	# apply the movement force
 	self.apply_central_force(Vector2(input_dir * input_magnitude, 0))
-	
-	# keep ground detector beneath player
-	$JumpCollisionBelow.rotation = -self.rotation
 	
 	# jump force
 	if actions.jump and is_on_ground:
@@ -110,34 +128,26 @@ func _apply_actions(actions: Actions, _delta: float):
 	
 	# handle abilities
 	if actions.ability_1 and $Timers/LeftAbilityTimer.is_stopped():
-		$Timers/LeftAbilityTimer.start(_activate_ability(GameManager.player.ability_1))
+		$Timers/LeftAbilityTimer.start(_activate_ability(ability_1))
 	
 	if actions.ability_2 and $Timers/MiddleAbilityTimer.is_stopped():
-		$Timers/MiddleAbilityTimer.start(_activate_ability(GameManager.player.ability_2))
+		$Timers/MiddleAbilityTimer.start(_activate_ability(ability_2))
 	
 	if actions.ability_3 and $Timers/RightAbilityTimer.is_stopped():
-		$Timers/RightAbilityTimer.start(_activate_ability(GameManager.player.ability_3))
+		$Timers/RightAbilityTimer.start(_activate_ability(ability_3))
 		
 	if actions.ability_combo and $Timers/ComboAbilityTimer.is_stopped():
-		$Timers/ComboAbilityTimer.start(_activate_ability(GameManager.player.ability_c))
-		
-	# handle timers
-	$Timers/VisualTimer/TimerLabel.text = str(snapped($Timers/PlayerClock.time_left, 0.1))
-	$Timers/VisualTimer/TimerLabel.set_position(self.get_position() + PLAYER_TIMER_OFFSET)
-	GameManager.player.ability_1_cooldown = $Timers/LeftAbilityTimer.time_left
-	GameManager.player.ability_2_cooldown = $Timers/MiddleAbilityTimer.time_left
-	GameManager.player.ability_3_cooldown = $Timers/RightAbilityTimer.time_left
-	GameManager.player.ability_c_cooldown = $Timers/ComboAbilityTimer.time_left
+		$Timers/ComboAbilityTimer.start(_activate_ability(ability_c))
 
-func _activate_ability(ability: PlayerData.Ability) -> float:
+func _activate_ability(ability: GameManager.Ability) -> float:
 	match ability:
-		PlayerData.Ability.EMPTY:
+		GameManager.Ability.EMPTY:
 			pass
-		PlayerData.Ability.DASH:
+		GameManager.Ability.DASH:
 			_perform_dash()
-		PlayerData.Ability.SWORD:
+		GameManager.Ability.SWORD:
 			_slash()
-		PlayerData.Ability.GRENADE:
+		GameManager.Ability.GRENADE:
 			_throw_grenade()
 	
 	return GameManager.ABILITY_COOLDOWN[ability]
@@ -174,6 +184,7 @@ func _slash() -> void:
 
 func handle_knockback(impulse: Vector2, source: Node2D) -> void:
 	if $Timers/ParryTimer.time_left == 0:
+		$Timers/HitstunTimer.start(HITSTUN_DURATION)
 		self.apply_central_impulse(impulse)
 	else:
 		var parry_rotation: float = (source.global_position - self.global_position).angle() - self.rotation
@@ -247,6 +258,10 @@ func _on_sword_slash_animation_finished() -> void:
 func _on_slash_collision_body_entered(body: Node2D) -> void:
 	if body.get("is_slashable"):
 		var knockback_impulse: Vector2 = (body.position - self.position).normalized() * SWORD_IMPULSE_SCALE
+		
+		# add upkick when hitting horizontally
+		if abs(knockback_impulse.dot(Vector2(1, 0))) > 0.8:
+			knockback_impulse.y -= SWORD_IMPULSE_UPKICK
 		
 		if body.has_method("apply_central_impulse"):
 			if body is ActorBase:

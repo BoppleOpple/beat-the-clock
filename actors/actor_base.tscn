@@ -134,6 +134,10 @@ one_shot = true
 process_callback = 0
 one_shot = true
 
+[node name="HitstunTimer" type="Timer" parent="Timers" unique_id=165685142]
+process_callback = 0
+one_shot = true
+
 [node name="VisualTimer" type="CanvasGroup" parent="Timers" unique_id=645785647]
 top_level = true
 position = Vector2(0, -23)
