@@ -17,7 +17,8 @@ const JOYSTICK_DEADZONE: float = 0.2
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$Timers/PlayerClock.start(GameManager.PLAYER_MAX_TIME / 2)
+	super()
+	GameManager.player_ref = self
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
@@ -47,28 +48,3 @@ func get_aim_direction() -> Vector2:
 	else:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		return (get_global_mouse_position() - self.position).normalized()
-
-####################
-# INCOMING SIGNALS #
-####################
-
-func _on_jump_collision_nearby_body_entered(body: Node2D) -> void:
-	super(body)
-
-func _on_jump_collision_below_body_exited(body: Node2D) -> void:
-	super(body)
-
-func _on_coyote_timer_timeout() -> void:
-	super()
-
-func _on_slash_startup_delay_timeout() -> void:
-	super()
-
-func _on_sword_slash_animation_finished() -> void:
-	super()
-
-func _on_slash_collision_body_entered(body: Node2D) -> void:
-	super(body)
-	
-func _on_player_clock_timeout() -> void:
-	super()
