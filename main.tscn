@@ -5,13 +5,14 @@
 [ext_resource type="PackedScene" uid="uid://cpvcqwg43fwv" path="res://ui/hud/hud.tscn" id="2_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://cna1uay0kbei2" path="res://player/player.tscn" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://grjdako5rpsp" path="res://ui/pause/pause.tscn" id="5_lquwl"]
+[ext_resource type="PackedScene" uid="uid://chg4k3ky170cu" path="res://actors/enemies/melee/enemy_melee.tscn" id="6_7mycd"]
 
 [node name="Main" type="Node" unique_id=303326613]
 script = ExtResource("1_1bvp3")
 
 [node name="Stage" parent="." unique_id=12831427 instance=ExtResource("1_ig7tw")]
 
-[node name="Player" parent="." unique_id=950486434 instance=ExtResource("3_h2yge")]
+[node name="Player" parent="." unique_id=823536844 instance=ExtResource("3_h2yge")]
 position = Vector2(220, -372)
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1667980090]
@@ -23,5 +24,17 @@ position = Vector2(220, -372)
 [node name="Objects" type="Node" parent="." unique_id=294892081]
 
 [node name="Pause" parent="." unique_id=181748229 instance=ExtResource("5_lquwl")]
+
+[node name="EnemyMelee" parent="." unique_id=950486434 instance=ExtResource("6_7mycd")]
+position = Vector2(-226, -353)
+
+[node name="EnemyMelee2" parent="." unique_id=60050402 instance=ExtResource("6_7mycd")]
+position = Vector2(-349, -433)
+
+[node name="EnemyMelee3" parent="." unique_id=1034371796 instance=ExtResource("6_7mycd")]
+position = Vector2(-288, -271)
+
+[node name="EnemyMelee4" parent="." unique_id=297174871 instance=ExtResource("6_7mycd")]
+position = Vector2(-408, -310)
 
 [connection signal="throw_grenade" from="Player" to="." method="_on_player_throw_grenade"]
