@@ -13,3 +13,9 @@ position = Vector2(-567, -154)
 
 [node name="BottomRightPOI" parent="." index="4" unique_id=565622059]
 position = Vector2(567, 237)
+
+[node name="Marker2D" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(355737548) index="0" unique_id=757201756]
+position = Vector2(-320, -160)
+
+[node name="Marker2D2" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(355737548) index="1" unique_id=830044989]
+position = Vector2(320, -160)

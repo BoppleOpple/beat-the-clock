@@ -65,6 +65,11 @@ var ability_2: GameManager.Ability = GameManager.Ability.GRENADE
 var ability_3: GameManager.Ability = GameManager.Ability.SWORD
 var ability_c: GameManager.Ability = GameManager.Ability.DASH
 
+var teleporting: bool = false
+var teleport_pos: Vector2
+
+var should_free: bool = false
+
 ###########
 # METHODS #
 ###########
@@ -81,7 +86,22 @@ func _process(_delta: float):
 	GameManager.player.ability_3_cooldown = $Timers/RightAbilityTimer.time_left
 	GameManager.player.ability_c_cooldown = $Timers/ComboAbilityTimer.time_left
 
+func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
+	if teleporting:
+		var new_transform = state.get_transform()
+		new_transform.origin = teleport_pos
+		state.set_transform(new_transform)
+
+		# Reset velocities to avoid the object going through walls
+		state.set_linear_velocity(Vector2())
+		state.set_angular_velocity(0.0)
+
+		teleporting = false
+
 func _apply_actions(actions: Actions, _delta: float) -> void:
+	if should_free:
+		return
+		
 	# keep ground detector beneath player
 	$JumpCollisionBelow.rotation = -self.rotation
 	
@@ -99,9 +119,9 @@ func _apply_actions(actions: Actions, _delta: float) -> void:
 	self.apply_central_force(Vector2(input_dir * input_magnitude, 0))
 	
 	# jump force
-	if actions.jump and is_on_ground:
-		is_mid_jump = true
-		is_on_ground = false
+	if actions.jump and self.is_on_ground:
+		self.is_mid_jump = true
+		self.is_on_ground = false
 		self.set_axis_velocity(JUMP_VELOCITY)
 		
 		var jump_torque: float = clamp(
@@ -157,7 +177,7 @@ func _perform_dash() -> void:
 	self.set_axis_velocity(get_aim_direction() * DASH_VELOCITY_SCALE)
 
 func _throw_grenade() -> void:
-	var pos: Vector2 = $GrenadeAnchor.global_position
+	var pos: Vector2 = $Visual/GrenadeAnchor.global_position
 	var vel: Vector2 = get_aim_direction() * GRENADE_VELOCITY_SCALE
 	
 	vel += self.linear_velocity
@@ -167,17 +187,17 @@ func _throw_grenade() -> void:
 func _slash() -> void:
 	var sword_rotation = get_aim_direction().angle() - self.rotation
 	
-	$SwordAnchor.position = Vector2.from_angle(sword_rotation) * SWORD_POMMEL_DISTANCE
-	$SwordAnchor.rotation = sword_rotation
+	$Visual/SwordAnchor.position = Vector2.from_angle(sword_rotation) * SWORD_POMMEL_DISTANCE
+	$Visual/SwordAnchor.rotation = sword_rotation
 	if abs(sword_rotation) < PI/2:
-		$SwordAnchor/SwordSlash.position.y = -abs($SwordAnchor/SwordSlash.position.y)
-		$SwordAnchor/SwordSlash.flip_v = false
+		$Visual/SwordAnchor/SwordSlash.position.y = -abs($Visual/SwordAnchor/SwordSlash.position.y)
+		$Visual/SwordAnchor/SwordSlash.flip_v = false
 	else:
-		$SwordAnchor/SwordSlash.position.y = abs($SwordAnchor/SwordSlash.position.y)
-		$SwordAnchor/SwordSlash.flip_v = true
+		$Visual/SwordAnchor/SwordSlash.position.y = abs($Visual/SwordAnchor/SwordSlash.position.y)
+		$Visual/SwordAnchor/SwordSlash.flip_v = true
 	
-	$SwordAnchor/SwordSlash.visible = true
-	$SwordAnchor/SwordSlash.play("default")
+	$Visual/SwordAnchor/SwordSlash.visible = true
+	$Visual/SwordAnchor/SwordSlash.play("default")
 	
 	$Timers/SlashStartupDelay.start(SWORD_STARTUP_DELAY)
 	$Timers/ParryTimer.start(SWORD_PARRY_DURATION)
@@ -196,10 +216,22 @@ func handle_knockback(impulse: Vector2, source: Node2D) -> void:
 func kill(force: bool = false):
 	# TODO add preventable death maybe
 	if force or true:
+		$DeathParticles.amount = clamp(int(self.linear_velocity.length() / 25), 4, 100)
+		print($DeathParticles.amount)
+		$DeathParticles.initial_velocity_min = self.linear_velocity.length() * 0.5
+		$DeathParticles.initial_velocity_max = self.linear_velocity.length() * 3
+		$DeathParticles.direction = -self.linear_velocity.rotated(-self.rotation)
+		
+		$DeathParticles.emitting = true
+		
+		$DeathParticles.color = $Visual/ColorRect2.color
+		
 		self._on_kill()
 
 func _on_kill() -> void:
-	pass 
+	$CollisionShape2D.disabled = true
+	self.sleeping = true
+	self.should_free = true
 
 func _handle_mod_timer(time: float) -> void:
 	var label = Label.new()
@@ -230,6 +262,10 @@ func _handle_mod_timer(time: float) -> void:
 
 func get_aim_direction() -> Vector2:
 	return Vector2(1, 0)
+	
+func _teleport(destination: Vector2) -> void:
+	teleporting = true
+	teleport_pos = destination
 
 ####################
 # INCOMING SIGNALS #
@@ -239,8 +275,8 @@ func _on_jump_collision_nearby_body_entered(body: Node2D) -> void:
 	# potentially change to group-based
 	if body != self and $JumpCollisionBelow.overlaps_body(body):
 		$Timers/CoyoteTimer.stop()
-		is_mid_jump = false
-		is_on_ground = true
+		self.is_mid_jump = false
+		self.is_on_ground = true
 
 func _on_jump_collision_below_body_exited(body: Node2D) -> void:
 	# potentially change to group-based
@@ -252,16 +288,16 @@ func _on_coyote_timer_timeout() -> void:
 	
 	validBodies.erase(self)
 	if validBodies.size() == 0:
-		is_on_ground = false
+		self.is_on_ground = false
 
 func _on_slash_startup_delay_timeout() -> void:
-	$SwordAnchor/SlashCollision.monitoring = true
+	$Visual/SwordAnchor/SlashCollision.monitoring = true
 
 func _on_sword_slash_animation_finished() -> void:
-	$SwordAnchor/SwordSlash.visible = false
-	$SwordAnchor/SwordSlash.stop()
+	$Visual/SwordAnchor/SwordSlash.visible = false
+	$Visual/SwordAnchor/SwordSlash.stop()
 	
-	$SwordAnchor/SlashCollision.monitoring = false
+	$Visual/SwordAnchor/SlashCollision.monitoring = false
 
 func _on_slash_collision_body_entered(body: Node2D) -> void:
 	if body.get("is_slashable"):
@@ -282,6 +318,10 @@ func _on_slash_collision_body_entered(body: Node2D) -> void:
 	
 func _on_player_clock_timeout() -> void:
 	kill(true)
+
+func _on_death_particles_finished() -> void:
+	if should_free:
+		self.queue_free()
 
 ####################
 # OUTGOING SIGNALS #
