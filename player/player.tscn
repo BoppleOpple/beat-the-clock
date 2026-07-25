@@ -211,11 +211,8 @@ anim_speed_max = 1.0
 anim_speed_curve = SubResource("Curve_apgkt")
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
-<<<<<<< HEAD
-=======
 [connection signal="timeout" from="CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
 [connection signal="timeout" from="SlashStartupDelay" to="." method="_on_slash_startup_delay_timeout"]
->>>>>>> 1cbd470 (feat: add sword knockback and parrying)
 [connection signal="body_exited" from="JumpCollisionBelow" to="." method="_on_jump_collision_below_body_exited"]
 [connection signal="body_entered" from="JumpCollisionNearby" to="." method="_on_jump_collision_nearby_body_entered"]
 [connection signal="timeout" from="Timers/CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
