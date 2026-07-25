@@ -8,10 +8,6 @@ extends ActorBase
 const JOYSTICK_DEADZONE: float = 0.2
 
 ###########
-# GLOBALS #
-###########
-
-###########
 # METHODS #
 ###########
 
@@ -19,6 +15,9 @@ const JOYSTICK_DEADZONE: float = 0.2
 func _ready() -> void:
 	super()
 	GameManager.player_ref = self
+
+func _on_kill() -> void:
+	emit_signal("respawn_player")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
@@ -34,6 +33,7 @@ func _physics_process(delta: float) -> void:
 	
 	_apply_actions(frame_actions, delta)
 
+
 func get_aim_direction() -> Vector2:
 	if GameManager.current_device == GameManager.InputDevice.CONTROLLER:
 		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
@@ -48,3 +48,5 @@ func get_aim_direction() -> Vector2:
 	else:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		return (get_global_mouse_position() - self.position).normalized()
+
+signal respawn_player()

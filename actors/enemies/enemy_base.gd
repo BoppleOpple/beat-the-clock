@@ -39,6 +39,9 @@ func _physics_process(delta: float) -> void:
 	
 	_apply_actions(frame_actions, delta)
 
+func _on_kill() -> void:
+	self.queue_free()
+
 func _get_move_x() -> float:
 	return 0.0
 

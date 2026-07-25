@@ -196,7 +196,10 @@ func handle_knockback(impulse: Vector2, source: Node2D) -> void:
 func kill(force: bool = false):
 	# TODO add preventable death maybe
 	if force or true:
-		print("dead")
+		self._on_kill()
+
+func _on_kill() -> void:
+	pass 
 
 func _handle_mod_timer(time: float) -> void:
 	var label = Label.new()
