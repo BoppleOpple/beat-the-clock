@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cna1uay0kbei2"]
 
 [ext_resource type="PackedScene" uid="uid://b1anqspvwemms" path="res://actors/actor_base.tscn" id="1_oul6g"]
-[ext_resource type="Script" uid="uid://vnawmbuhjsdc" path="res://actors/helper/right_eyeball.gd" id="2_rkbax"]
+[ext_resource type="Script" uid="uid://bxfxxi31uo80h" path="res://actors/helper/eyeball.gd" id="2_rkbax"]
 
 [node name="Player" unique_id=950486434 groups=["Players"] instance=ExtResource("1_oul6g")]
 
