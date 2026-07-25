@@ -2,6 +2,7 @@ extends Node
 
 const PLAYER_MAX_TIME: float = 300.5
 var player: PlayerData
+var player_ref: Player
 var options: Options
 
 
@@ -14,6 +15,14 @@ const SAVE_OPTIONS_PATH := "user://options.save"
 # 2 - Sword
 # 3 - Grenade
 # -----------
+
+enum Ability {
+	EMPTY = 0,
+	DASH = 1,
+	SWORD = 2,
+	GRENADE = 3,
+}
+
 const ABILITY_COOLDOWN: Array[float] = [10.0, 2.0, 2.5, 3.0]
 
 enum InputDevice { KEYBOARD_MOUSE, CONTROLLER }

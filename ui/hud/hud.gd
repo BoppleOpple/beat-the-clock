@@ -14,13 +14,13 @@ var grenade_texture = load("res://assets/textures/grenade.png")
 
 func _ready() -> void:
 	# Ability Slot 1
-	$AbilityFG/VBoxContainer/LowerAbilities/Ability1.max_value = GameManager.ABILITY_COOLDOWN[GameManager.player.ability_1]
+	$AbilityFG/VBoxContainer/LowerAbilities/Ability1.max_value = GameManager.ABILITY_COOLDOWN[GameManager.player_ref.ability_1]
 	# Ability Slot 2
-	$AbilityFG/VBoxContainer/LowerAbilities/Ability2.max_value = GameManager.ABILITY_COOLDOWN[GameManager.player.ability_2]
+	$AbilityFG/VBoxContainer/LowerAbilities/Ability2.max_value = GameManager.ABILITY_COOLDOWN[GameManager.player_ref.ability_2]
 	# Ability Slot 3
-	$AbilityFG/VBoxContainer/LowerAbilities/Ability3.max_value = GameManager.ABILITY_COOLDOWN[GameManager.player.ability_3]
+	$AbilityFG/VBoxContainer/LowerAbilities/Ability3.max_value = GameManager.ABILITY_COOLDOWN[GameManager.player_ref.ability_3]
 	# Ability Slot C
-	$AbilityFG/VBoxContainer/UpperAbilities/AbilityC.max_value = GameManager.ABILITY_COOLDOWN[GameManager.player.ability_c]
+	$AbilityFG/VBoxContainer/UpperAbilities/AbilityC.max_value = GameManager.ABILITY_COOLDOWN[GameManager.player_ref.ability_c]
 	# Ability Slot 1 Cooldown
 	$AbilityFG/VBoxContainer/LowerAbilities/Ability1.value = GameManager.player.ability_1_cooldown
 	# Ability Slot 2 Cooldown
@@ -41,40 +41,40 @@ func _process(delta: float) -> void:
 
 func _ability_texture_update() -> void:
 	# ABILITY 1 TEXTURE
-	if GameManager.player.ability_1 == 0:
+	if GameManager.player_ref.ability_1 == 0:
 		$AbilityFG/VBoxContainer/LowerAbilities/Ability1.texture_under = null
-	elif GameManager.player.ability_1 == 1:
+	elif GameManager.player_ref.ability_1 == 1:
 		$AbilityFG/VBoxContainer/LowerAbilities/Ability1.texture_under = dash_texture
-	elif GameManager.player.ability_1 == 2:
+	elif GameManager.player_ref.ability_1 == 2:
 		$AbilityFG/VBoxContainer/LowerAbilities/Ability1.texture_under = sword_texture
-	elif GameManager.player.ability_1 == 3:
+	elif GameManager.player_ref.ability_1 == 3:
 		$AbilityFG/VBoxContainer/LowerAbilities/Ability1.texture_under = grenade_texture
 	# ABILITY 2 TEXTURE
-	if GameManager.player.ability_2 == 0:
+	if GameManager.player_ref.ability_2 == 0:
 		$AbilityFG/VBoxContainer/LowerAbilities/Ability2.texture_under = null
-	elif GameManager.player.ability_2 == 1:
+	elif GameManager.player_ref.ability_2 == 1:
 		$AbilityFG/VBoxContainer/LowerAbilities/Ability2.texture_under = dash_texture
-	elif GameManager.player.ability_2 == 2:
+	elif GameManager.player_ref.ability_2 == 2:
 		$AbilityFG/VBoxContainer/LowerAbilities/Ability2.texture_under = sword_texture
-	elif GameManager.player.ability_2 == 3:
+	elif GameManager.player_ref.ability_2 == 3:
 		$AbilityFG/VBoxContainer/LowerAbilities/Ability2.texture_under = grenade_texture
 	# ABILITY 3 TEXTURE
-	if GameManager.player.ability_3 == 0:
+	if GameManager.player_ref.ability_3 == 0:
 		$AbilityFG/VBoxContainer/LowerAbilities/Ability3.texture_under = null
-	elif GameManager.player.ability_3 == 1:
+	elif GameManager.player_ref.ability_3 == 1:
 		$AbilityFG/VBoxContainer/LowerAbilities/Ability3.texture_under = dash_texture
-	elif GameManager.player.ability_3 == 2:
+	elif GameManager.player_ref.ability_3 == 2:
 		$AbilityFG/VBoxContainer/LowerAbilities/Ability3.texture_under = sword_texture
-	elif GameManager.player.ability_3 == 3:
+	elif GameManager.player_ref.ability_3 == 3:
 		$AbilityFG/VBoxContainer/LowerAbilities/Ability3.texture_under = grenade_texture
 	# ABILITY C TEXTURE
-	if GameManager.player.ability_c == 0:
+	if GameManager.player_ref.ability_c == 0:
 		$AbilityFG/VBoxContainer/UpperAbilities/AbilityC.texture_under = null
-	elif GameManager.player.ability_c == 1:
+	elif GameManager.player_ref.ability_c == 1:
 		$AbilityFG/VBoxContainer/UpperAbilities/AbilityC.texture_under = dash_texture
-	elif GameManager.player.ability_c == 2:
+	elif GameManager.player_ref.ability_c == 2:
 		$AbilityFG/VBoxContainer/UpperAbilities/AbilityC.texture_under = sword_texture
-	elif GameManager.player.ability_c == 3:
+	elif GameManager.player_ref.ability_c == 3:
 		$AbilityFG/VBoxContainer/UpperAbilities/AbilityC.texture_under = grenade_texture
 		
 func ability_icon_change() -> void:
