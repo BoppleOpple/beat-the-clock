@@ -1,0 +1,213 @@
+[gd_scene format=3 uid="uid://b1anqspvwemms"]
+
+[ext_resource type="Script" uid="uid://dnxrn16ekf7c4" path="res://player/player.gd" id="1_ua707"]
+[ext_resource type="LabelSettings" uid="uid://drbt3tyycf7fi" path="res://assets/fonts/Default.tres" id="2_rkwqa"]
+[ext_resource type="Texture2D" uid="uid://dx80wff5swrsb" path="res://assets/textures/sword_slash/frame0.png" id="3_41w2c"]
+[ext_resource type="Texture2D" uid="uid://bbvhyp3rc20ts" path="res://assets/textures/sword_slash/frame1.png" id="4_5nkr1"]
+[ext_resource type="Texture2D" uid="uid://drcy16s5fkool" path="res://assets/textures/sword_slash/frame2.png" id="5_31m4k"]
+[ext_resource type="Texture2D" uid="uid://bxv5qu8ebvt66" path="res://assets/textures/sword_slash/frame3.png" id="6_opp7g"]
+[ext_resource type="Texture2D" uid="uid://s6ij4jjh6psh" path="res://assets/textures/sword_slash/frame4.png" id="7_jglmw"]
+[ext_resource type="Texture2D" uid="uid://catuyy0mef4xr" path="res://assets/textures/sword_slash/frame5.png" id="8_bncfn"]
+[ext_resource type="Texture2D" uid="uid://dmu1jd471d3qg" path="res://assets/textures/sword_slash/frame6.png" id="9_77ki2"]
+[ext_resource type="Texture2D" uid="uid://dkhr2me2kh6mi" path="res://assets/textures/particles/parry.png" id="10_ya2v2"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rkbax"]
+friction = 0.2
+bounce = 0.25
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ikrvj"]
+size = Vector2(40, 40)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ikrvj"]
+radius = 21.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3eufj"]
+size = Vector2(42, 42)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ikrvj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_41w2c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_5nkr1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_31m4k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_opp7g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_jglmw")
+}, {
+"duration": 2.0,
+"texture": ExtResource("8_bncfn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_77ki2")
+}],
+"loop": 0,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ikrvj"]
+radius = 38.03295
+height = 118.982315
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_3eufj"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_6fjql"]
+_limits = [-360.0, 360.0, 0.0, 1.0]
+_data = [Vector2(0, 12.413788), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_apgkt"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="ActorBase" type="RigidBody2D" unique_id=950486434]
+physics_material_override = SubResource("PhysicsMaterial_rkbax")
+script = ExtResource("1_ua707")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=817671182]
+shape = SubResource("RectangleShape2D_ikrvj")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1284086352]
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+color = Color(0.7593363, 0.42972273, 1, 1)
+
+[node name="JumpCollisionBelow" type="Area2D" parent="." unique_id=1117522722]
+
+[node name="BelowCollider" type="CollisionShape2D" parent="JumpCollisionBelow" unique_id=1295610869]
+position = Vector2(0, 21)
+shape = SubResource("CircleShape2D_ikrvj")
+
+[node name="JumpCollisionNearby" type="Area2D" parent="." unique_id=282012949]
+
+[node name="Halo" type="CollisionShape2D" parent="JumpCollisionNearby" unique_id=218099469]
+shape = SubResource("RectangleShape2D_3eufj")
+
+[node name="GrenadeAnchor" type="Node2D" parent="." unique_id=913797079]
+position = Vector2(0, -31)
+
+[node name="Timers" type="Node2D" parent="." unique_id=1078520662]
+
+[node name="LeftAbilityTimer" type="Timer" parent="Timers" unique_id=1406747833]
+process_callback = 0
+one_shot = true
+
+[node name="MiddleAbilityTimer" type="Timer" parent="Timers" unique_id=489502933]
+process_callback = 0
+one_shot = true
+
+[node name="RightAbilityTimer" type="Timer" parent="Timers" unique_id=1947241228]
+process_callback = 0
+one_shot = true
+
+[node name="ComboAbilityTimer" type="Timer" parent="Timers" unique_id=924932122]
+process_callback = 0
+one_shot = true
+
+[node name="PlayerClock" type="Timer" parent="Timers" unique_id=685296912]
+process_callback = 0
+one_shot = true
+
+[node name="CoyoteTimer" type="Timer" parent="Timers" unique_id=682038947]
+process_callback = 0
+one_shot = true
+
+[node name="SlashStartupDelay" type="Timer" parent="Timers" unique_id=1068765181]
+wait_time = 0.25
+one_shot = true
+
+[node name="ParryTimer" type="Timer" parent="Timers" unique_id=370265111]
+process_callback = 0
+one_shot = true
+
+[node name="VisualTimer" type="CanvasGroup" parent="Timers" unique_id=645785647]
+top_level = true
+position = Vector2(0, -23)
+
+[node name="TimerLabel" type="Label" parent="Timers/VisualTimer" unique_id=1571675406]
+custom_minimum_size = Vector2(60, 20)
+offset_left = -30.0
+offset_top = -23.0
+offset_right = 30.0
+text = "300.0"
+label_settings = ExtResource("2_rkwqa")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ModTime" type="VBoxContainer" parent="Timers/VisualTimer/TimerLabel" unique_id=1395568873]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -30.0
+offset_top = -119.0
+offset_right = 30.0
+offset_bottom = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 2
+
+[node name="SwordAnchor" type="Node2D" parent="." unique_id=1882660560]
+position = Vector2(20, 0)
+
+[node name="SwordSlash" type="AnimatedSprite2D" parent="SwordAnchor" unique_id=916335342]
+visible = false
+position = Vector2(50, -15)
+sprite_frames = SubResource("SpriteFrames_ikrvj")
+
+[node name="SlashCollision" type="Area2D" parent="SwordAnchor" unique_id=1804471]
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SwordAnchor/SlashCollision" unique_id=263427324]
+position = Vector2(59, -19.999998)
+rotation = -0.45400715
+shape = SubResource("CapsuleShape2D_ikrvj")
+
+[node name="ParryParticles" type="CPUParticles2D" parent="." unique_id=13434136]
+material = SubResource("CanvasItemMaterial_3eufj")
+emitting = false
+amount = 32
+texture = ExtResource("10_ya2v2")
+one_shot = true
+explosiveness = 1.0
+lifetime_randomness = 0.47
+draw_order = 1
+emission_shape = 5
+emission_points = PackedVector2Array(0, 0, 0, 0)
+emission_normals = PackedVector2Array(0, 1, 0, -1)
+emission_colors = PackedColorArray()
+spread = 25.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 400.0
+angle_min = -90.0
+angle_max = 90.0
+angle_curve = SubResource("Curve_6fjql")
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+anim_speed_curve = SubResource("Curve_apgkt")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="body_exited" from="JumpCollisionBelow" to="." method="_on_jump_collision_below_body_exited"]
+[connection signal="body_entered" from="JumpCollisionNearby" to="." method="_on_jump_collision_nearby_body_entered"]
+[connection signal="timeout" from="Timers/PlayerClock" to="." method="_on_player_clock_timeout"]
+[connection signal="timeout" from="Timers/CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
+[connection signal="timeout" from="Timers/SlashStartupDelay" to="." method="_on_slash_startup_delay_timeout"]
+[connection signal="animation_finished" from="SwordAnchor/SwordSlash" to="." method="_on_sword_slash_animation_finished"]
+[connection signal="body_entered" from="SwordAnchor/SlashCollision" to="." method="_on_slash_collision_body_entered"]
