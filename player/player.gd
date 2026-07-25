@@ -92,14 +92,15 @@ func _physics_process(delta: float) -> void:
 	# handle abilities
 	if Input.is_action_just_pressed("gameplay_ability_left") and $Timers/LeftAbilityTimer.is_stopped():
 		$Timers/LeftAbilityTimer.start(_activate_ability(GameManager.player.ability_1))
-		_handle_mod_timer(30.0)
 	
 	if Input.is_action_just_pressed("gameplay_ability_middle") and $Timers/MiddleAbilityTimer.is_stopped():
 		$Timers/MiddleAbilityTimer.start(_activate_ability(GameManager.player.ability_2))
-		_handle_mod_timer(-30.0)
 	
 	if Input.is_action_just_pressed("gameplay_ability_right") and $Timers/RightAbilityTimer.is_stopped():
 		$Timers/RightAbilityTimer.start(_activate_ability(GameManager.player.ability_3))
+		
+	if Input.is_action_just_pressed("gameplay_ability_combo") and $Timers/ComboAbilityTimer.is_stopped():
+		$Timers/ComboAbilityTimer.start(_activate_ability(GameManager.player.ability_c))
 		
 	# handle timers
 	$Timers/VisualTimer/TimerLabel.text = str(snapped($Timers/PlayerClock.time_left, 0.1))
@@ -107,6 +108,7 @@ func _physics_process(delta: float) -> void:
 	GameManager.player.ability_1_cooldown = $Timers/LeftAbilityTimer.time_left
 	GameManager.player.ability_2_cooldown = $Timers/MiddleAbilityTimer.time_left
 	GameManager.player.ability_3_cooldown = $Timers/RightAbilityTimer.time_left
+	GameManager.player.ability_c_cooldown = $Timers/ComboAbilityTimer.time_left
 
 func _activate_ability(ability: PlayerData.Ability) -> float:
 	match ability:
@@ -180,7 +182,10 @@ func _handle_mod_timer(time: float) -> void:
 		$Timers/VisualTimer/TimerLabel.modulate = Color.RED
 	else:
 		return
-	$Timers/PlayerClock.start($Timers/PlayerClock.time_left + time)
+	if ($Timers/PlayerClock.time_left + time) >= 0.0: 
+		$Timers/PlayerClock.start($Timers/PlayerClock.time_left + time)
+	else:
+		$Timers/PlayerClock.start(0.001)
 	if $Timers/PlayerClock.time_left >= GameManager.PLAYER_MAX_TIME:
 		$Timers/PlayerClock.start(GameManager.PLAYER_MAX_TIME)
 		$Timers/VisualTimer/TimerLabel.modulate = Color.ROYAL_BLUE
@@ -237,6 +242,9 @@ func _on_slash_collision_body_entered(body: Node2D) -> void:
 		
 		if body.has_method("when_slashed"):
 			body.when_slashed()
+	
+func _on_player_clock_timeout() -> void:
+	print("dead")
 
 ####################
 # OUTGOING SIGNALS #
