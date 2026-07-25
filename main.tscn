@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cebxki01pqopu" path="res://stages/final_destination.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://cpvcqwg43fwv" path="res://ui/hud/hud.tscn" id="2_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://cna1uay0kbei2" path="res://player/player.tscn" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://grjdako5rpsp" path="res://ui/pause/pause.tscn" id="5_lquwl"]
 
 [node name="Main" type="Node" unique_id=303326613]
 script = ExtResource("1_1bvp3")
@@ -20,5 +21,7 @@ position = Vector2(220, -372)
 [node name="HUD" parent="CanvasLayer" unique_id=856797878 instance=ExtResource("2_0xm2m")]
 
 [node name="Objects" type="Node" parent="." unique_id=294892081]
+
+[node name="Pause" parent="." unique_id=181748229 instance=ExtResource("5_lquwl")]
 
 [connection signal="throw_grenade" from="Player" to="." method="_on_player_throw_grenade"]

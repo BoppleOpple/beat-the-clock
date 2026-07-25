@@ -68,6 +68,7 @@ layout_mode = 2
 text = "Exit"
 
 [node name="Options" parent="UI" unique_id=377516718 instance=ExtResource("5_joh67")]
+visible = false
 
 [node name="AudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=525584265]
 stream = ExtResource("5_3c04x")

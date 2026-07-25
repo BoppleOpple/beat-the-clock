@@ -12,7 +12,57 @@ offset_right = 1920.0
 offset_bottom = 1080.0
 script = ExtResource("1_7ihmi")
 
-[node name="AbilityBG" type="HBoxContainer" parent="." unique_id=1050939694]
+[node name="AbilityBG" type="Control" parent="." unique_id=25953142]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -128.0
+offset_right = 392.0
+grow_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AbilityBG" unique_id=1493960399]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -260.0
+offset_right = 392.0
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="AbilityBG/VBoxContainer" unique_id=2024585897]
+layout_mode = 2
+alignment = 1
+
+[node name="AbilityC" type="TextureRect" parent="AbilityBG/VBoxContainer/HBoxContainer" unique_id=606660650]
+layout_mode = 2
+texture = ExtResource("1_rbyyf")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="AbilityBG/VBoxContainer" unique_id=1943359474]
+layout_mode = 2
+
+[node name="Ability1" type="TextureRect" parent="AbilityBG/VBoxContainer/HBoxContainer2" unique_id=1198386569]
+layout_mode = 2
+texture = ExtResource("1_rbyyf")
+
+[node name="Ability2" type="TextureRect" parent="AbilityBG/VBoxContainer/HBoxContainer2" unique_id=558691051]
+layout_mode = 2
+texture = ExtResource("1_rbyyf")
+
+[node name="Ability3" type="TextureRect" parent="AbilityBG/VBoxContainer/HBoxContainer2" unique_id=548946715]
+layout_mode = 2
+texture = ExtResource("1_rbyyf")
+
+[node name="AbilityFG" type="Control" parent="." unique_id=1548034305]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -128.0
+offset_right = 392.0
+grow_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AbilityFG" unique_id=702653684]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -21,42 +71,35 @@ offset_top = -128.0
 offset_right = 128.0
 grow_vertical = 0
 
-[node name="Ability1" type="TextureRect" parent="AbilityBG" unique_id=1198386569]
+[node name="HBoxContainer" type="HBoxContainer" parent="AbilityFG/VBoxContainer" unique_id=604967215]
 layout_mode = 2
-texture = ExtResource("1_rbyyf")
+alignment = 1
 
-[node name="Ability2" type="TextureRect" parent="AbilityBG" unique_id=558691051]
-layout_mode = 2
-texture = ExtResource("1_rbyyf")
-
-[node name="Ability3" type="TextureRect" parent="AbilityBG" unique_id=548946715]
-layout_mode = 2
-texture = ExtResource("1_rbyyf")
-
-[node name="AbilityFG" type="HBoxContainer" parent="." unique_id=1794211364]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -128.0
-offset_right = 128.0
-grow_vertical = 0
-
-[node name="Ability1" type="TextureProgressBar" parent="AbilityFG" unique_id=807796088]
+[node name="AbilityC" type="TextureProgressBar" parent="AbilityFG/VBoxContainer/HBoxContainer" unique_id=1981710678]
 layout_mode = 2
 step = 0.0
 value = 100.0
 fill_mode = 3
 texture_progress = ExtResource("2_546lt")
 
-[node name="Ability2" type="TextureProgressBar" parent="AbilityFG" unique_id=625141605]
+[node name="HBoxContainer2" type="HBoxContainer" parent="AbilityFG/VBoxContainer" unique_id=844362282]
+layout_mode = 2
+
+[node name="Ability1" type="TextureProgressBar" parent="AbilityFG/VBoxContainer/HBoxContainer2" unique_id=807796088]
+layout_mode = 2
+step = 0.0
+value = 100.0
+fill_mode = 3
+texture_progress = ExtResource("2_546lt")
+
+[node name="Ability2" type="TextureProgressBar" parent="AbilityFG/VBoxContainer/HBoxContainer2" unique_id=625141605]
 layout_mode = 2
 step = 0.0
 value = 66.0
 fill_mode = 3
 texture_progress = ExtResource("2_546lt")
 
-[node name="Ability3" type="TextureProgressBar" parent="AbilityFG" unique_id=1161439206]
+[node name="Ability3" type="TextureProgressBar" parent="AbilityFG/VBoxContainer/HBoxContainer2" unique_id=1161439206]
 layout_mode = 2
 step = 0.0
 value = 33.0
