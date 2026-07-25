@@ -22,4 +22,6 @@ shape = SubResource("RectangleShape2D_ikrvj")
 
 [node name="BottomRightPOI" type="Node2D" parent="." unique_id=565622059 groups=["POI"]]
 
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=355737548]
+
 [connection signal="body_exited" from="PlayArea" to="." method="_on_play_area_body_exited"]

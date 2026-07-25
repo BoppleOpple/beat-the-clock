@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://cna1uay0kbei2"]
 
 [ext_resource type="PackedScene" uid="uid://b1anqspvwemms" path="res://actors/actor_base.tscn" id="1_oul6g"]
+[ext_resource type="Script" uid="uid://dnxrn16ekf7c4" path="res://player/player.gd" id="2_rkbax"]
 
 [node name="Player" unique_id=950486434 groups=["Players"] instance=ExtResource("1_oul6g")]
+script = ExtResource("2_rkbax")
 
-[node name="ColorRect" parent="." index="1" unique_id=1284086352]
+[node name="ColorRect" parent="Visual" parent_id_path=PackedInt32Array(1189846465) index="0" unique_id=1284086352]
 color = Color(0.35912582, 0.00096218183, 0.5341435, 1)

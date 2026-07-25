@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b1anqspvwemms"]
 
-[ext_resource type="Script" uid="uid://dnxrn16ekf7c4" path="res://player/player.gd" id="1_ua707"]
+[ext_resource type="Script" uid="uid://6jqvnhpbvgx2" path="res://actors/actor_base.gd" id="1_ii06v"]
 [ext_resource type="Texture2D" uid="uid://bj1jv65perrfq" path="res://assets/textures/player/eye_white.png" id="2_kayvg"]
 [ext_resource type="LabelSettings" uid="uid://drbt3tyycf7fi" path="res://assets/fonts/Default.tres" id="2_rkwqa"]
 [ext_resource type="Texture2D" uid="uid://dx80wff5swrsb" path="res://assets/textures/sword_slash/frame0.png" id="3_41w2c"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://catuyy0mef4xr" path="res://assets/textures/sword_slash/frame5.png" id="8_bncfn"]
 [ext_resource type="Texture2D" uid="uid://dmu1jd471d3qg" path="res://assets/textures/sword_slash/frame6.png" id="9_77ki2"]
 [ext_resource type="Texture2D" uid="uid://dkhr2me2kh6mi" path="res://assets/textures/particles/parry.png" id="10_ya2v2"]
+[ext_resource type="Texture2D" uid="uid://t5vxljo5ogd0" path="res://assets/textures/particles/death.png" id="14_3f5id"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rkbax"]
 friction = 0.2
@@ -20,12 +21,6 @@ bounce = 0.25
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ikrvj"]
 size = Vector2(40, 40)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_ikrvj"]
-radius = 21.0
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_3eufj"]
-size = Vector2(42, 42)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ikrvj"]
 animations = [{
@@ -60,6 +55,12 @@ animations = [{
 radius = 38.03295
 height = 118.982315
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ikrvj"]
+radius = 21.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3eufj"]
+size = Vector2(42, 42)
+
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_3eufj"]
 particles_animation = true
 particles_anim_h_frames = 4
@@ -77,19 +78,21 @@ point_count = 2
 
 [node name="ActorBase" type="RigidBody2D" unique_id=950486434 groups=["POI"]]
 physics_material_override = SubResource("PhysicsMaterial_rkbax")
-script = ExtResource("1_ua707")
+script = ExtResource("1_ii06v")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=817671182]
 shape = SubResource("RectangleShape2D_ikrvj")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1284086352]
+[node name="Visual" type="Node2D" parent="." unique_id=1189846465]
+
+[node name="ColorRect" type="ColorRect" parent="Visual" unique_id=1284086352]
 offset_left = -20.0
 offset_top = -20.0
 offset_right = 20.0
 offset_bottom = 20.0
 color = Color(0.5415082, 0.0023029603, 0.7923011, 1)
 
-[node name="ColorRect2" type="ColorRect" parent="." unique_id=548245300]
+[node name="ColorRect2" type="ColorRect" parent="Visual" unique_id=548245300]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -103,34 +106,53 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.7593363, 0.42972273, 1, 1)
 
-[node name="Eyes" type="Node2D" parent="ColorRect2" unique_id=1978566535]
+[node name="Eyes" type="Node2D" parent="Visual/ColorRect2" unique_id=1978566535]
 position = Vector2(18, 12)
 
-[node name="Left" type="Marker2D" parent="ColorRect2/Eyes" unique_id=54849393]
+[node name="Left" type="Marker2D" parent="Visual/ColorRect2/Eyes" unique_id=54849393]
 position = Vector2(-8, 0)
 
-[node name="LeftWhite" type="Sprite2D" parent="ColorRect2/Eyes/Left" unique_id=1289816596]
+[node name="LeftWhite" type="Sprite2D" parent="Visual/ColorRect2/Eyes/Left" unique_id=1289816596]
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_kayvg")
 
-[node name="LeftPupil" type="Sprite2D" parent="ColorRect2/Eyes" unique_id=1689938269 node_paths=PackedStringArray("socket")]
+[node name="LeftPupil" type="Sprite2D" parent="Visual/ColorRect2/Eyes" unique_id=1689938269 node_paths=PackedStringArray("socket")]
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_ii06v")
 script = ExtResource("4_ii06v")
 socket = NodePath("../Left")
 
-[node name="Right" type="Marker2D" parent="ColorRect2/Eyes" unique_id=970471203]
+[node name="Right" type="Marker2D" parent="Visual/ColorRect2/Eyes" unique_id=970471203]
 position = Vector2(8, 0)
 
-[node name="RightWhite" type="Sprite2D" parent="ColorRect2/Eyes/Right" unique_id=288399541]
+[node name="RightWhite" type="Sprite2D" parent="Visual/ColorRect2/Eyes/Right" unique_id=288399541]
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_kayvg")
 
-[node name="RightPupil" type="Sprite2D" parent="ColorRect2/Eyes" unique_id=1414802352 node_paths=PackedStringArray("socket")]
+[node name="RightPupil" type="Sprite2D" parent="Visual/ColorRect2/Eyes" unique_id=1414802352 node_paths=PackedStringArray("socket")]
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_ii06v")
 script = ExtResource("4_ii06v")
 socket = NodePath("../Right")
+
+[node name="GrenadeAnchor" type="Node2D" parent="Visual" unique_id=913797079]
+position = Vector2(0, -31)
+
+[node name="SwordAnchor" type="Node2D" parent="Visual" unique_id=1882660560]
+position = Vector2(20, 0)
+
+[node name="SwordSlash" type="AnimatedSprite2D" parent="Visual/SwordAnchor" unique_id=916335342]
+visible = false
+position = Vector2(50, -15)
+sprite_frames = SubResource("SpriteFrames_ikrvj")
+
+[node name="SlashCollision" type="Area2D" parent="Visual/SwordAnchor" unique_id=1804471]
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/SwordAnchor/SlashCollision" unique_id=263427324]
+position = Vector2(59, -19.999998)
+rotation = -0.45400715
+shape = SubResource("CapsuleShape2D_ikrvj")
 
 [node name="JumpCollisionBelow" type="Area2D" parent="." unique_id=1117522722]
 
@@ -142,9 +164,6 @@ shape = SubResource("CircleShape2D_ikrvj")
 
 [node name="Halo" type="CollisionShape2D" parent="JumpCollisionNearby" unique_id=218099469]
 shape = SubResource("RectangleShape2D_3eufj")
-
-[node name="GrenadeAnchor" type="Node2D" parent="." unique_id=913797079]
-position = Vector2(0, -31)
 
 [node name="Timers" type="Node2D" parent="." unique_id=1078520662]
 
@@ -213,22 +232,6 @@ grow_horizontal = 2
 grow_vertical = 0
 alignment = 2
 
-[node name="SwordAnchor" type="Node2D" parent="." unique_id=1882660560]
-position = Vector2(20, 0)
-
-[node name="SwordSlash" type="AnimatedSprite2D" parent="SwordAnchor" unique_id=916335342]
-visible = false
-position = Vector2(50, -15)
-sprite_frames = SubResource("SpriteFrames_ikrvj")
-
-[node name="SlashCollision" type="Area2D" parent="SwordAnchor" unique_id=1804471]
-monitoring = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SwordAnchor/SlashCollision" unique_id=263427324]
-position = Vector2(59, -19.999998)
-rotation = -0.45400715
-shape = SubResource("CapsuleShape2D_ikrvj")
-
 [node name="ParryParticles" type="CPUParticles2D" parent="." unique_id=13434136]
 material = SubResource("CanvasItemMaterial_3eufj")
 emitting = false
@@ -253,11 +256,28 @@ anim_speed_min = 1.0
 anim_speed_max = 1.0
 anim_speed_curve = SubResource("Curve_apgkt")
 
+[node name="DeathParticles" type="CPUParticles2D" parent="." unique_id=1955031428]
+emitting = false
+amount = 32
+texture = ExtResource("14_3f5id")
+lifetime = 3.0
+one_shot = true
+explosiveness = 1.0
+lifetime_randomness = 0.4
+emission_shape = 3
+emission_rect_extents = Vector2(10, 10)
+spread = 30.0
+initial_velocity_min = 100.0
+initial_velocity_max = 400.0
+scale_amount_min = 3.0
+scale_amount_max = 12.0
+
 [connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="animation_finished" from="Visual/SwordAnchor/SwordSlash" to="." method="_on_sword_slash_animation_finished"]
+[connection signal="body_entered" from="Visual/SwordAnchor/SlashCollision" to="." method="_on_slash_collision_body_entered"]
 [connection signal="body_exited" from="JumpCollisionBelow" to="." method="_on_jump_collision_below_body_exited"]
 [connection signal="body_entered" from="JumpCollisionNearby" to="." method="_on_jump_collision_nearby_body_entered"]
 [connection signal="timeout" from="Timers/PlayerClock" to="." method="_on_player_clock_timeout"]
 [connection signal="timeout" from="Timers/CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
 [connection signal="timeout" from="Timers/SlashStartupDelay" to="." method="_on_slash_startup_delay_timeout"]
-[connection signal="animation_finished" from="SwordAnchor/SwordSlash" to="." method="_on_sword_slash_animation_finished"]
-[connection signal="body_entered" from="SwordAnchor/SlashCollision" to="." method="_on_slash_collision_body_entered"]
+[connection signal="finished" from="DeathParticles" to="." method="_on_death_particles_finished"]

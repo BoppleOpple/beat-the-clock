@@ -7,6 +7,8 @@ const CAMERA_TRACKING_SCALE: float = 5.0
 const CAMERA_ZOOMING_SCALE: float = 10.0
 const CAMERA_PADDING: Vector2 = Vector2(200, 200)
 
+var player_spawn_point: Node2D
+
 ###########
 # METHODS #
 ###########
@@ -19,14 +21,21 @@ func _is_Node2D(node: Node) -> bool:
 func _is_ActorBase(node: Node) -> bool:
 		return node is ActorBase
 
+func _is_not_player_spawn (spawn: Node):
+	return spawn != player_spawn_point
+
 ### LOGIC ###
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	_on_player_respawn()
+	
 	var enemies: Array[Node] = get_tree().get_nodes_in_group("baddies").filter(_is_ActorBase)
 	
 	for actor in enemies:
 		actor.connect("throw_grenade", _on_player_throw_grenade)
+		_move_actor_to_spawn_point(actor)
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -75,6 +84,21 @@ func _get_camera_bounds() -> Rect2:
 	
 	return Rect2(min_corner, max_corner - min_corner)
 
+func _move_actor_to_spawn_point(actor: ActorBase) -> void:
+	var selected_spawn_location: Vector2 = Vector2.ZERO
+	
+	if actor is Player:
+		selected_spawn_location = player_spawn_point.global_position
+	else:
+		var spawn_points: Array[Node] = $Stage/SpawnPoints.get_children().filter(_is_Node2D)
+		
+		spawn_points = spawn_points.filter(_is_not_player_spawn)
+		
+		if not spawn_points.is_empty():
+			selected_spawn_location = spawn_points[randi_range(0, spawn_points.size() - 1)].global_position
+	
+	actor._teleport(selected_spawn_location)
+
 ####################
 # INCOMING SIGNALS #
 ####################
@@ -85,15 +109,12 @@ func _on_player_throw_grenade(position: Vector2, velocity: Vector2) -> void:
 	newGrenade.linear_velocity = velocity
 	$Objects.add_child(newGrenade)
 
-func _on_player_respawn_player() -> void:
-	$Player.queue_free()
-	$Player.name = "player_old"
+
+func _on_player_respawn() -> void:
+	var spawn_points: Array[Node] = $Stage/SpawnPoints.get_children().filter(_is_Node2D)
 	
-	var new_player: Player = PLAYER_SCENE.instantiate()
-	new_player.name = "Player"
+	# assign a spawn to the player
+	if not spawn_points.is_empty():
+		player_spawn_point = spawn_points[randi_range(0, spawn_points.size() - 1)]
 	
-	new_player.connect("respawn_player", _on_player_respawn_player)
-	new_player.connect("throw_grenade", _on_player_throw_grenade)
-	GameManager.player_ref = new_player
-	
-	self.add_child(new_player)
+	_move_actor_to_spawn_point($Player)

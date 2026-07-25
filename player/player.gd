@@ -17,7 +17,7 @@ func _ready() -> void:
 	GameManager.player_ref = self
 
 func _on_kill() -> void:
-	emit_signal("respawn_player")
+	emit_signal("respawn")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
@@ -49,4 +49,4 @@ func get_aim_direction() -> Vector2:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		return (get_global_mouse_position() - self.position).normalized()
 
-signal respawn_player()
+signal respawn()
