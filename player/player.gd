@@ -13,6 +13,8 @@ const JUMP_VELOCITY: Vector2 = Vector2(0, -600.0)
 const RIGHTING_TORQUE_SCALE: float = 10000.0
 
 const JUMPING_GRAVITY_SCALE: float = 0.7
+const JUMPING_TORQUE_SCALE: float = 50.0
+const JUMPING_TORQUE_MAX: float = 5000.0
 const AFTER_JUMPING_GRAVITY_SCALE: float = 1.5
 const DEFAULT_GRAVITY_SCALE: float = 1.0
 
@@ -75,6 +77,13 @@ func _physics_process(delta: float) -> void:
 		is_mid_jump = true
 		is_on_ground = false
 		self.set_axis_velocity(JUMP_VELOCITY)
+		
+		var jump_torque: float = clamp(
+			self.linear_velocity.x * JUMPING_TORQUE_SCALE,
+			-JUMPING_TORQUE_MAX,
+			JUMPING_TORQUE_MAX
+		)
+		self.apply_torque_impulse(jump_torque)
 	
 	# float (variable height + regrab)
 	if Input.is_action_pressed("gameplay_jump"):
