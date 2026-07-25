@@ -37,7 +37,7 @@ func _explode(other: Node2D) -> void:
 		var offset_vector: Vector2 = other.position - self.position
 		var velocity_scale: float = (1/offset_vector.length()) * BLAST_IMPULSE_SCALE
 		var impulse: Vector2 = offset_vector.normalized() * velocity_scale
-		if other is Player:
+		if other is ActorBase:
 			other.handle_knockback(impulse, self)
 		else:
 			other.apply_central_impulse(impulse)
