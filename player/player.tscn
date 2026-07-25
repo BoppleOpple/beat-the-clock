@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://cna1uay0kbei2"]
 
 [ext_resource type="Script" uid="uid://dnxrn16ekf7c4" path="res://player/player.gd" id="1_oul6g"]
-[ext_resource type="LabelSettings" uid="uid://drbt3tyycf7fi" path="res://assets/fonts/Default.tres" id="2_rkbax"]
 [ext_resource type="Texture2D" uid="uid://dx80wff5swrsb" path="res://assets/textures/sword_slash/frame0.png" id="2_rgyib"]
+[ext_resource type="LabelSettings" uid="uid://drbt3tyycf7fi" path="res://assets/fonts/Default.tres" id="2_rkbax"]
 [ext_resource type="Texture2D" uid="uid://bbvhyp3rc20ts" path="res://assets/textures/sword_slash/frame1.png" id="3_hg6s5"]
 [ext_resource type="Texture2D" uid="uid://drcy16s5fkool" path="res://assets/textures/sword_slash/frame2.png" id="4_8t03j"]
 [ext_resource type="Texture2D" uid="uid://bxv5qu8ebvt66" path="res://assets/textures/sword_slash/frame3.png" id="5_2ieo8"]
@@ -86,22 +86,6 @@ offset_right = 20.0
 offset_bottom = 20.0
 color = Color(0.7593363, 0.42972273, 1, 1)
 
-[node name="LeftAbilityTimer" type="Timer" parent="." unique_id=1406747833]
-process_callback = 0
-one_shot = true
-
-[node name="CoyoteTimer" type="Timer" parent="." unique_id=682038947]
-process_callback = 0
-one_shot = true
-
-[node name="SlashStartupDelay" type="Timer" parent="." unique_id=1068765181]
-wait_time = 0.25
-one_shot = true
-
-[node name="ParryTimer" type="Timer" parent="." unique_id=370265111]
-process_callback = 0
-one_shot = true
-
 [node name="JumpCollisionBelow" type="Area2D" parent="." unique_id=1117522722]
 
 [node name="BelowCollider" type="CollisionShape2D" parent="JumpCollisionBelow" unique_id=1295610869]
@@ -142,6 +126,14 @@ one_shot = true
 process_callback = 0
 one_shot = true
 
+[node name="SlashStartupDelay" type="Timer" parent="Timers" unique_id=1068765181]
+wait_time = 0.25
+one_shot = true
+
+[node name="ParryTimer" type="Timer" parent="Timers" unique_id=370265111]
+process_callback = 0
+one_shot = true
+
 [node name="VisualTimer" type="CanvasGroup" parent="Timers" unique_id=645785647]
 top_level = true
 position = Vector2(0, -23)
@@ -170,6 +162,7 @@ offset_bottom = -23.0
 grow_horizontal = 2
 grow_vertical = 0
 alignment = 2
+
 [node name="SwordAnchor" type="Node2D" parent="." unique_id=1882660560]
 position = Vector2(20, 0)
 
@@ -211,11 +204,10 @@ anim_speed_max = 1.0
 anim_speed_curve = SubResource("Curve_apgkt")
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
-[connection signal="timeout" from="CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
-[connection signal="timeout" from="SlashStartupDelay" to="." method="_on_slash_startup_delay_timeout"]
 [connection signal="body_exited" from="JumpCollisionBelow" to="." method="_on_jump_collision_below_body_exited"]
 [connection signal="body_entered" from="JumpCollisionNearby" to="." method="_on_jump_collision_nearby_body_entered"]
 [connection signal="timeout" from="Timers/PlayerClock" to="." method="_on_player_clock_timeout"]
 [connection signal="timeout" from="Timers/CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
+[connection signal="timeout" from="Timers/SlashStartupDelay" to="." method="_on_slash_startup_delay_timeout"]
 [connection signal="animation_finished" from="SwordAnchor/SwordSlash" to="." method="_on_sword_slash_animation_finished"]
 [connection signal="body_entered" from="SwordAnchor/SlashCollision" to="." method="_on_slash_collision_body_entered"]
