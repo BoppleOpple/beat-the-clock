@@ -6,9 +6,10 @@
 [node name="StageBase" unique_id=12831427 instance=ExtResource("1_yiruv")]
 
 [node name="FinalDestination" parent="Platforms" parent_id_path=PackedInt32Array(1209469810) index="0" unique_id=943197408 instance=ExtResource("3_41ybw")]
+position = Vector2(0, 176)
 
-[node name="TopLeftPOI" parent="." index="5" unique_id=878759041]
+[node name="TopLeftPOI" parent="." index="3" unique_id=878759041]
 position = Vector2(-567, -154)
 
-[node name="BottomRightPOI" parent="." index="6" unique_id=565622059]
+[node name="BottomRightPOI" parent="." index="4" unique_id=565622059]
 position = Vector2(567, 237)
