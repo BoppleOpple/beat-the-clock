@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dph6l0nqt4m0p"]
+
+[ext_resource type="PackedScene" uid="uid://b1anqspvwemms" path="res://actors/actor_base.tscn" id="1_d0nw6"]
+[ext_resource type="Script" uid="uid://g711xll2ltvp" path="res://actors/enemies/enemy_base.gd" id="2_4d8hh"]
+
+[node name="EnemyBase" unique_id=950486434 instance=ExtResource("1_d0nw6")]
+script = ExtResource("2_4d8hh")
+
+[node name="ColorRect" parent="." index="1" unique_id=1284086352]
+color = Color(0.9722486, 0.38292152, 0.48270053, 1)
+
+[node name="StateTransitionTimer" type="Timer" parent="Timers" parent_id_path=PackedInt32Array(1078520662) index="8" unique_id=742549887]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="timeout" from="Timers/StateTransitionTimer" to="." method="_on_state_transition_timer_timeout"]

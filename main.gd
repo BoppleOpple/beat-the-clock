@@ -4,7 +4,11 @@ const GRENADE_SCENE = preload("res://actors/objects/grenade.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	var enemies: Array[Node] = get_tree().get_nodes_in_group("baddies")
+	
+	for node in enemies:
+		if node is ActorBase:
+			node.connect("throw_grenade", _on_player_throw_grenade)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
