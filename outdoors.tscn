@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://cm2piyra7snue"]
+
+[ext_resource type="PackedScene" uid="uid://dwt17i7gpe4e" path="res://stages/stage_base.tscn" id="1_h8hoj"]
+[ext_resource type="PackedScene" uid="uid://dw2g6eoux7bwu" path="res://stages/components/outdoors.tscn" id="2_wm836"]
+
+[node name="StageBase" unique_id=12831427 instance=ExtResource("1_h8hoj")]
+
+[node name="Outdoors" parent="Platforms" parent_id_path=PackedInt32Array(1209469810) index="0" unique_id=943197408 instance=ExtResource("2_wm836")]
+
+[node name="TopLeftPOI" parent="." index="3" unique_id=878759041]
+position = Vector2(-768, -275)
+
+[node name="BottomRightPOI" parent="." index="4" unique_id=565622059]
+position = Vector2(844, 348)
+
+[node name="Marker2D" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(355737548) index="0" unique_id=897074003]
+position = Vector2(-610, -189)
+
+[node name="Marker2D2" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(355737548) index="1" unique_id=216634880]
+position = Vector2(290, -117)
+
+[node name="Marker2D3" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(355737548) index="2" unique_id=834016510]
+position = Vector2(-445, 120)
+
+[node name="Marker2D4" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(355737548) index="3" unique_id=1834022316]
+position = Vector2(729, -23)
