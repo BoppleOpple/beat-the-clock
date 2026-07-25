@@ -29,6 +29,7 @@ func _on_options_pressed() -> void:
 
 
 func _on_reset_pressed() -> void:
+	get_tree().paused = false
 	get_tree().reload_current_scene()
 	$Popup.visible = false
 
