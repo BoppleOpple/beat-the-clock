@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bdk1wvta33iaf" path="res://assets/textures/grenade.png" id="1_wy5h0"]
 [ext_resource type="Texture2D" uid="uid://c77mdpuqrvjha" path="res://assets/textures/smoke/VFX4/frames/Smoke&Dust_skill4_frame1.png" id="2_4s3iq"]
 [ext_resource type="Texture2D" uid="uid://cqch7sobyv11s" path="res://assets/textures/smoke/VFX4/frames/Smoke&Dust_skill4_frame2.png" id="3_o4cp4"]
+[ext_resource type="Texture2D" uid="uid://b6kwy1fbsm68a" path="res://assets/textures/grenade_flash.png" id="3_oxcb1"]
 [ext_resource type="Texture2D" uid="uid://dtuc8gclo24cj" path="res://assets/textures/smoke/VFX4/frames/Smoke&Dust_skill4_frame3.png" id="4_oxcb1"]
 [ext_resource type="Texture2D" uid="uid://xbhhnip72tjj" path="res://assets/textures/smoke/VFX4/frames/Smoke&Dust_skill4_frame4.png" id="5_7egtf"]
 [ext_resource type="Texture2D" uid="uid://67fg0uewjsqx" path="res://assets/textures/smoke/VFX4/frames/Smoke&Dust_skill4_frame5.png" id="6_xpw0j"]
@@ -59,8 +60,11 @@ _limits = [0.0, 10.0, 0.0, 1.0]
 _data = [Vector2(0, 1), 0.0, 12.624314, 0, 0, Vector2(0.23049647, 2.471264), 0.0, 0.0, 0, 0, Vector2(1, 3.6781607), -0.24555911, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_3eufj"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_o4cp4"]
 radius = 150.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3eufj"]
+radius = 20.0
 
 [node name="Grenade" type="RigidBody2D" unique_id=1611287196]
 script = ExtResource("1_o4cp4")
@@ -72,6 +76,18 @@ shape = SubResource("CircleShape2D_ikrvj")
 position = Vector2(0, -4)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("1_wy5h0")
+
+[node name="FlashGrenadeSprite" type="Sprite2D" parent="." unique_id=711900937]
+visible = false
+position = Vector2(0, -4)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("3_oxcb1")
+
+[node name="PrimedTimer" type="Timer" parent="." unique_id=2143671294]
+process_callback = 0
+wait_time = 0.2
+one_shot = true
+autostart = true
 
 [node name="Fuse" type="Timer" parent="." unique_id=1294952294]
 wait_time = 3.0
@@ -113,8 +129,14 @@ anim_speed_curve = SubResource("Curve_apgkt")
 monitorable = false
 
 [node name="Collider" type="CollisionShape2D" parent="BlastZone" unique_id=540066610]
-position = Vector2(2, -4)
+shape = SubResource("CircleShape2D_o4cp4")
+
+[node name="TriggerZone" type="Area2D" parent="." unique_id=1275388026]
+monitorable = false
+
+[node name="Collider" type="CollisionShape2D" parent="TriggerZone" unique_id=215656647]
 shape = SubResource("CircleShape2D_3eufj")
 
 [connection signal="timeout" from="Fuse" to="." method="_on_fuse_timeout"]
 [connection signal="finished" from="Smoke" to="." method="_on_smoke_finished"]
+[connection signal="body_entered" from="TriggerZone" to="." method="_on_trigger_zone_body_entered"]

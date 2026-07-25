@@ -24,6 +24,7 @@ const DASH_VELOCITY_SCALE: float = 800.0
 const DASH_RECHARGE: float = 2.0
 
 const GRENADE_VELOCITY_SCALE: float = 500.0
+const GRENADE_SPAWN_DISTANCE: float = 30.0
 
 const PLAYER_TIMER_OFFSET: Vector2 = Vector2(-30,-25)
 
@@ -35,7 +36,7 @@ const SWORD_IMPULSE_UPKICK: float = 500.0
 
 const PARRY_PARTICLE_DISTANCE: float = 25
 
-const HITSTUN_DURATION: float = 1.0
+const HITSTUN_DURATION: float = 0.8
 
 ###########
 # CLASSES #
@@ -177,8 +178,8 @@ func _perform_dash() -> void:
 	self.set_axis_velocity(get_aim_direction() * DASH_VELOCITY_SCALE)
 
 func _throw_grenade() -> void:
-	var pos: Vector2 = $Visual/GrenadeAnchor.global_position
 	var vel: Vector2 = get_aim_direction() * GRENADE_VELOCITY_SCALE
+	var pos: Vector2 = self.global_position + get_aim_direction() * GRENADE_SPAWN_DISTANCE
 	
 	vel += self.linear_velocity
 	
