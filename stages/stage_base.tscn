@@ -18,4 +18,8 @@ shape = SubResource("RectangleShape2D_ikrvj")
 
 [node name="Platforms" type="Node2D" parent="." unique_id=1209469810]
 
+[node name="TopLeftPOI" type="Node2D" parent="." unique_id=878759041 groups=["POI"]]
+
+[node name="BottomRightPOI" type="Node2D" parent="." unique_id=565622059 groups=["POI"]]
+
 [connection signal="body_exited" from="PlayArea" to="." method="_on_play_area_body_exited"]

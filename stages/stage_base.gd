@@ -10,6 +10,5 @@ func _process(delta: float) -> void:
 	pass
 
 func _on_play_area_body_exited(body: Node2D) -> void:
-	print(body.name)
 	if body is ActorBase:
 		body.kill(true)
