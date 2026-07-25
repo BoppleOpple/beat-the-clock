@@ -1,5 +1,17 @@
 [gd_scene format=3 uid="uid://cna1uay0kbei2"]
 
 [ext_resource type="PackedScene" uid="uid://b1anqspvwemms" path="res://actors/actor_base.tscn" id="1_oul6g"]
+[ext_resource type="Script" uid="uid://vnawmbuhjsdc" path="res://actors/helper/right_eyeball.gd" id="2_rkbax"]
 
 [node name="Player" unique_id=950486434 groups=["Players"] instance=ExtResource("1_oul6g")]
+
+[node name="ColorRect" parent="." index="1" unique_id=1284086352]
+color = Color(0.35912582, 0.00096218183, 0.5341435, 1)
+
+[node name="Pupil" parent="ColorRect2/Eyes/Left" parent_id_path=PackedInt32Array(1531300129) index="1" unique_id=2049697931 node_paths=PackedStringArray("socket")]
+socket = NodePath("..")
+
+[node name="Pupil" parent="ColorRect2/Eyes/Right" parent_id_path=PackedInt32Array(574871192) index="1" unique_id=818701939 node_paths=PackedStringArray("socket")]
+script = ExtResource("2_rkbax")
+socket = NodePath("..")
+

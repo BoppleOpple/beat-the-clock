@@ -1,9 +1,12 @@
 [gd_scene format=3 uid="uid://b1anqspvwemms"]
 
 [ext_resource type="Script" uid="uid://dnxrn16ekf7c4" path="res://player/player.gd" id="1_ua707"]
+[ext_resource type="Texture2D" uid="uid://bj1jv65perrfq" path="res://assets/textures/player/eye_white.png" id="2_kayvg"]
 [ext_resource type="LabelSettings" uid="uid://drbt3tyycf7fi" path="res://assets/fonts/Default.tres" id="2_rkwqa"]
 [ext_resource type="Texture2D" uid="uid://dx80wff5swrsb" path="res://assets/textures/sword_slash/frame0.png" id="3_41w2c"]
+[ext_resource type="Texture2D" uid="uid://dxpvadauhx2xv" path="res://assets/textures/player/eye_pupil.png" id="3_ii06v"]
 [ext_resource type="Texture2D" uid="uid://bbvhyp3rc20ts" path="res://assets/textures/sword_slash/frame1.png" id="4_5nkr1"]
+[ext_resource type="Script" uid="uid://bxfxxi31uo80h" path="res://actors/helper/eyeball.gd" id="4_ii06v"]
 [ext_resource type="Texture2D" uid="uid://drcy16s5fkool" path="res://assets/textures/sword_slash/frame2.png" id="5_31m4k"]
 [ext_resource type="Texture2D" uid="uid://bxv5qu8ebvt66" path="res://assets/textures/sword_slash/frame3.png" id="6_opp7g"]
 [ext_resource type="Texture2D" uid="uid://s6ij4jjh6psh" path="res://assets/textures/sword_slash/frame4.png" id="7_jglmw"]
@@ -84,7 +87,50 @@ offset_left = -20.0
 offset_top = -20.0
 offset_right = 20.0
 offset_bottom = 20.0
+color = Color(0.5415082, 0.0023029603, 0.7923011, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="." unique_id=548245300]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -18.0
+offset_right = 18.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0.7593363, 0.42972273, 1, 1)
+
+[node name="Eyes" type="Node2D" parent="ColorRect2" unique_id=1978566535]
+position = Vector2(18, 12)
+
+[node name="Left" type="Marker2D" parent="ColorRect2/Eyes" unique_id=54849393]
+position = Vector2(-8, 0)
+
+[node name="LeftWhite" type="Sprite2D" parent="ColorRect2/Eyes/Left" unique_id=1289816596]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_kayvg")
+
+[node name="LeftPupil" type="Sprite2D" parent="ColorRect2/Eyes" unique_id=1689938269 node_paths=PackedStringArray("socket")]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_ii06v")
+script = ExtResource("4_ii06v")
+socket = NodePath("../Left")
+
+[node name="Right" type="Marker2D" parent="ColorRect2/Eyes" unique_id=970471203]
+position = Vector2(8, 0)
+
+[node name="RightWhite" type="Sprite2D" parent="ColorRect2/Eyes/Right" unique_id=288399541]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_kayvg")
+
+[node name="RightPupil" type="Sprite2D" parent="ColorRect2/Eyes" unique_id=1414802352 node_paths=PackedStringArray("socket")]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_ii06v")
+script = ExtResource("4_ii06v")
+socket = NodePath("../Right")
 
 [node name="JumpCollisionBelow" type="Area2D" parent="." unique_id=1117522722]
 
