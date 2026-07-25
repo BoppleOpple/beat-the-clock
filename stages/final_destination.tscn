@@ -1,18 +1,8 @@
 [gd_scene format=3 uid="uid://cebxki01pqopu"]
 
-[ext_resource type="PackedScene" uid="uid://chcg32tbpqvul" path="res://stages/components/fixed_platform.tscn" id="1_eqweo"]
 [ext_resource type="PackedScene" uid="uid://dwt17i7gpe4e" path="res://stages/stage_base.tscn" id="1_yiruv"]
+[ext_resource type="PackedScene" uid="uid://bc17c1er3jxgq" path="res://stages/components/final_destination_platforms.tscn" id="3_41ybw"]
 
 [node name="StageBase" unique_id=12831427 instance=ExtResource("1_yiruv")]
 
-[node name="MainPlatform" parent="." index="2" unique_id=706239347 instance=ExtResource("1_eqweo")]
-position = Vector2(0, 201)
-scale = Vector2(56.693, 3.5480018)
-
-[node name="SmallLeft" parent="." index="3" unique_id=662962617 instance=ExtResource("1_eqweo")]
-position = Vector2(-301, 0.99999714)
-scale = Vector2(-11.086036, 1.6930192)
-
-[node name="SmallRight" parent="." index="4" unique_id=1991766488 instance=ExtResource("1_eqweo")]
-position = Vector2(301, 0.99999714)
-scale = Vector2(-11.086036, 1.6930192)
+[node name="FinalDestination" parent="Platforms" parent_id_path=PackedInt32Array(1209469810) index="0" unique_id=943197408 instance=ExtResource("3_41ybw")]

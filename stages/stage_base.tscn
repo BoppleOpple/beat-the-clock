@@ -16,4 +16,6 @@ script = ExtResource("1_ehppb")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayArea" unique_id=1851398389]
 shape = SubResource("RectangleShape2D_ikrvj")
 
+[node name="Platforms" type="Node2D" parent="." unique_id=1209469810]
+
 [connection signal="body_exited" from="PlayArea" to="." method="_on_play_area_body_exited"]
