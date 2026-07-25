@@ -3,7 +3,49 @@
 [ext_resource type="Script" uid="uid://btmyiech8ybid" path="res://ui/hud/hud.gd" id="1_7ihmi"]
 [ext_resource type="Texture2D" uid="uid://bscxd7id3ahll" path="res://assets/textures/ability_bg.png" id="1_rbyyf"]
 [ext_resource type="Texture2D" uid="uid://da66hbj2d3yek" path="res://assets/textures/ability_fg.png" id="2_546lt"]
+[ext_resource type="Texture2D" uid="uid://c2aapf7sri2wb" path="res://assets/textures/icons/inputs/kb_dark_symbols.png" id="2_kwc50"]
+[ext_resource type="Texture2D" uid="uid://c1pcltv5ct8ix" path="res://assets/textures/icons/inputs/controller_minimal.png" id="3_imuuq"]
 [ext_resource type="AudioStream" uid="uid://c4mvmv8fx47i2" path="res://assets/audio/music/battle/bg.mp3" id="5_imuuq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kwc50"]
+atlas = ExtResource("2_kwc50")
+region = Rect2(0, 80, 16, 16)
+margin = Rect2(15, 0, 30, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o2lis"]
+atlas = ExtResource("3_imuuq")
+region = Rect2(128, 80, 16, 16)
+margin = Rect2(15, 0, 30, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gfles"]
+atlas = ExtResource("3_imuuq")
+region = Rect2(16, 176, 16, 16)
+margin = Rect2(15, 0, 30, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aixkq"]
+atlas = ExtResource("3_imuuq")
+region = Rect2(48, 176, 16, 16)
+margin = Rect2(15, 0, 30, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cxhb7"]
+atlas = ExtResource("3_imuuq")
+region = Rect2(32, 176, 16, 16)
+margin = Rect2(15, 0, 30, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nkf4j"]
+atlas = ExtResource("3_imuuq")
+region = Rect2(48, 0, 16, 16)
+margin = Rect2(15, 0, 30, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_imuuq"]
+atlas = ExtResource("3_imuuq")
+region = Rect2(64, 0, 16, 16)
+margin = Rect2(15, 0, 30, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xyi7a"]
+atlas = ExtResource("3_imuuq")
+region = Rect2(80, 0, 16, 16)
+margin = Rect2(15, 0, 30, 0)
 
 [node name="HUD" type="Control" unique_id=2141567131]
 layout_mode = 3
@@ -30,26 +72,88 @@ offset_top = -260.0
 offset_right = 392.0
 grow_vertical = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="AbilityBG/VBoxContainer" unique_id=2024585897]
+[node name="UpperIcons_KB" type="HBoxContainer" parent="AbilityBG/VBoxContainer" unique_id=802353795]
+custom_minimum_size = Vector2(64, 48)
+layout_mode = 2
+size_flags_vertical = 8
+alignment = 1
+
+[node name="AbilityC" type="TextureRect" parent="AbilityBG/VBoxContainer/UpperIcons_KB" unique_id=1783709658]
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+texture = SubResource("AtlasTexture_kwc50")
+
+[node name="UpperIcons_Con" type="HBoxContainer" parent="AbilityBG/VBoxContainer" unique_id=1759374932]
+custom_minimum_size = Vector2(64, 48)
+layout_mode = 2
+size_flags_vertical = 8
+alignment = 1
+
+[node name="AbilityC" type="TextureRect" parent="AbilityBG/VBoxContainer/UpperIcons_Con" unique_id=706661170]
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+texture = SubResource("AtlasTexture_o2lis")
+
+[node name="UpperAbilities" type="HBoxContainer" parent="AbilityBG/VBoxContainer" unique_id=2024585897]
 layout_mode = 2
 alignment = 1
 
-[node name="AbilityC" type="TextureRect" parent="AbilityBG/VBoxContainer/HBoxContainer" unique_id=606660650]
+[node name="AbilityC" type="TextureRect" parent="AbilityBG/VBoxContainer/UpperAbilities" unique_id=606660650]
 layout_mode = 2
 texture = ExtResource("1_rbyyf")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="AbilityBG/VBoxContainer" unique_id=1943359474]
+[node name="LowerIcons_KB" type="HBoxContainer" parent="AbilityBG/VBoxContainer" unique_id=677349737]
+custom_minimum_size = Vector2(64, 48)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="Ability1" type="TextureRect" parent="AbilityBG/VBoxContainer/LowerIcons_KB" unique_id=73211635]
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+texture = SubResource("AtlasTexture_gfles")
+
+[node name="Ability2" type="TextureRect" parent="AbilityBG/VBoxContainer/LowerIcons_KB" unique_id=596818189]
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+texture = SubResource("AtlasTexture_aixkq")
+
+[node name="Ability3" type="TextureRect" parent="AbilityBG/VBoxContainer/LowerIcons_KB" unique_id=1944101211]
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+texture = SubResource("AtlasTexture_cxhb7")
+
+[node name="LowerIcons_Con" type="HBoxContainer" parent="AbilityBG/VBoxContainer" unique_id=1927957155]
+custom_minimum_size = Vector2(64, 48)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="Ability1" type="TextureRect" parent="AbilityBG/VBoxContainer/LowerIcons_Con" unique_id=1308614951]
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+texture = SubResource("AtlasTexture_nkf4j")
+
+[node name="Ability2" type="TextureRect" parent="AbilityBG/VBoxContainer/LowerIcons_Con" unique_id=974220750]
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+texture = SubResource("AtlasTexture_imuuq")
+
+[node name="Ability3" type="TextureRect" parent="AbilityBG/VBoxContainer/LowerIcons_Con" unique_id=1574326938]
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+texture = SubResource("AtlasTexture_xyi7a")
+
+[node name="LowerAbilities" type="HBoxContainer" parent="AbilityBG/VBoxContainer" unique_id=1943359474]
 layout_mode = 2
 
-[node name="Ability1" type="TextureRect" parent="AbilityBG/VBoxContainer/HBoxContainer2" unique_id=1198386569]
+[node name="Ability1" type="TextureRect" parent="AbilityBG/VBoxContainer/LowerAbilities" unique_id=1198386569]
 layout_mode = 2
 texture = ExtResource("1_rbyyf")
 
-[node name="Ability2" type="TextureRect" parent="AbilityBG/VBoxContainer/HBoxContainer2" unique_id=558691051]
+[node name="Ability2" type="TextureRect" parent="AbilityBG/VBoxContainer/LowerAbilities" unique_id=558691051]
 layout_mode = 2
 texture = ExtResource("1_rbyyf")
 
-[node name="Ability3" type="TextureRect" parent="AbilityBG/VBoxContainer/HBoxContainer2" unique_id=548946715]
+[node name="Ability3" type="TextureRect" parent="AbilityBG/VBoxContainer/LowerAbilities" unique_id=548946715]
 layout_mode = 2
 texture = ExtResource("1_rbyyf")
 
@@ -71,35 +175,40 @@ offset_top = -128.0
 offset_right = 128.0
 grow_vertical = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="AbilityFG/VBoxContainer" unique_id=604967215]
+[node name="UpperAbilities" type="HBoxContainer" parent="AbilityFG/VBoxContainer" unique_id=604967215]
 layout_mode = 2
 alignment = 1
 
-[node name="AbilityC" type="TextureProgressBar" parent="AbilityFG/VBoxContainer/HBoxContainer" unique_id=1981710678]
+[node name="AbilityC" type="TextureProgressBar" parent="AbilityFG/VBoxContainer/UpperAbilities" unique_id=1981710678]
 layout_mode = 2
 step = 0.0
 value = 100.0
 fill_mode = 3
 texture_progress = ExtResource("2_546lt")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="AbilityFG/VBoxContainer" unique_id=844362282]
+[node name="Spacer" type="HBoxContainer" parent="AbilityFG/VBoxContainer" unique_id=1862172889]
+custom_minimum_size = Vector2(64, 48)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="LowerAbilities" type="HBoxContainer" parent="AbilityFG/VBoxContainer" unique_id=844362282]
 layout_mode = 2
 
-[node name="Ability1" type="TextureProgressBar" parent="AbilityFG/VBoxContainer/HBoxContainer2" unique_id=807796088]
+[node name="Ability1" type="TextureProgressBar" parent="AbilityFG/VBoxContainer/LowerAbilities" unique_id=807796088]
 layout_mode = 2
 step = 0.0
 value = 100.0
 fill_mode = 3
 texture_progress = ExtResource("2_546lt")
 
-[node name="Ability2" type="TextureProgressBar" parent="AbilityFG/VBoxContainer/HBoxContainer2" unique_id=625141605]
+[node name="Ability2" type="TextureProgressBar" parent="AbilityFG/VBoxContainer/LowerAbilities" unique_id=625141605]
 layout_mode = 2
 step = 0.0
 value = 66.0
 fill_mode = 3
 texture_progress = ExtResource("2_546lt")
 
-[node name="Ability3" type="TextureProgressBar" parent="AbilityFG/VBoxContainer/HBoxContainer2" unique_id=1161439206]
+[node name="Ability3" type="TextureProgressBar" parent="AbilityFG/VBoxContainer/LowerAbilities" unique_id=1161439206]
 layout_mode = 2
 step = 0.0
 value = 33.0

@@ -12,7 +12,7 @@ script = ExtResource("1_moj0k")
 [node name="Popup" type="CanvasLayer" parent="." unique_id=1096600790]
 visible = false
 
-[node name="Menu Buttons" type="VBoxContainer" parent="Popup" unique_id=1173054990]
+[node name="MenuButtons" type="VBoxContainer" parent="Popup" unique_id=1173054990]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -27,28 +27,28 @@ grow_vertical = 2
 theme_override_constants/separation = 32
 alignment = 1
 
-[node name="Back" type="Button" parent="Popup/Menu Buttons" unique_id=1867729600]
+[node name="Back" type="Button" parent="Popup/MenuButtons" unique_id=1867729600]
 layout_mode = 2
 theme_override_constants/outline_size = 6
 theme_override_fonts/font = ExtResource("2_ve8qa")
 theme_override_font_sizes/font_size = 32
 text = "Back"
 
-[node name="Options" type="Button" parent="Popup/Menu Buttons" unique_id=1858536671]
+[node name="Options" type="Button" parent="Popup/MenuButtons" unique_id=1858536671]
 layout_mode = 2
 theme_override_constants/outline_size = 6
 theme_override_fonts/font = ExtResource("2_ve8qa")
 theme_override_font_sizes/font_size = 32
 text = "Options"
 
-[node name="Reset" type="Button" parent="Popup/Menu Buttons" unique_id=1065036640]
+[node name="Reset" type="Button" parent="Popup/MenuButtons" unique_id=1065036640]
 layout_mode = 2
 theme_override_constants/outline_size = 6
 theme_override_fonts/font = ExtResource("2_ve8qa")
 theme_override_font_sizes/font_size = 32
 text = "Restart"
 
-[node name="MainMenu" type="Button" parent="Popup/Menu Buttons" unique_id=1041824206]
+[node name="MainMenu" type="Button" parent="Popup/MenuButtons" unique_id=1041824206]
 layout_mode = 2
 theme_override_constants/outline_size = 6
 theme_override_fonts/font = ExtResource("2_ve8qa")
@@ -58,7 +58,8 @@ text = "Main Menu"
 [node name="Options" parent="Popup" unique_id=377516718 instance=ExtResource("3_fuq3x")]
 visible = false
 
-[connection signal="pressed" from="Popup/Menu Buttons/Back" to="." method="_on_back_pressed"]
-[connection signal="pressed" from="Popup/Menu Buttons/Options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="Popup/Menu Buttons/Reset" to="." method="_on_reset_pressed"]
-[connection signal="pressed" from="Popup/Menu Buttons/MainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="Popup/MenuButtons/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="Popup/MenuButtons/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Popup/MenuButtons/Reset" to="." method="_on_reset_pressed"]
+[connection signal="pressed" from="Popup/MenuButtons/MainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="focus_reset" from="Popup/Options" to="." method="_on_options_focus_reset"]

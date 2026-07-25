@@ -19,10 +19,15 @@ func _process(delta: float) -> void:
 	pass
 
 func _on_visibility_changed() -> void:
+	if self.visible == false:
+		return
 	temp_options = GameManager.options
 	if temp_options == null or temp_options.framerate == null:
 		return
 	$"Margin/HSplitContainer/Left Column/Display".disabled = true
+	$"Margin/HSplitContainer/Left Column/Audio".disabled = false
+	$"Margin/HSplitContainer/Right Column/Display".show()
+	$"Margin/HSplitContainer/Right Column/Audio".hide()
 	$"Margin/HSplitContainer/Right Column/Display/Resolution".select(2)
 	$"Margin/HSplitContainer/Right Column/Display/Fullscreen".button_pressed = temp_options.fullscreen
 	$"Margin/HSplitContainer/Right Column/Display/VSync".button_pressed = temp_options.vsync
@@ -45,8 +50,11 @@ func _on_apply_pressed() -> void:
 	GameManager.save_options()
 
 func _on_back_pressed() -> void:
+	GameManager.options = temp_options
+	GameManager.save_options()
 	self.hide()
 	temp_options = GameManager.options
+	emit_signal("focus_reset")
 
 func _on_reset_pressed() -> void:
 	temp_options = Options.new()
@@ -134,3 +142,9 @@ func _on_sfx_volume_value_changed(value: float) -> void:
 	temp_options.volume_sfx = $"Margin/HSplitContainer/Right Column/Audio/SFXVolume".value
 	$"Margin/HSplitContainer/Right Column/Audio/SFXVolumeLabel/Value".text = str(temp_options.volume_sfx, "%")
 	GameManager.set_sfx_volume(temp_options.volume_sfx / 100.0)
+	
+####################
+# OUTGOING SIGNALS #
+####################
+
+signal focus_reset()

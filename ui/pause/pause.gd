@@ -16,6 +16,7 @@ func _process(delta: float) -> void:
 		if $Popup/Options.visible:
 			$Popup/Options._on_back_pressed()
 			$Popup/Options.hide()
+		$Popup/MenuButtons/Back.grab_focus()
 		
 
 
@@ -26,6 +27,7 @@ func _on_back_pressed() -> void:
 
 func _on_options_pressed() -> void:
 	$Popup/Options.show()
+	$"Popup/Options/Margin/HSplitContainer/Left Column/Display".grab_focus()
 
 
 func _on_reset_pressed() -> void:
@@ -37,3 +39,7 @@ func _on_reset_pressed() -> void:
 func _on_main_menu_pressed() -> void:
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://ui/main_menu/main_menu.tscn")
+
+
+func _on_options_focus_reset() -> void:
+	$Popup/MenuButtons/Back.grab_focus()
