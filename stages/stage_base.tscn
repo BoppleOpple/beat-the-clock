@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://dwt17i7gpe4e"]
+
+[ext_resource type="Script" uid="uid://b84uv1ow28lap" path="res://stages/stage_base.gd" id="1_ehppb"]
+[ext_resource type="PackedScene" uid="uid://d1ckkl2q5xd4s" path="res://ui/bg/background.tscn" id="1_taw8g"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ikrvj"]
+size = Vector2(2500, 1000)
+
+[node name="StageBase" type="Node2D" unique_id=12831427]
+script = ExtResource("1_ehppb")
+
+[node name="Background" parent="." unique_id=1375401043 instance=ExtResource("1_taw8g")]
+
+[node name="PlayArea" type="Area2D" parent="." unique_id=905542048]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayArea" unique_id=1851398389]
+shape = SubResource("RectangleShape2D_ikrvj")
+
+[connection signal="body_exited" from="PlayArea" to="." method="_on_play_area_body_exited"]

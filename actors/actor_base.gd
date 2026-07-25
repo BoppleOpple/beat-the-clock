@@ -193,6 +193,11 @@ func handle_knockback(impulse: Vector2, source: Node2D) -> void:
 		$ParryParticles.rotation = parry_rotation
 		$ParryParticles.emitting = true
 
+func kill(force: bool = false):
+	# TODO add preventable death maybe
+	if force or true:
+		print("dead")
+
 func _handle_mod_timer(time: float) -> void:
 	var label = Label.new()
 	$Timers/VisualTimer/TimerLabel/ModTime.add_child(label)
@@ -273,7 +278,7 @@ func _on_slash_collision_body_entered(body: Node2D) -> void:
 			body.when_slashed()
 	
 func _on_player_clock_timeout() -> void:
-	print("dead")
+	kill(true)
 
 ####################
 # OUTGOING SIGNALS #
