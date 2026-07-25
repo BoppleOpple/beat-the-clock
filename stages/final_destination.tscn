@@ -1,19 +1,18 @@
 [gd_scene format=3 uid="uid://cebxki01pqopu"]
 
 [ext_resource type="PackedScene" uid="uid://chcg32tbpqvul" path="res://stages/components/fixed_platform.tscn" id="1_eqweo"]
-[ext_resource type="PackedScene" uid="uid://d1ckkl2q5xd4s" path="res://ui/bg/background.tscn" id="1_yiruv"]
+[ext_resource type="PackedScene" uid="uid://dwt17i7gpe4e" path="res://stages/stage_base.tscn" id="1_yiruv"]
 
-[node name="FinalDestination" type="Node2D" unique_id=12831427]
+[node name="StageBase" unique_id=12831427 instance=ExtResource("1_yiruv")]
 
-[node name="Background" parent="." unique_id=1375401043 instance=ExtResource("1_yiruv")]
-
-[node name="MainPlatform" parent="." unique_id=706239347 instance=ExtResource("1_eqweo")]
+[node name="MainPlatform" parent="." index="2" unique_id=706239347 instance=ExtResource("1_eqweo")]
+position = Vector2(0, 201)
 scale = Vector2(56.693, 3.5480018)
 
-[node name="SmallLeft" parent="." unique_id=2016971759 instance=ExtResource("1_eqweo")]
-position = Vector2(-301, -200)
+[node name="SmallLeft" parent="." index="3" unique_id=662962617 instance=ExtResource("1_eqweo")]
+position = Vector2(-301, 0.99999714)
 scale = Vector2(-11.086036, 1.6930192)
 
-[node name="SmallRight" parent="." unique_id=647153720 instance=ExtResource("1_eqweo")]
-position = Vector2(301, -200)
+[node name="SmallRight" parent="." index="4" unique_id=1991766488 instance=ExtResource("1_eqweo")]
+position = Vector2(301, 0.99999714)
 scale = Vector2(-11.086036, 1.6930192)
