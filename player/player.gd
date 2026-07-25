@@ -1,3 +1,4 @@
+class_name Player
 extends RigidBody2D
 
 #############
@@ -25,12 +26,18 @@ const GRENADE_VELOCITY_SCALE: float = 500.0
 const PLAYER_TIMER_OFFSET: Vector2 = Vector2(-30,-25)
 
 const SWORD_POMMEL_DISTANCE: float = 20.0
+const SWORD_IMPULSE_SCALE: float = 900.0
+const SWORD_STARTUP_DELAY: float = 0.2
+const SWORD_PARRY_DURATION: float = 0.4
+
+const PARRY_PARTICLE_DISTANCE: float = 25
 
 ###########
 # GLOBALS #
 ###########
 
-var isBlastable: bool = true
+var is_blastable: bool = true
+var is_slashable: bool = true
 var is_on_ground: bool = false
 var is_mid_jump: bool = false
 
@@ -127,9 +134,9 @@ func _throw_grenade() -> void:
 	emit_signal("throw_grenade", pos, vel)
 
 func _slash() -> void:
-	$SwordAnchor.position = get_mouse_direction() * SWORD_POMMEL_DISTANCE
-	var sword_rotation = get_mouse_direction().angle()
+	var sword_rotation = get_mouse_direction().angle() - self.rotation
 	
+	$SwordAnchor.position = Vector2.from_angle(sword_rotation) * SWORD_POMMEL_DISTANCE
 	$SwordAnchor.rotation = sword_rotation
 	if abs(sword_rotation) < PI/2:
 		$SwordAnchor/SwordSlash.position.y = -abs($SwordAnchor/SwordSlash.position.y)
@@ -140,6 +147,19 @@ func _slash() -> void:
 	
 	$SwordAnchor/SwordSlash.visible = true
 	$SwordAnchor/SwordSlash.play("default")
+	
+	$SlashStartupDelay.start(SWORD_STARTUP_DELAY)
+	$ParryTimer.start(SWORD_PARRY_DURATION)
+
+func handle_knockback(impulse: Vector2, source: Node2D) -> void:
+	if $ParryTimer.time_left == 0:
+		self.apply_central_impulse(impulse)
+	else:
+		var parry_rotation: float = (source.global_position - self.global_position).angle() - self.rotation
+		
+		$ParryParticles.position = Vector2.from_angle(parry_rotation) * PARRY_PARTICLE_DISTANCE
+		$ParryParticles.rotation = parry_rotation
+		$ParryParticles.emitting = true
 
 func get_mouse_direction() -> Vector2:
 	return (get_global_mouse_position() - self.position).normalized()
@@ -187,15 +207,36 @@ func _on_jump_collision_nearby_body_entered(body: Node2D) -> void:
 func _on_jump_collision_below_body_exited(body: Node2D) -> void:
 	# potentially change to group-based
 	if body != self:
-		$Timers/CoyoteTimer.stop()
-		$Timers/CoyoteTimer.start(DEFAULT_COYOTE_TIME)
+		$CoyoteTimer.start(DEFAULT_COYOTE_TIME)
 
 func _on_coyote_timer_timeout() -> void:
-	is_on_ground = false
+	var validBodies: Array[Node2D] = $JumpCollisionBelow.get_overlapping_bodies()
+	
+	validBodies.erase(self)
+	if validBodies.size() == 0:
+		is_on_ground = false
+
+func _on_slash_startup_delay_timeout() -> void:
+	$SwordAnchor/SlashCollision.monitoring = true
 
 func _on_sword_slash_animation_finished() -> void:
 	$SwordAnchor/SwordSlash.visible = false
 	$SwordAnchor/SwordSlash.stop()
+	
+	$SwordAnchor/SlashCollision.monitoring = false
+
+func _on_slash_collision_body_entered(body: Node2D) -> void:
+	if body.get("is_slashable"):
+		var knockback_impulse: Vector2 = (body.position - self.position).normalized() * SWORD_IMPULSE_SCALE
+		
+		if body.has_method("apply_central_impulse"):
+			if body is Player:
+				body.handle_knockback(knockback_impulse, self)
+			else:
+				body.apply_central_impulse(knockback_impulse)
+		
+		if body.has_method("when_slashed"):
+			body.when_slashed()
 
 ####################
 # OUTGOING SIGNALS #
