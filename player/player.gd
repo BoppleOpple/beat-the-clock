@@ -32,6 +32,8 @@ const SWORD_PARRY_DURATION: float = 0.4
 
 const PARRY_PARTICLE_DISTANCE: float = 25
 
+const JOYSTICK_DEADZONE: float = 0.2
+
 ###########
 # GLOBALS #
 ###########
@@ -40,6 +42,8 @@ var is_blastable: bool = true
 var is_slashable: bool = true
 var is_on_ground: bool = false
 var is_mid_jump: bool = false
+enum InputDevice { KEYBOARD_MOUSE, CONTROLLER }
+var current_device := InputDevice.KEYBOARD_MOUSE
 
 ###########
 # METHODS #
@@ -53,10 +57,8 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	# get direction from input
 	var input_x: float = 0
-	if Input.is_action_pressed("gameplay_left"):
-		input_x -= 1
-	if Input.is_action_pressed("gameplay_right"):
-		input_x += 1
+	input_x = Input.get_axis("gameplay_left", "gameplay_right")
+	
 	
 	# scale the force based on current speed + direction (increase turnaround time)
 	var input_dir: float = sign(input_x)
@@ -125,18 +127,18 @@ func _activate_ability(ability: PlayerData.Ability) -> float:
 
 func _perform_dash() -> void:
 	self.linear_velocity = Vector2()
-	self.set_axis_velocity(get_mouse_direction() * DASH_VELOCITY_SCALE)
+	self.set_axis_velocity(get_aim_direction() * DASH_VELOCITY_SCALE)
 
 func _throw_grenade() -> void:
 	var pos: Vector2 = $GrenadeAnchor.global_position
-	var vel: Vector2 = get_mouse_direction() * GRENADE_VELOCITY_SCALE
+	var vel: Vector2 = get_aim_direction() * GRENADE_VELOCITY_SCALE
 	
 	vel += self.linear_velocity
 	
 	emit_signal("throw_grenade", pos, vel)
 
 func _slash() -> void:
-	var sword_rotation = get_mouse_direction().angle() - self.rotation
+	var sword_rotation = get_aim_direction().angle() - self.rotation
 	
 	$SwordAnchor.position = Vector2.from_angle(sword_rotation) * SWORD_POMMEL_DISTANCE
 	$SwordAnchor.rotation = sword_rotation
@@ -163,8 +165,20 @@ func handle_knockback(impulse: Vector2, source: Node2D) -> void:
 		$ParryParticles.rotation = parry_rotation
 		$ParryParticles.emitting = true
 
-func get_mouse_direction() -> Vector2:
-	return (get_global_mouse_position() - self.position).normalized()
+func get_aim_direction() -> Vector2:
+	if current_device == InputDevice.CONTROLLER:
+		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+		var vector = Input.get_vector("gameplay_aim_left", "gameplay_aim_right", "gameplay_aim_up", "gameplay_aim_down")
+		if vector.length() > JOYSTICK_DEADZONE:
+			return vector.normalized()
+		else:
+			vector = Input.get_vector("gameplay_left", "gameplay_right", "gameplay_up", "gameplay_down")
+			if vector.length() > JOYSTICK_DEADZONE:
+				return vector.normalized()
+			return Vector2.ZERO
+	else:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		return (get_global_mouse_position() - self.position).normalized()
 	
 func _handle_mod_timer(time: float) -> void:
 	var label = Label.new()
@@ -193,6 +207,11 @@ func _handle_mod_timer(time: float) -> void:
 	opacity_tween.tween_property(label, "modulate:a", 0.0, 1.0)
 	opacity_tween.tween_callback(label.queue_free)
 
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion or event is InputEventMouseButton:
+		current_device = InputDevice.KEYBOARD_MOUSE
+	elif event is InputEventJoypadMotion or event is InputEventJoypadButton:
+		current_device = InputDevice.CONTROLLER
 
 ####################
 # INCOMING SIGNALS #

@@ -10,7 +10,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("ui_pause"):
+	if Input.is_action_just_pressed("ui_close_dialog"):
 		$Popup.visible = not $Popup.visible
 		get_tree().paused = $Popup.visible
 		if $Popup/Options.visible:
@@ -20,8 +20,8 @@ func _process(delta: float) -> void:
 
 
 func _on_back_pressed() -> void:
-	$Popup.visible = false
 	get_tree().paused = false
+	$Popup.visible = false
 
 
 func _on_options_pressed() -> void:
@@ -35,4 +35,5 @@ func _on_reset_pressed() -> void:
 
 
 func _on_main_menu_pressed() -> void:
+	get_tree().paused = false
 	get_tree().change_scene_to_file("res://ui/main_menu/main_menu.tscn")
