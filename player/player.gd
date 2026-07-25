@@ -150,11 +150,11 @@ func _slash() -> void:
 	$SwordAnchor/SwordSlash.visible = true
 	$SwordAnchor/SwordSlash.play("default")
 	
-	$SlashStartupDelay.start(SWORD_STARTUP_DELAY)
-	$ParryTimer.start(SWORD_PARRY_DURATION)
+	$Timers/SlashStartupDelay.start(SWORD_STARTUP_DELAY)
+	$Timers/ParryTimer.start(SWORD_PARRY_DURATION)
 
 func handle_knockback(impulse: Vector2, source: Node2D) -> void:
-	if $ParryTimer.time_left == 0:
+	if $Timers/ParryTimer.time_left == 0:
 		self.apply_central_impulse(impulse)
 	else:
 		var parry_rotation: float = (source.global_position - self.global_position).angle() - self.rotation
@@ -212,7 +212,7 @@ func _on_jump_collision_nearby_body_entered(body: Node2D) -> void:
 func _on_jump_collision_below_body_exited(body: Node2D) -> void:
 	# potentially change to group-based
 	if body != self:
-		$CoyoteTimer.start(DEFAULT_COYOTE_TIME)
+		$Timers/CoyoteTimer.start(DEFAULT_COYOTE_TIME)
 
 func _on_coyote_timer_timeout() -> void:
 	var validBodies: Array[Node2D] = $JumpCollisionBelow.get_overlapping_bodies()
