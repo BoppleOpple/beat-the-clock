@@ -11,9 +11,6 @@ const JOYSTICK_DEADZONE: float = 0.2
 # GLOBALS #
 ###########
 
-enum InputDevice { KEYBOARD_MOUSE, CONTROLLER }
-var current_device := InputDevice.KEYBOARD_MOUSE
-
 ###########
 # METHODS #
 ###########
@@ -37,7 +34,7 @@ func _physics_process(delta: float) -> void:
 	_apply_actions(frame_actions, delta)
 
 func get_aim_direction() -> Vector2:
-	if current_device == InputDevice.CONTROLLER:
+	if GameManager.current_device == GameManager.InputDevice.CONTROLLER:
 		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 		var vector = Input.get_vector("gameplay_aim_left", "gameplay_aim_right", "gameplay_aim_up", "gameplay_aim_down")
 		if vector.length() > JOYSTICK_DEADZONE:
@@ -50,12 +47,6 @@ func get_aim_direction() -> Vector2:
 	else:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		return (get_global_mouse_position() - self.position).normalized()
-
-func _input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion or event is InputEventMouseButton:
-		current_device = InputDevice.KEYBOARD_MOUSE
-	elif event is InputEventJoypadMotion or event is InputEventJoypadButton:
-		current_device = InputDevice.CONTROLLER
 
 ####################
 # INCOMING SIGNALS #
