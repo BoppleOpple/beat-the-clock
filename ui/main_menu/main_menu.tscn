@@ -78,3 +78,4 @@ bus = &"Music"
 [connection signal="pressed" from="UI/MenuButtons/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="UI/MenuButtons/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="UI/MenuButtons/Exit" to="." method="_on_exit_pressed"]
+[connection signal="focus_reset" from="UI/Options" to="." method="_on_options_focus_reset"]

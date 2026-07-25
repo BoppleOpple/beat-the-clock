@@ -16,6 +16,9 @@ const SAVE_OPTIONS_PATH := "user://options.save"
 # -----------
 const ABILITY_COOLDOWN: Array[float] = [10.0, 2.0, 2.5, 3.0]
 
+enum InputDevice { KEYBOARD_MOUSE, CONTROLLER }
+var current_device := InputDevice.KEYBOARD_MOUSE
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	player = PlayerData.new()
@@ -80,3 +83,11 @@ func set_music_volume(value: float) -> void:
 func set_sfx_volume(value: float) -> void:
 	var bus_index = AudioServer.get_bus_index("SFX")
 	AudioServer.set_bus_volume_db(bus_index, linear_to_db(value))
+	
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion or event is InputEventMouseButton:
+		current_device = InputDevice.KEYBOARD_MOUSE
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	elif event is InputEventJoypadMotion or event is InputEventJoypadButton:
+		current_device = InputDevice.CONTROLLER
+		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
