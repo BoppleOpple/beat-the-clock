@@ -1,6 +1,9 @@
 class_name EnemyBase
 extends ActorBase
 
+const GRENADE_AWARENESS_CHANCE: float = 0.5
+const TARGET_SWITCHUP_CHANCE: float = 0.01
+const FORGET_PREVIOUS_TARGET_CHANCE: float = 0.05
 
 ###########
 # GLOBALS #
@@ -18,6 +21,7 @@ var state_durations: Dictionary[String, float] = {
 
 var current_state: String = "IDLE"
 var target_node: Node2D
+var prev_target_node: Node2D
 var target_direction: Vector2
 var nearby_nodes: Array[Node2D]
 
@@ -33,7 +37,8 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	self.nearby_nodes = $Unrotatable/Senses/SenseArea.get_overlapping_bodies()
-	self.target_node = _get_current_target()
+	self.target_node = self._get_current_target()
+
 	self.target_direction = Vector2.ZERO
 	
 	_check_recovery()
@@ -72,7 +77,38 @@ func _get_ability_combo() -> bool:
 	return false
 
 func _get_current_target() -> Node2D:
-	return GameManager.player_ref
+	if not is_instance_valid(prev_target_node):
+		prev_target_node = null
+	
+	# chance to forget, moving to last atacker instead of last attacked
+	if randf() < FORGET_PREVIOUS_TARGET_CHANCE:
+		prev_target_node = null
+
+	# prioritize dodging grenades
+	for node in nearby_nodes:
+		if (node is Grenade) and randf() < GRENADE_AWARENESS_CHANCE:
+			return node
+	
+	# then, have a chance to remember the player exists
+	var player_or_null: Player = GameManager.player_ref if is_instance_valid(GameManager.player_ref) else null
+	
+	if randf() < TARGET_SWITCHUP_CHANCE:
+		prev_target_node = player_or_null
+		return player_or_null
+		
+	# now, try to have some consistency and attack the previous target
+	if prev_target_node != null:
+		return prev_target_node
+	
+	# if it was attacked, remember.
+	if is_instance_valid(self.motion_cause):
+		if self.motion_cause != self:
+			prev_target_node = self.motion_cause
+			return self.motion_cause
+	
+	# default to player
+	prev_target_node = player_or_null
+	return player_or_null
 
 func _check_recovery() -> void:
 	if $Timers/PanicTimer.time_left > 0:
@@ -99,7 +135,10 @@ func _set_state(state: String) -> void:
 
 func get_aim_direction() -> Vector2:
 	if self.target_direction == Vector2.ZERO:
-		self.target_direction = (target_node.global_position - self.global_position).normalized()
+		if self.target_node != null:
+			self.target_direction = (self.target_node.global_position - self.global_position).normalized()
+		else:
+			self.target_direction = Vector2.from_angle(randf_range(0, TAU))
 	
 	return self.target_direction
 
