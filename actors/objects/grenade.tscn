@@ -76,13 +76,13 @@ shape = SubResource("CircleShape2D_ikrvj")
 
 [node name="GrenadeSprite" type="Sprite2D" parent="." unique_id=1925674493]
 position = Vector2(0, -4)
-scale = Vector2(0.3, 0.3)
+scale = Vector2(0.075, 0.075)
 texture = ExtResource("1_wy5h0")
 
 [node name="FlashGrenadeSprite" type="Sprite2D" parent="." unique_id=711900937]
 visible = false
 position = Vector2(0, -4)
-scale = Vector2(0.3, 0.3)
+scale = Vector2(0.075, 0.075)
 texture = ExtResource("3_oxcb1")
 
 [node name="PrimedTimer" type="Timer" parent="." unique_id=2143671294]
