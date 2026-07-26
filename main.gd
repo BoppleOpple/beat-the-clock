@@ -14,6 +14,9 @@ const CAMERA_PADDING: Vector2 = Vector2(200, 200)
 
 var player_spawn_point: Node2D
 
+var replacing_stage: bool = false
+var new_stage: StageBase
+
 ###########
 # METHODS #
 ###########
@@ -46,6 +49,9 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if replacing_stage:
+		return
+	
 	var camera_target_rect: Rect2 = _get_camera_bounds()
 	
 	_move_camera(camera_target_rect.get_center(), delta)
@@ -84,19 +90,20 @@ func _get_camera_bounds() -> Rect2:
 	min_corner -= CAMERA_PADDING
 	max_corner += CAMERA_PADDING
 	
-	var blast_zone_rect: Rect2 = $Stage/PlayArea/CollisionShape2D.shape.get_rect()
+	var blast_zone_rect: Rect2 = $Stage.get_blast_zone()
 	
 	min_corner = min_corner.clamp(blast_zone_rect.position, blast_zone_rect.position + blast_zone_rect.size)
 	max_corner = max_corner.clamp(blast_zone_rect.position, blast_zone_rect.position + blast_zone_rect.size)
 	
 	return Rect2(min_corner, max_corner - min_corner)
 
-func _set_stage(stage: PackedScene) -> void:
-	var old_stage: StageBase = $Stage
-	var new_stage: StageBase = stage.instantiate()
+func _set_stage(stage: PackedScene) -> void: 
+	new_stage = stage.instantiate()
 	new_stage.name = "Stage"
-	$Stage.replace_by(new_stage)
-	old_stage.queue_free()
+	new_stage.connect("tree_exited", _on_stage_tree_exited)
+	
+	$Stage.queue_free()
+	replacing_stage = true
 
 func _randomize_stage() -> void:
 	var selected_index: int = randi_range(0, STAGE_POOL.size() - 1)
@@ -108,7 +115,7 @@ func _move_actor_to_spawn_point(actor: ActorBase) -> void:
 	if actor is Player:
 		selected_spawn_location = player_spawn_point.global_position
 	else:
-		var spawn_points: Array[Node] = $Stage/SpawnPoints.get_children().filter(_is_Node2D)
+		var spawn_points: Array[Node] = $Stage.get_spawn_points().filter(_is_Node2D)
 		
 		spawn_points = spawn_points.filter(_is_not_player_spawn)
 		
@@ -131,9 +138,13 @@ func _on_player_throw_grenade(player: ActorBase, position: Vector2, velocity: Ve
 
 func _on_actor_respawn(actor: ActorBase) -> void:
 	if actor is Player:
-		var spawn_points: Array[Node] = $Stage/SpawnPoints.get_children().filter(_is_Node2D)
+		var spawn_points: Array[Node] = $Stage.get_spawn_points().filter(_is_Node2D)
 		# assign a spawn to the player
 		if not spawn_points.is_empty():
 			player_spawn_point = spawn_points[randi_range(0, spawn_points.size() - 1)]
 	
 	_move_actor_to_spawn_point(actor)
+
+func _on_stage_tree_exited() -> void:
+	self.add_child(new_stage)
+	replacing_stage = false

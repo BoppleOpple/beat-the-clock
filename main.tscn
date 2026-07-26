@@ -40,4 +40,5 @@ position = Vector2(-317, -186)
 
 [node name="GameOver" parent="." unique_id=1807783136 instance=ExtResource("8_5vw27")]
 
+[connection signal="tree_exited" from="Stage" to="." method="_on_stage_tree_exited"]
 [connection signal="death" from="Player" to="GameOver" method="_on_player_death"]
