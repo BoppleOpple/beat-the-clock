@@ -115,6 +115,8 @@ func _get_ability_2() -> bool:
 		return false
 	if self.target_node is Grenade:
 		return false
+	if self.current_state == "IDLE":
+		return false
 	if ( \
 		global_position.distance_to(self.target_node.global_position) > 150 \
 		and next_bomb == 2 \
@@ -130,6 +132,8 @@ func _get_ability_3() -> bool:
 	if self.target_node == null:
 		return false
 	if self.target_node is Grenade:
+		return false
+	if self.current_state == "IDLE":
 		return false
 	if ( \
 		global_position.distance_to(self.target_node.global_position) > 150 \
