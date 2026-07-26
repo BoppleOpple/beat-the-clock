@@ -2,6 +2,12 @@
 
 [ext_resource type="PackedScene" uid="uid://b1anqspvwemms" path="res://actors/actor_base.tscn" id="1_d0nw6"]
 [ext_resource type="Script" uid="uid://g711xll2ltvp" path="res://actors/enemies/enemy_base.gd" id="2_4d8hh"]
+[ext_resource type="FontFile" uid="uid://dko5067st2fe4" path="res://assets/fonts/Baksoap.otf" id="3_f7x1q"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1lwnq"]
+font = ExtResource("3_f7x1q")
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ikrvj"]
 radius = 200.0
@@ -11,6 +17,9 @@ script = ExtResource("2_4d8hh")
 
 [node name="ColorRect" parent="Visual" parent_id_path=PackedInt32Array(1189846465) index="0" unique_id=1284086352]
 color = Color(0.9722486, 0.38292152, 0.48270053, 1)
+
+[node name="TimerLabel" parent="Visual/VisualTimer" parent_id_path=PackedInt32Array(645785647) index="0" unique_id=1571675406]
+label_settings = SubResource("LabelSettings_1lwnq")
 
 [node name="StateTransitionTimer" type="Timer" parent="Timers" parent_id_path=PackedInt32Array(1078520662) index="8" unique_id=742549887]
 wait_time = 5.0

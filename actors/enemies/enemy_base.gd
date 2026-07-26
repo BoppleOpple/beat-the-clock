@@ -2,8 +2,8 @@ class_name EnemyBase
 extends ActorBase
 
 const GRENADE_AWARENESS_CHANCE: float = 0.5
-const TARGET_SWITCHUP_CHANCE: float = 0.01
-const FORGET_PREVIOUS_TARGET_CHANCE: float = 0.05
+const TARGET_SWITCHUP_CHANCE: float = 0.05
+const FORGET_PREVIOUS_TARGET_CHANCE: float = 0.1
 
 ###########
 # GLOBALS #
@@ -106,9 +106,18 @@ func _get_current_target() -> Node2D:
 			prev_target_node = self.motion_cause
 			return self.motion_cause
 	
-	# default to player
-	prev_target_node = player_or_null
-	return player_or_null
+	# default to truly random
+	var attackable_nodes: Array[Node]
+	attackable_nodes += get_tree().get_nodes_in_group("Players")
+	attackable_nodes += get_tree().get_nodes_in_group("baddies")
+	
+	attackable_nodes.erase(self)
+	
+	if attackable_nodes.is_empty():
+		return null
+	
+	var index = randi_range(0, attackable_nodes.size() - 1)
+	return attackable_nodes[index]
 
 func _check_recovery() -> void:
 	if $Timers/PanicTimer.time_left > 0:
