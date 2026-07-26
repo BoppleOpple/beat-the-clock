@@ -53,7 +53,8 @@ func save_options() -> void:
 		"framerate": options.framerate,
 		"volume_master": options.volume_master,
 		"volume_music": options.volume_music,
-		"volume_sfx": options.volume_sfx
+		"volume_sfx": options.volume_sfx,
+		"num_of_enemies": options.num_of_enemies
 		}
 	var file := FileAccess.open(SAVE_OPTIONS_PATH, FileAccess.WRITE)
 	file.store_string(JSON.stringify(options_dict))
@@ -80,6 +81,7 @@ func load_options() -> void:
 	options.volume_master = data.get("volume_master", 0)
 	options.volume_music = data.get("volume_music", 0)
 	options.volume_sfx = data.get("volume_sfx", 0)
+	options.num_of_enemies = data.get("num_of_enemies", 0)
 	_once_options_loaded()
 	
 func set_master_volume(value: float) -> void:

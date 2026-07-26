@@ -22,6 +22,7 @@ script = ExtResource("1_t7e0r")
 
 [node name="Background" parent="." unique_id=1375401043 instance=ExtResource("2_rmr83")]
 layout_mode = 1
+offset_x = 0.0
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1645463473]
 

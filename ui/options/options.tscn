@@ -54,6 +54,7 @@ split_offset = 123
 
 [node name="Left Column" type="VSplitContainer" parent="Margin/HSplitContainer" unique_id=1502878978]
 layout_mode = 2
+split_offsets = PackedInt32Array(0, 0)
 dragging_enabled = false
 
 [node name="Display" type="Button" parent="Margin/HSplitContainer/Left Column" unique_id=1520735862]
@@ -64,6 +65,11 @@ text = "Display / Video"
 layout_mode = 2
 size_flags_vertical = 0
 text = "Audio"
+
+[node name="Experimental" type="Button" parent="Margin/HSplitContainer/Left Column" unique_id=424421209]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Experimental"
 
 [node name="Right Column" type="VSplitContainer" parent="Margin/HSplitContainer" unique_id=617077920]
 layout_mode = 2
@@ -170,6 +176,29 @@ horizontal_alignment = 2
 layout_mode = 2
 value = 100.0
 
+[node name="Experimental" type="VSplitContainer" parent="Margin/HSplitContainer/Right Column" unique_id=1264918668]
+visible = false
+layout_mode = 2
+
+[node name="EnemyCountLabel" type="HSplitContainer" parent="Margin/HSplitContainer/Right Column/Experimental" unique_id=690133994]
+layout_mode = 2
+dragging_enabled = false
+
+[node name="Label" type="Label" parent="Margin/HSplitContainer/Right Column/Experimental/EnemyCountLabel" unique_id=1052104179]
+layout_mode = 2
+text = "Number of Enemies:"
+
+[node name="Value" type="Label" parent="Margin/HSplitContainer/Right Column/Experimental/EnemyCountLabel" unique_id=660853559]
+layout_mode = 2
+text = "1"
+horizontal_alignment = 2
+
+[node name="EnemyCount" type="HSlider" parent="Margin/HSplitContainer/Right Column/Experimental" unique_id=322004305]
+layout_mode = 2
+min_value = 1.0
+max_value = 16.0
+value = 1.0
+
 [node name="HSplitContainer2" type="HSplitContainer" parent="Margin" unique_id=983162772]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -193,6 +222,7 @@ text = "Reset to Defaults"
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
 [connection signal="pressed" from="Margin/HSplitContainer/Left Column/Display" to="." method="_on_display_pressed"]
 [connection signal="pressed" from="Margin/HSplitContainer/Left Column/Audio" to="." method="_on_audio_pressed"]
+[connection signal="pressed" from="Margin/HSplitContainer/Left Column/Experimental" to="." method="_on_experimental_pressed"]
 [connection signal="item_selected" from="Margin/HSplitContainer/Right Column/Display/Resolution" to="." method="_on_resolution_item_selected"]
 [connection signal="toggled" from="Margin/HSplitContainer/Right Column/Display/Fullscreen" to="." method="_on_fullscreen_toggled"]
 [connection signal="toggled" from="Margin/HSplitContainer/Right Column/Display/VSync" to="." method="_on_v_sync_toggled"]
@@ -200,6 +230,7 @@ text = "Reset to Defaults"
 [connection signal="value_changed" from="Margin/HSplitContainer/Right Column/Audio/MasterVolume" to="." method="_on_master_volume_value_changed"]
 [connection signal="value_changed" from="Margin/HSplitContainer/Right Column/Audio/MusicVolume" to="." method="_on_music_volume_value_changed"]
 [connection signal="value_changed" from="Margin/HSplitContainer/Right Column/Audio/SFXVolume" to="." method="_on_sfx_volume_value_changed"]
+[connection signal="value_changed" from="Margin/HSplitContainer/Right Column/Experimental/EnemyCount" to="." method="_on_enemy_count_value_changed"]
 [connection signal="pressed" from="Margin/HSplitContainer2/Apply" to="." method="_on_apply_pressed"]
 [connection signal="pressed" from="Margin/HSplitContainer2/Back" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="Margin/HSplitContainer2/Reset" to="." method="_on_reset_pressed"]
