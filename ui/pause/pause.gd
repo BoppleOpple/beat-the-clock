@@ -21,6 +21,7 @@ func _process(delta: float) -> void:
 
 
 func _on_back_pressed() -> void:
+	Engine.time_scale = 1.0
 	get_tree().paused = false
 	$Popup.visible = false
 
@@ -31,6 +32,7 @@ func _on_options_pressed() -> void:
 
 
 func _on_reset_pressed() -> void:
+	Engine.time_scale = 1.0
 	get_tree().paused = false
 	get_tree().reload_current_scene()
 	$Popup.visible = false
@@ -38,6 +40,7 @@ func _on_reset_pressed() -> void:
 
 func _on_main_menu_pressed() -> void:
 	get_tree().paused = false
+	Engine.time_scale = 1.0
 	get_tree().change_scene_to_file("res://ui/main_menu/main_menu.tscn")
 
 
