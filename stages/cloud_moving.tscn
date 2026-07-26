@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://ceg6103drva02"]
+
+[ext_resource type="PackedScene" uid="uid://dwt17i7gpe4e" path="res://stages/stage_base.tscn" id="1_c5su3"]
+[ext_resource type="PackedScene" uid="uid://bm6fj2debmec1" path="res://stages/components/cloud_moving.tscn" id="2_kvcil"]
+
+[node name="StageBase" unique_id=12831427 instance=ExtResource("1_c5su3")]
+
+[node name="CloudMoving" parent="Platforms" parent_id_path=PackedInt32Array(1209469810) index="0" unique_id=943197408 instance=ExtResource("2_kvcil")]
+position = Vector2(0, 176)
+
+[node name="TopLeftPOI" parent="." index="3" unique_id=878759041]
+position = Vector2(-567, -154)
+
+[node name="BottomRightPOI" parent="." index="4" unique_id=565622059]
+position = Vector2(567, 237)
+
+[node name="Marker2D" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(355737548) index="0" unique_id=1759861315]
+position = Vector2(-513, 85)
+
+[node name="Marker2D2" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(355737548) index="1" unique_id=1740722894]
+position = Vector2(-100, 88)
+
+[node name="Marker2D3" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(355737548) index="2" unique_id=680579721]
+position = Vector2(514, 102)
+
+[node name="Marker2D4" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(355737548) index="3" unique_id=2105961711]
+position = Vector2(96, 86)

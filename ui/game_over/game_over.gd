@@ -45,5 +45,4 @@ func _on_player_death(actor: ActorBase) -> void:
 	tween.set_parallel(true)
 	tween.tween_property($UI/Modulate, "modulate:a", 1.0, 1.0)
 	tween.tween_property(Engine, "time_scale", 0.01, 1.0)
-	tween.tween_property($UI/Modulate/Title, "modulate", 0.0, 0.1)
-	
+	tween.tween_property($UI/Modulate/Title, "modulate", $UI/Modulate/Title.modulate, 0.1)
