@@ -11,6 +11,12 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
+func get_spawn_points() -> Array[Node]:
+	return $SpawnPoints.get_children()
+
+func get_blast_zone() -> Rect2:
+	return $PlayArea/CollisionShape2D.shape.get_rect()
+
 func _on_play_area_body_exited(body: Node2D) -> void:
 	if body is ActorBase:
 		if not body.should_free:
