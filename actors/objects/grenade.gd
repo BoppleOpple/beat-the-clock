@@ -10,6 +10,9 @@ const FUSE_FLASH_THRESHOLD: float = 0.75
 var is_blastable: bool = true
 var is_slashable: bool = true
 
+@onready var ability_player: AudioStreamPlayer = $SFXPlayer
+var explosion_sfx = preload("res://assets/audio/abilities/explosion.mp3")
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -37,6 +40,10 @@ func _on_fuse_timeout() -> void:
 	
 	$ExplosionSprite.play("default")
 	$Smoke.emitting = true
+	
+	var playback = ability_player.get_stream_playback() as AudioStreamPlaybackPolyphonic
+	if playback:
+		playback.play_stream(explosion_sfx, 0.0, -12.0, randf_range(0.9,1.1))
 	
 	var blasted_nodes: Array[Node2D] = $BlastZone.get_overlapping_bodies()
 	
