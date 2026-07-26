@@ -3,6 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://b1anqspvwemms" path="res://actors/actor_base.tscn" id="1_d0nw6"]
 [ext_resource type="Script" uid="uid://g711xll2ltvp" path="res://actors/enemies/enemy_base.gd" id="2_4d8hh"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ikrvj"]
+radius = 200.0
+
 [node name="EnemyBase" unique_id=950486434 instance=ExtResource("1_d0nw6")]
 script = ExtResource("2_4d8hh")
 
@@ -12,5 +15,33 @@ color = Color(0.9722486, 0.38292152, 0.48270053, 1)
 [node name="StateTransitionTimer" type="Timer" parent="Timers" parent_id_path=PackedInt32Array(1078520662) index="8" unique_id=742549887]
 wait_time = 5.0
 one_shot = true
+
+[node name="PanicTimer" type="Timer" parent="Timers" parent_id_path=PackedInt32Array(1078520662) index="9" unique_id=77792231]
+process_callback = 0
+wait_time = 0.2
+one_shot = true
+autostart = true
+
+[node name="Senses" type="Node" parent="Unrotatable" parent_id_path=PackedInt32Array(1612224296) index="1" unique_id=2076643341]
+
+[node name="SenseArea" type="Area2D" parent="Unrotatable/Senses" index="0" unique_id=127901783]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Unrotatable/Senses/SenseArea" index="0" unique_id=1514782470]
+shape = SubResource("CircleShape2D_ikrvj")
+
+[node name="SenseLeft" type="RayCast2D" parent="Unrotatable/Senses" index="1" unique_id=962626120]
+target_position = Vector2(-1000, 0)
+
+[node name="SenseBelowLeft" type="RayCast2D" parent="Unrotatable/Senses" index="2" unique_id=1575102843]
+target_position = Vector2(-1500, 1500)
+
+[node name="SenseBelow" type="RayCast2D" parent="Unrotatable/Senses" index="3" unique_id=841612493]
+target_position = Vector2(0, 2000)
+
+[node name="SenseBelowRight" type="RayCast2D" parent="Unrotatable/Senses" index="4" unique_id=219786275]
+target_position = Vector2(1500, 1500)
+
+[node name="SenseRight" type="RayCast2D" parent="Unrotatable/Senses" index="5" unique_id=1030680176]
+target_position = Vector2(1000, 0)
 
 [connection signal="timeout" from="Timers/StateTransitionTimer" to="." method="_on_state_transition_timer_timeout"]

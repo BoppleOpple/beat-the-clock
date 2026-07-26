@@ -52,11 +52,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ikrvj"]
-radius = 38.03295
+radius = 43.82058
 height = 118.982315
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_ikrvj"]
-radius = 21.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3eufj"]
 size = Vector2(42, 42)
@@ -82,6 +79,9 @@ _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_nkf4j"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ikrvj"]
+radius = 21.0
 
 [node name="ActorBase" type="RigidBody2D" unique_id=950486434 groups=["POI"]]
 physics_material_override = SubResource("PhysicsMaterial_rkbax")
@@ -154,15 +154,9 @@ sprite_frames = SubResource("SpriteFrames_ikrvj")
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Visual/SwordAnchor/SlashCollision" unique_id=263427324]
-position = Vector2(59, -19.999998)
+position = Vector2(59, -21.000002)
 rotation = -0.45400715
 shape = SubResource("CapsuleShape2D_ikrvj")
-
-[node name="JumpCollisionBelow" type="Area2D" parent="." unique_id=1117522722]
-
-[node name="BelowCollider" type="CollisionShape2D" parent="JumpCollisionBelow" unique_id=1295610869]
-position = Vector2(0, 21)
-shape = SubResource("CircleShape2D_ikrvj")
 
 [node name="JumpCollisionNearby" type="Area2D" parent="." unique_id=282012949]
 
@@ -282,12 +276,20 @@ autoplay = true
 max_polyphony = 8
 bus = &"SFX"
 
+[node name="Unrotatable" type="Node2D" parent="." unique_id=1612224296]
+
+[node name="JumpCollisionBelow" type="Area2D" parent="Unrotatable" unique_id=1117522722]
+
+[node name="BelowCollider" type="CollisionShape2D" parent="Unrotatable/JumpCollisionBelow" unique_id=1295610869]
+position = Vector2(0, 21)
+shape = SubResource("CircleShape2D_ikrvj")
+
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="animation_finished" from="Visual/SwordAnchor/SwordSlash" to="." method="_on_sword_slash_animation_finished"]
 [connection signal="body_entered" from="Visual/SwordAnchor/SlashCollision" to="." method="_on_slash_collision_body_entered"]
-[connection signal="body_exited" from="JumpCollisionBelow" to="." method="_on_jump_collision_below_body_exited"]
 [connection signal="body_entered" from="JumpCollisionNearby" to="." method="_on_jump_collision_nearby_body_entered"]
 [connection signal="timeout" from="Timers/PlayerClock" to="." method="_on_player_clock_timeout"]
 [connection signal="timeout" from="Timers/CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
 [connection signal="timeout" from="Timers/SlashStartupDelay" to="." method="_on_slash_startup_delay_timeout"]
 [connection signal="finished" from="DeathParticles" to="." method="_on_death_particles_finished"]
+[connection signal="body_exited" from="Unrotatable/JumpCollisionBelow" to="." method="_on_jump_collision_below_body_exited"]

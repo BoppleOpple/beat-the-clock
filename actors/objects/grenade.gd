@@ -1,3 +1,4 @@
+class_name Grenade
 extends RigidBody2D
 
 const BLAST_IMPULSE_SCALE: float = 85000.0
@@ -58,7 +59,6 @@ func _explode(other: Node2D) -> void:
 		var velocity_scale: float = clamp((1/offset_vector.length()) * BLAST_IMPULSE_SCALE, 0, BLAST_IMPULSE_CAP)
 		var impulse: Vector2 = offset_vector.normalized() * velocity_scale
 		
-		print(impulse.length())
 		if other is ActorBase:
 			other.handle_knockback(impulse, self)
 		else:
