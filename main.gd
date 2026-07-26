@@ -17,6 +17,16 @@ const CAMERA_TRACKING_SCALE: float = 5.0
 const CAMERA_ZOOMING_SCALE: float = 10.0
 const CAMERA_PADDING: Vector2 = Vector2(200, 200)
 
+const ENEMY_SCENES: Dictionary[String, PackedScene] = {
+	"MELEE":  preload("res://actors/enemies/melee/enemy_melee.tscn"  ),
+	"BOMBER": preload("res://actors/enemies/bomber/enemy_bomber.tscn")
+}
+
+const ENEMY_PROPORTIONS: Dictionary[String, float] = {
+	"MELEE":  0.75,
+	"BOMBER": 0.25
+}
+
 var player_spawn_point: Node2D
 
 var replacing_stage: bool = false
@@ -42,13 +52,7 @@ func _is_not_player_spawn (spawn: Node):
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_randomize_stage()
-	
-	var actors: Array[Node] = [$Player]
-	actors += get_tree().get_nodes_in_group("baddies").filter(_is_ActorBase)
-	
-	for actor in actors:
-		actor.connect("throw_grenade", _on_player_throw_grenade)
-		actor.connect("respawn", _on_actor_respawn)
+	_spawn_enemies(GameManager.options.num_of_enemies)
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -108,6 +112,25 @@ func _set_stage(stage: PackedScene) -> void:
 	
 	$Stage.queue_free()
 	replacing_stage = true
+
+func _spawn_enemies(num_enemies: int) -> void:
+	for i in range(num_enemies):
+		var rand_val: float = randf()
+		for enemy_type in ENEMY_PROPORTIONS.keys():
+			rand_val -= ENEMY_PROPORTIONS[enemy_type]
+			if rand_val <= 0:
+				_add_enemy(ENEMY_SCENES[enemy_type])
+				break
+
+func _add_enemy(enemy_scene: PackedScene) -> void:
+	var enemy: EnemyBase = enemy_scene.instantiate()
+	enemy.set_hue(randf())
+	
+	enemy.connect("throw_grenade", _on_player_throw_grenade)
+	enemy.connect("respawn", _on_actor_respawn)
+	enemy.connect("death", $GameOver._on_player_death)
+	
+	$Enemies.add_child(enemy)
 
 func _randomize_stage() -> void:
 	var selected_index: int = randi_range(0, STAGE_POOL.size() - 1)
