@@ -11,6 +11,8 @@ const FUSE_FLASH_THRESHOLD: float = 0.75
 var is_blastable: bool = true
 var is_slashable: bool = true
 
+var owning_actor: ActorBase = null
+
 @onready var ability_player: AudioStreamPlayer = $SFXPlayer
 var explosion_sfx = preload("res://assets/audio/abilities/explosion.mp3")
 
@@ -28,7 +30,6 @@ func _process(delta: float) -> void:
 		var flash_value: float = sin(sin_angle)**2 
 		
 		$FlashGrenadeSprite.visible = (flash_value > FUSE_FLASH_THRESHOLD)
-
 
 func _on_fuse_timeout() -> void:
 	set_deferred("freeze", true)
@@ -63,6 +64,9 @@ func _explode(other: Node2D) -> void:
 			other.handle_knockback(impulse, self)
 		else:
 			other.apply_central_impulse(impulse)
+
+func when_slashed(by: ActorBase):
+	self.owning_actor = by
 
 func _on_smoke_finished() -> void:
 	self.queue_free()

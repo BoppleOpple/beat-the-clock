@@ -28,13 +28,13 @@ func _is_not_player_spawn (spawn: Node):
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	_on_player_respawn()
+	var actors: Array[Node] = [$Player]
+	actors += get_tree().get_nodes_in_group("baddies").filter(_is_ActorBase)
 	
-	var enemies: Array[Node] = get_tree().get_nodes_in_group("baddies").filter(_is_ActorBase)
-	
-	for actor in enemies:
+	for actor in actors:
 		actor.connect("throw_grenade", _on_player_throw_grenade)
-		_move_actor_to_spawn_point(actor)
+		actor.connect("respawn", _on_actor_respawn)
+		_on_actor_respawn(actor)
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -103,18 +103,19 @@ func _move_actor_to_spawn_point(actor: ActorBase) -> void:
 # INCOMING SIGNALS #
 ####################
 
-func _on_player_throw_grenade(position: Vector2, velocity: Vector2) -> void:
-	var newGrenade: RigidBody2D = GRENADE_SCENE.instantiate()
-	newGrenade.global_position = position
-	newGrenade.linear_velocity = velocity
-	$Objects.add_child(newGrenade)
+func _on_player_throw_grenade(player: ActorBase, position: Vector2, velocity: Vector2) -> void:
+	var new_grenade: Grenade = GRENADE_SCENE.instantiate()
+	new_grenade.global_position = position
+	new_grenade.linear_velocity = velocity
+	new_grenade.owning_actor = player
+	$Objects.add_child(new_grenade)
 
 
-func _on_player_respawn() -> void:
-	var spawn_points: Array[Node] = $Stage/SpawnPoints.get_children().filter(_is_Node2D)
+func _on_actor_respawn(actor: ActorBase) -> void:
+	if actor is Player:
+		var spawn_points: Array[Node] = $Stage/SpawnPoints.get_children().filter(_is_Node2D)
+		# assign a spawn to the player
+		if not spawn_points.is_empty():
+			player_spawn_point = spawn_points[randi_range(0, spawn_points.size() - 1)]
 	
-	# assign a spawn to the player
-	if not spawn_points.is_empty():
-		player_spawn_point = spawn_points[randi_range(0, spawn_points.size() - 1)]
-	
-	_move_actor_to_spawn_point($Player)
+	_move_actor_to_spawn_point(actor)
