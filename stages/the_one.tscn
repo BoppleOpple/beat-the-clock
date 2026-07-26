@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://blhurrakuvgjm"]
+
+[ext_resource type="PackedScene" uid="uid://dwt17i7gpe4e" path="res://stages/stage_base.tscn" id="1_hdepv"]
+[ext_resource type="PackedScene" uid="uid://cihn70nvf6buu" path="res://stages/components/the_one_platforms.tscn" id="2_hdepv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hdepv"]
+size = Vector2(3500, 2500)
+
+[node name="StageBase" unique_id=12831427 instance=ExtResource("1_hdepv")]
+
+[node name="Background" parent="." index="0" unique_id=1375401043]
+background_scale_x = 2.0
+background_scale_y = 2.0
+
+[node name="CollisionShape2D" parent="PlayArea" parent_id_path=PackedInt32Array(905542048) index="0" unique_id=1851398389]
+position = Vector2(160, 256)
+shape = SubResource("RectangleShape2D_hdepv")
+
+[node name="Temple" parent="Platforms" parent_id_path=PackedInt32Array(1209469810) index="0" unique_id=943197408 instance=ExtResource("2_hdepv")]
+position = Vector2(64, -192)
+
+[node name="TopLeftPOI" parent="." index="3" unique_id=878759041]
+position = Vector2(-610, -430)
+
+[node name="BottomRightPOI" parent="." index="4" unique_id=565622059]
+position = Vector2(1077, 790)
+
+[node name="SpawnPoints" parent="." index="5" unique_id=355737548]
+position = Vector2(0, -192)
+
+[node name="Marker2D" type="Marker2D" parent="SpawnPoints" index="0" unique_id=368887700]
+position = Vector2(-993, -3)
+
+[node name="Marker2D2" type="Marker2D" parent="SpawnPoints" index="1" unique_id=1096847656]
+position = Vector2(853, -133)
+
+[node name="Marker2D3" type="Marker2D" parent="SpawnPoints" index="2" unique_id=688321438]
+position = Vector2(-489, 512)
+
+[node name="Marker2D4" type="Marker2D" parent="SpawnPoints" index="3" unique_id=1790204810]
+position = Vector2(-254, -62)
+
+[node name="Marker2D5" type="Marker2D" parent="SpawnPoints" index="4" unique_id=223010394]
+position = Vector2(255, 865)
+
+[node name="Marker2D6" type="Marker2D" parent="SpawnPoints" index="5" unique_id=1196335598]
+position = Vector2(1217, -319)
+
+[node name="Marker2D7" type="Marker2D" parent="SpawnPoints" index="6" unique_id=2107810558]
+position = Vector2(448, -67)
+
+[node name="Marker2D8" type="Marker2D" parent="SpawnPoints" index="7" unique_id=1593508613]
+position = Vector2(-236, 636)

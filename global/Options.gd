@@ -17,3 +17,4 @@ var resolutions: Array[Vector2i] = [
 @export var volume_master: int = 60
 @export var volume_music: int = 100
 @export var volume_sfx: int = 100
+@export var num_of_enemies: int = 1

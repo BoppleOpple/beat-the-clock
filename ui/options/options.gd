@@ -18,6 +18,7 @@ func _on_visibility_changed() -> void:
 		return
 	$"Margin/HSplitContainer/Left Column/Display".disabled = true
 	$"Margin/HSplitContainer/Left Column/Audio".disabled = false
+	$"Margin/HSplitContainer/Left Column/Experimental".disabled = false
 	$"Margin/HSplitContainer/Right Column/Display".show()
 	$"Margin/HSplitContainer/Right Column/Audio".hide()
 	for index in temp_options.resolutions.size():
@@ -41,6 +42,9 @@ func _on_visibility_changed() -> void:
 	$"Margin/HSplitContainer/Right Column/Audio/SFXVolumeLabel/Value".text = str(temp_options.volume_sfx, "%")
 	$"Margin/HSplitContainer/Right Column/Audio/SFXVolume".value = temp_options.volume_sfx
 	GameManager.set_sfx_volume(temp_options.volume_sfx / 100.0)
+	$"Margin/HSplitContainer/Right Column/Experimental/EnemyCountLabel/Value".text = str(temp_options.num_of_enemies)
+	$"Margin/HSplitContainer/Right Column/Experimental/EnemyCount".value = temp_options.num_of_enemies
+	
 
 func _on_apply_pressed() -> void:
 	GameManager.options = temp_options
@@ -71,19 +75,32 @@ func _on_reset_pressed() -> void:
 	$"Margin/HSplitContainer/Right Column/Audio/SFXVolumeLabel/Value".text = str(temp_options.volume_sfx, "%")
 	$"Margin/HSplitContainer/Right Column/Audio/SFXVolume".value = temp_options.volume_sfx
 	GameManager.set_sfx_volume(temp_options.volume_sfx / 100.0)
-	# TODO: Set visual options back to temp options, but don't touch GameManager in case they click back
+	$"Margin/HSplitContainer/Right Column/Experimental/EnemyCountLabel/Value".text = str(temp_options.num_of_enemies)
+	$"Margin/HSplitContainer/Right Column/Experimental/EnemyCount".value = temp_options.num_of_enemies
 	
 func _on_display_pressed() -> void:
 	$"Margin/HSplitContainer/Left Column/Display".disabled = true
 	$"Margin/HSplitContainer/Left Column/Audio".disabled = false
+	$"Margin/HSplitContainer/Left Column/Experimental".disabled = false
 	$"Margin/HSplitContainer/Right Column/Display".show()
 	$"Margin/HSplitContainer/Right Column/Audio".hide()
+	$"Margin/HSplitContainer/Right Column/Experimental".hide()
 	
 func _on_audio_pressed() -> void:
 	$"Margin/HSplitContainer/Left Column/Display".disabled = false
 	$"Margin/HSplitContainer/Left Column/Audio".disabled = true
+	$"Margin/HSplitContainer/Left Column/Experimental".disabled = false
 	$"Margin/HSplitContainer/Right Column/Display".hide()
 	$"Margin/HSplitContainer/Right Column/Audio".show()
+	$"Margin/HSplitContainer/Right Column/Experimental".hide()
+	
+func _on_experimental_pressed() -> void:
+	$"Margin/HSplitContainer/Left Column/Display".disabled = false
+	$"Margin/HSplitContainer/Left Column/Audio".disabled = false
+	$"Margin/HSplitContainer/Left Column/Experimental".disabled = true
+	$"Margin/HSplitContainer/Right Column/Display".hide()
+	$"Margin/HSplitContainer/Right Column/Audio".hide()
+	$"Margin/HSplitContainer/Right Column/Experimental".show()
 
 func _on_resolution_item_selected(index: int) -> void:
 	var new_res = GameManager.options.resolutions[$"Margin/HSplitContainer/Right Column/Display/Resolution".selected]
@@ -131,6 +148,10 @@ func _on_sfx_volume_value_changed(value: float) -> void:
 	temp_options.volume_sfx = $"Margin/HSplitContainer/Right Column/Audio/SFXVolume".value
 	$"Margin/HSplitContainer/Right Column/Audio/SFXVolumeLabel/Value".text = str(temp_options.volume_sfx, "%")
 	GameManager.set_sfx_volume(temp_options.volume_sfx / 100.0)
+	
+func _on_enemy_count_value_changed(value: float) -> void:
+	temp_options.num_of_enemies = $"Margin/HSplitContainer/Right Column/Experimental/EnemyCount".value
+	$"Margin/HSplitContainer/Right Column/Experimental/EnemyCountLabel/Value".text = str(temp_options.num_of_enemies)
 	
 ####################
 # OUTGOING SIGNALS #
