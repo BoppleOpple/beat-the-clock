@@ -38,6 +38,11 @@ const PARRY_PARTICLE_DISTANCE: float = 25
 
 const HITSTUN_DURATION: float = 0.8
 
+const DEATH_TIME_MOD: float = -30.0
+const KILL_TIME_MOD: float = 30.0
+
+const KILL_EXPIRATION_TIME: float = 2.5
+
 ###########
 # CLASSES #
 ###########
@@ -79,20 +84,28 @@ var parry_sfx = preload("res://assets/audio/abilities/parry.mp3")
 var throw_sfx = preload("res://assets/audio/abilities/throw.mp3")
 var death_sfx = preload("res://assets/audio/entity/death.mp3")
 
-var motion_cause: Node2D = self
+var motion_cause: ActorBase = self
 
 ###########
 # METHODS #
 ###########
 
 func _ready() -> void:
-	self.motion_cause = self
+	_set_motion_cause(self)
 	$Timers/PlayerClock.start(GameManager.PLAYER_MAX_TIME / 2)
+
+func reset() -> void:
+	_set_motion_cause(self)
+	$CollisionShape2D.disabled = false
+	self.sleeping = false
+	self.should_free = false
+	self.is_on_ground = false
+	self.is_mid_jump = false
 
 func _process(_delta: float):
 	# handle timers
-	$Timers/VisualTimer/TimerLabel.text = str(snapped($Timers/PlayerClock.time_left, 0.1))
-	$Timers/VisualTimer/TimerLabel.set_position(self.get_position() + PLAYER_TIMER_OFFSET)
+	$Visual/VisualTimer/TimerLabel.text = str(snapped($Timers/PlayerClock.time_left, 0.1))
+	$Visual/VisualTimer/TimerLabel.set_position(self.get_position() + PLAYER_TIMER_OFFSET)
 	GameManager.player.ability_1_cooldown = $Timers/LeftAbilityTimer.time_left
 	GameManager.player.ability_2_cooldown = $Timers/MiddleAbilityTimer.time_left
 	GameManager.player.ability_3_cooldown = $Timers/RightAbilityTimer.time_left
@@ -190,6 +203,9 @@ func _activate_ability(ability: GameManager.Ability) -> float:
 func _perform_dash() -> void:
 	self.linear_velocity = Vector2()
 	self.set_axis_velocity(get_aim_direction() * DASH_VELOCITY_SCALE)
+	
+	_set_motion_cause(self)
+	
 	var playback = ability_player.get_stream_playback() as AudioStreamPlaybackPolyphonic
 	if playback:
 		playback.play_stream(dash_sfx, 0.0, 0.0, randf_range(0.8,1.3))
@@ -200,7 +216,7 @@ func _throw_grenade() -> void:
 	
 	vel += self.linear_velocity
 	
-	emit_signal("throw_grenade", pos, vel)
+	emit_signal("throw_grenade", self, pos, vel)
 	var playback = ability_player.get_stream_playback() as AudioStreamPlaybackPolyphonic
 	if playback:
 		playback.play_stream(throw_sfx, 0.0, -22.0, randf_range(2.3,2.7))
@@ -226,8 +242,18 @@ func _slash() -> void:
 	if playback:
 		playback.play_stream(sword_sfx, 0.0, -12.0, randf_range(0.6,2.4))
 
+func _set_motion_cause(source: Node2D):
+	if source != self:
+		$Timers/KillExpirationTimer.start(KILL_EXPIRATION_TIME)
+	
+	if source is ActorBase:
+		self.motion_cause = source
+	elif source is Grenade:
+		self.motion_cause = source.owning_actor
+
 func handle_knockback(impulse: Vector2, source: Node2D) -> void:
 	if $Timers/ParryTimer.time_left == 0:
+		_set_motion_cause(source)
 		$Timers/HitstunTimer.start(HITSTUN_DURATION)
 		self.apply_central_impulse(impulse)
 	else:
@@ -240,7 +266,8 @@ func handle_knockback(impulse: Vector2, source: Node2D) -> void:
 		if playback:
 			playback.play_stream(parry_sfx, 0.0, -12.0, randf_range(0.6,1.4))
 
-func kill(force: bool = false):
+func kill(force: bool = false, respawn: bool = true):
+	
 	# TODO add preventable death maybe
 	if force or true:
 		$DeathParticles.amount = clamp(int(self.linear_velocity.length() / 25), 4, 100)
@@ -256,27 +283,43 @@ func kill(force: bool = false):
 		var playback = ability_player.get_stream_playback() as AudioStreamPlaybackPolyphonic
 		if playback:
 			playback.play_stream(death_sfx, 0.0, -12.0, randf_range(2.3,3.0))
-		self._on_kill()
+		
+		self._handle_mod_timer(DEATH_TIME_MOD)
+		
+		if motion_cause != self:
+			if is_instance_valid(motion_cause):
+				motion_cause._handle_mod_timer(KILL_TIME_MOD)
+		
+		_set_motion_cause(self)
+		
+		if respawn:
+			self._respawn()
+		else:
+			self._die_and_free()
 
-func _on_kill() -> void:
+func _respawn() -> void:
+	emit_signal("respawn", self)
+
+func _die_and_free() -> void:
 	$CollisionShape2D.disabled = true
 	self.sleeping = true
 	self.should_free = true
+	$Visual.visible = false
 
 func _handle_mod_timer(time: float) -> void:
 	var label = Label.new()
-	$Timers/VisualTimer/TimerLabel/ModTime.add_child(label)
-	$Timers/VisualTimer/TimerLabel/ModTime.move_child(label,0)
+	$Visual/VisualTimer/TimerLabel/ModTime.add_child(label)
+	$Visual/VisualTimer/TimerLabel/ModTime.move_child(label,0)
 	var opacity_tween = create_tween()
 	var timer_tween = create_tween()
 	if time > 0.0:
 		label.label_settings = load("res://assets/fonts/Default_add.tres")
 		label.text = "+ " + str(time)
-		$Timers/VisualTimer/TimerLabel.modulate = Color.GREEN
+		$Visual/VisualTimer/TimerLabel.modulate = Color.GREEN
 	elif time < 0.0:
 		label.label_settings = load("res://assets/fonts/Default_remove.tres")
 		label.text = "- " + str(abs(time))
-		$Timers/VisualTimer/TimerLabel.modulate = Color.RED
+		$Visual/VisualTimer/TimerLabel.modulate = Color.RED
 	else:
 		return
 	if ($Timers/PlayerClock.time_left + time) >= 0.0: 
@@ -285,8 +328,8 @@ func _handle_mod_timer(time: float) -> void:
 		$Timers/PlayerClock.start(0.001)
 	if $Timers/PlayerClock.time_left >= GameManager.PLAYER_MAX_TIME:
 		$Timers/PlayerClock.start(GameManager.PLAYER_MAX_TIME)
-		$Timers/VisualTimer/TimerLabel.modulate = Color.ROYAL_BLUE
-	timer_tween.tween_property($Timers/VisualTimer/TimerLabel, "modulate", Color.WHITE, 0.5)
+		$Visual/VisualTimer/TimerLabel.modulate = Color.ROYAL_BLUE
+	timer_tween.tween_property($Visual/VisualTimer/TimerLabel, "modulate", Color.WHITE, 0.5)
 	opacity_tween.tween_property(label, "modulate:a", 0.0, 1.0)
 	opacity_tween.tween_callback(label.queue_free)
 
@@ -344,17 +387,23 @@ func _on_slash_collision_body_entered(body: Node2D) -> void:
 				body.apply_central_impulse(knockback_impulse)
 		
 		if body.has_method("when_slashed"):
-			body.when_slashed()
+			body.when_slashed(self)
 	
 func _on_player_clock_timeout() -> void:
-	kill(true)
+	kill(true, false)
 
 func _on_death_particles_finished() -> void:
 	if should_free:
 		self.queue_free()
 
+func _on_kill_expiration_timer_timeout() -> void:
+	_set_motion_cause(self)
+
+
 ####################
 # OUTGOING SIGNALS #
 ####################
 
-signal throw_grenade(position: Vector2, velocity: Vector2)
+signal throw_grenade(player: ActorBase, position: Vector2, velocity: Vector2)
+
+signal respawn(actor: ActorBase)

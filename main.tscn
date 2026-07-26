@@ -33,6 +33,3 @@ position = Vector2(1, -144)
 
 [node name="EnemyMelee" parent="." unique_id=950486434 instance=ExtResource("6_7mycd")]
 position = Vector2(-317, -186)
-
-[connection signal="respawn" from="Player" to="." method="_on_player_respawn"]
-[connection signal="throw_grenade" from="Player" to="." method="_on_player_throw_grenade"]
