@@ -7,6 +7,15 @@ extends ActorBase
 
 const JOYSTICK_DEADZONE: float = 0.2
 
+const DEATH_CLOCK_MAX_VOLUME = 1.0
+const DEATH_CLOCK_MIN_VOLUME = 0.05
+
+###########
+# GLOBALS #
+###########
+
+@onready var audio_player: AudioStreamPlayer = $DeathClock
+
 ###########
 # METHODS #
 ###########
@@ -29,6 +38,7 @@ func _physics_process(delta: float) -> void:
 	frame_actions.ability_combo = Input.is_action_just_pressed("gameplay_ability_combo")
 	
 	_apply_actions(frame_actions, delta)
+	death_timer()
 
 
 func get_aim_direction() -> Vector2:
@@ -45,3 +55,19 @@ func get_aim_direction() -> Vector2:
 	else:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		return (get_global_mouse_position() - self.position).normalized()
+		
+func death_timer() -> void:
+	var time_left = $Timers/PlayerClock.time_left
+	
+	if time_left > 30.0 or time_left <= 0.0:
+		if audio_player.playing:
+			audio_player.stop()
+		return
+	
+	if not audio_player.playing:
+		audio_player.play()
+	
+	var progress = 1.0 - (time_left / 30.0)
+	var linear_volume = lerp(DEATH_CLOCK_MIN_VOLUME, DEATH_CLOCK_MAX_VOLUME, progress)
+	audio_player.volume_db = linear_to_db(linear_volume)
+	print(audio_player.playing)

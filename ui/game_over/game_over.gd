@@ -26,17 +26,24 @@ func _on_main_menu_pressed() -> void:
 	get_tree().change_scene_to_file("res://ui/main_menu/main_menu.tscn")
 
 func _on_player_death(actor: ActorBase) -> void:
-	$UI/Modulate.show()
-	$UI/Modulate.modulate.a = 0.0
-	var tween = create_tween()
-	tween.set_parallel(true)
-	tween.tween_property($UI/Modulate, "modulate:a", 1.0, 1.0)
-	tween.tween_property(Engine, "time_scale", 0.01, 1.0)
+	var actors: Array[Node] = get_tree().get_nodes_in_group("baddies").filter(_is_ActorBase)
+	
 	if actor is Player:
 		$UI/Modulate/Title.text = "Game Over"
 		$UI/Modulate/Title.modulate = Color.INDIAN_RED
 	else:
+		for enemies in actors:
+			if enemies.should_free == false:
+				return
 		$UI/Modulate/Title.text = "Victory!"
 		$UI/Modulate/Title.modulate = Color.LIME
+		
+	$UI/Modulate.show()
+	$UI/Modulate.modulate.a = 0.0		
+			
+	var tween = create_tween()
+	tween.set_parallel(true)
+	tween.tween_property($UI/Modulate, "modulate:a", 1.0, 1.0)
+	tween.tween_property(Engine, "time_scale", 0.01, 1.0)
 	tween.tween_property($UI/Modulate/Title, "modulate", 0.0, 0.1)
 	
