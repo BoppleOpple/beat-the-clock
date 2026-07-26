@@ -4,8 +4,12 @@ const GRENADE_SCENE = preload("res://actors/objects/grenade.tscn")
 const PLAYER_SCENE = preload("res://player/player.tscn")
 
 const STAGE_POOL: Array[PackedScene] = [
-	preload("res://stages/final_destination.tscn"),
-	preload("res://stages/outdoors.tscn")
+	#preload("res://stages/final_destination.tscn"),
+	#preload("res://stages/outdoors.tscn"),
+	#preload("res://stages/cloud_67.tscn"),
+	#preload("res://stages/cloud_moving.tscn"),
+	#preload("res://stages/forest.tscn"),
+	preload("res://stages/windmill.tscn"),
 ]
 
 const CAMERA_TRACKING_SCALE: float = 5.0
