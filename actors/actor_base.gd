@@ -79,11 +79,14 @@ var parry_sfx = preload("res://assets/audio/abilities/parry.mp3")
 var throw_sfx = preload("res://assets/audio/abilities/throw.mp3")
 var death_sfx = preload("res://assets/audio/entity/death.mp3")
 
+var motion_cause: Node2D = self
+
 ###########
 # METHODS #
 ###########
 
 func _ready() -> void:
+	self.motion_cause = self
 	$Timers/PlayerClock.start(GameManager.PLAYER_MAX_TIME / 2)
 
 func _process(_delta: float):
@@ -111,8 +114,8 @@ func _apply_actions(actions: Actions, _delta: float) -> void:
 	if should_free:
 		return
 		
-	# keep ground detector beneath player
-	$JumpCollisionBelow.rotation = -self.rotation
+	# keep unrotatable objects beneath player
+	$Unrotatable.rotation = -self.rotation
 	
 	if $Timers/HitstunTimer.time_left > 0.0:
 		return
@@ -241,7 +244,7 @@ func kill(force: bool = false):
 	# TODO add preventable death maybe
 	if force or true:
 		$DeathParticles.amount = clamp(int(self.linear_velocity.length() / 25), 4, 100)
-		print($DeathParticles.amount)
+		
 		$DeathParticles.initial_velocity_min = self.linear_velocity.length() * 0.5
 		$DeathParticles.initial_velocity_max = self.linear_velocity.length() * 3
 		$DeathParticles.direction = -self.linear_velocity.rotated(-self.rotation)
@@ -300,7 +303,7 @@ func _teleport(destination: Vector2) -> void:
 
 func _on_jump_collision_nearby_body_entered(body: Node2D) -> void:
 	# potentially change to group-based
-	if body != self and $JumpCollisionBelow.overlaps_body(body):
+	if body != self and $Unrotatable/JumpCollisionBelow.overlaps_body(body):
 		$Timers/CoyoteTimer.stop()
 		self.is_mid_jump = false
 		self.is_on_ground = true
@@ -311,7 +314,7 @@ func _on_jump_collision_below_body_exited(body: Node2D) -> void:
 		$Timers/CoyoteTimer.start(DEFAULT_COYOTE_TIME)
 
 func _on_coyote_timer_timeout() -> void:
-	var validBodies: Array[Node2D] = $JumpCollisionBelow.get_overlapping_bodies()
+	var validBodies: Array[Node2D] = $Unrotatable/JumpCollisionBelow.get_overlapping_bodies()
 	
 	validBodies.erase(self)
 	if validBodies.size() == 0:
