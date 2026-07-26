@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://ncm7jouu3x60"]
+
+[ext_resource type="Script" uid="uid://qrau7i6bxpsy" path="res://ui/game_over/game_over.gd" id="1_6lpyu"]
+[ext_resource type="FontFile" uid="uid://dko5067st2fe4" path="res://assets/fonts/Baksoap.otf" id="4_02joq"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_0hcq4"]
+font = ExtResource("4_02joq")
+font_size = 128
+font_color = Color(1, 0.40392157, 0.40392157, 1)
+outline_size = 16
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 24
+shadow_color = Color(0.1584723, 0.15847233, 0.1584723, 1)
+shadow_offset = Vector2(8, 4)
+
+[sub_resource type="Theme" id="Theme_t7e0r"]
+default_font = ExtResource("4_02joq")
+default_font_size = 32
+
+[node name="GameOver" type="Control" unique_id=1807783136]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6lpyu")
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1645463473]
+
+[node name="Modulate" type="Control" parent="UI" unique_id=793868041]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Title" type="Label" parent="UI/Modulate" unique_id=1182515593]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 594.5
+offset_top = 446.0
+offset_right = 1285.5
+offset_bottom = 594.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, -100)
+text = "Game Over"
+label_settings = SubResource("LabelSettings_0hcq4")
+
+[node name="MenuButtons" type="VSplitContainer" parent="UI/Modulate" unique_id=1733872931]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 684.0
+offset_top = 560.0
+offset_right = 1196.0
+offset_bottom = 680.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = SubResource("Theme_t7e0r")
+theme_override_constants/separation = 12
+split_offsets = PackedInt32Array(46)
+dragging_enabled = false
+split_offset = 46
+
+[node name="Restart" type="Button" parent="UI/Modulate/MenuButtons" unique_id=1282584945]
+custom_maximum_size = Vector2(-1, 46)
+layout_mode = 2
+text = "Restart"
+
+[node name="MainMenu" type="Button" parent="UI/Modulate/MenuButtons" unique_id=1104439788]
+custom_maximum_size = Vector2(-1, 46)
+layout_mode = 2
+text = "Main Menu"
+
+[connection signal="pressed" from="UI/Modulate/MenuButtons/Restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="UI/Modulate/MenuButtons/MainMenu" to="." method="_on_main_menu_pressed"]
