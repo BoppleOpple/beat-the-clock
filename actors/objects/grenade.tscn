@@ -66,6 +66,8 @@ radius = 150.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_3eufj"]
 radius = 20.0
 
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_oxcb1"]
+
 [node name="Grenade" type="RigidBody2D" unique_id=1611287196]
 script = ExtResource("1_o4cp4")
 
@@ -136,6 +138,12 @@ monitorable = false
 
 [node name="Collider" type="CollisionShape2D" parent="TriggerZone" unique_id=215656647]
 shape = SubResource("CircleShape2D_3eufj")
+
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="." unique_id=1119714544]
+stream = SubResource("AudioStreamPolyphonic_oxcb1")
+autoplay = true
+max_polyphony = 8
+bus = &"SFX"
 
 [connection signal="timeout" from="Fuse" to="." method="_on_fuse_timeout"]
 [connection signal="finished" from="Smoke" to="." method="_on_smoke_finished"]

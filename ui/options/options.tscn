@@ -174,12 +174,11 @@ value = 100.0
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
-split_offsets = PackedInt32Array(111)
+split_offsets = PackedInt32Array(111, 0)
 dragging_enabled = false
 split_offset = 111
 
 [node name="Apply" type="Button" parent="Margin/HSplitContainer2" unique_id=764327804]
-visible = false
 layout_mode = 2
 text = "Apply"
 

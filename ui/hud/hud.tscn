@@ -64,37 +64,44 @@ offset_right = 392.0
 grow_vertical = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="AbilityBG" unique_id=1493960399]
+custom_minimum_size = Vector2(392, 232)
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -260.0
+offset_top = -232.0
 offset_right = 392.0
 grow_vertical = 0
+alignment = 2
 
 [node name="UpperIcons_KB" type="HBoxContainer" parent="AbilityBG/VBoxContainer" unique_id=802353795]
+visible = false
 custom_minimum_size = Vector2(64, 48)
 layout_mode = 2
 size_flags_vertical = 8
 alignment = 1
 
 [node name="AbilityC" type="TextureRect" parent="AbilityBG/VBoxContainer/UpperIcons_KB" unique_id=1783709658]
+visible = false
 custom_minimum_size = Vector2(128, 32)
 layout_mode = 2
 texture = SubResource("AtlasTexture_kwc50")
 
 [node name="UpperIcons_Con" type="HBoxContainer" parent="AbilityBG/VBoxContainer" unique_id=1759374932]
+visible = false
 custom_minimum_size = Vector2(64, 48)
 layout_mode = 2
 size_flags_vertical = 8
 alignment = 1
 
 [node name="AbilityC" type="TextureRect" parent="AbilityBG/VBoxContainer/UpperIcons_Con" unique_id=706661170]
+visible = false
 custom_minimum_size = Vector2(128, 32)
 layout_mode = 2
 texture = SubResource("AtlasTexture_o2lis")
 
 [node name="UpperAbilities" type="HBoxContainer" parent="AbilityBG/VBoxContainer" unique_id=2024585897]
+visible = false
 layout_mode = 2
 alignment = 1
 
@@ -167,19 +174,23 @@ offset_right = 392.0
 grow_vertical = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="AbilityFG" unique_id=702653684]
+custom_minimum_size = Vector2(392, 232)
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -128.0
-offset_right = 128.0
+offset_top = -232.0
+offset_right = 392.0
 grow_vertical = 0
+alignment = 2
 
 [node name="UpperAbilities" type="HBoxContainer" parent="AbilityFG/VBoxContainer" unique_id=604967215]
+visible = false
 layout_mode = 2
 alignment = 1
 
 [node name="AbilityC" type="TextureProgressBar" parent="AbilityFG/VBoxContainer/UpperAbilities" unique_id=1981710678]
+visible = false
 layout_mode = 2
 step = 0.0
 value = 100.0

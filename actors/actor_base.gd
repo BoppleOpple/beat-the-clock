@@ -71,6 +71,14 @@ var teleport_pos: Vector2
 
 var should_free: bool = false
 
+@onready var ability_player: AudioStreamPlayer = $SFXPlayer
+var jump_sfx = preload("res://assets/audio/abilities/jump.mp3")
+var dash_sfx = preload("res://assets/audio/abilities/dash.mp3")
+var sword_sfx = preload("res://assets/audio/abilities/sword.mp3")
+var parry_sfx = preload("res://assets/audio/abilities/parry.mp3")
+var throw_sfx = preload("res://assets/audio/abilities/throw.mp3")
+var death_sfx = preload("res://assets/audio/entity/death.mp3")
+
 ###########
 # METHODS #
 ###########
@@ -131,6 +139,9 @@ func _apply_actions(actions: Actions, _delta: float) -> void:
 			JUMPING_TORQUE_MAX
 		)
 		self.apply_torque_impulse(jump_torque)
+		var playback = ability_player.get_stream_playback() as AudioStreamPlaybackPolyphonic
+		if playback:
+			playback.play_stream(jump_sfx, 0.0, -30.0, randf_range(0.4,0.6))
 	
 	# float (variable height + regrab)
 	if actions.slow_fall:
@@ -176,6 +187,9 @@ func _activate_ability(ability: GameManager.Ability) -> float:
 func _perform_dash() -> void:
 	self.linear_velocity = Vector2()
 	self.set_axis_velocity(get_aim_direction() * DASH_VELOCITY_SCALE)
+	var playback = ability_player.get_stream_playback() as AudioStreamPlaybackPolyphonic
+	if playback:
+		playback.play_stream(dash_sfx, 0.0, 0.0, randf_range(0.8,1.3))
 
 func _throw_grenade() -> void:
 	var vel: Vector2 = get_aim_direction() * GRENADE_VELOCITY_SCALE
@@ -184,6 +198,9 @@ func _throw_grenade() -> void:
 	vel += self.linear_velocity
 	
 	emit_signal("throw_grenade", pos, vel)
+	var playback = ability_player.get_stream_playback() as AudioStreamPlaybackPolyphonic
+	if playback:
+		playback.play_stream(throw_sfx, 0.0, -22.0, randf_range(2.3,2.7))
 
 func _slash() -> void:
 	var sword_rotation = get_aim_direction().angle() - self.rotation
@@ -202,6 +219,9 @@ func _slash() -> void:
 	
 	$Timers/SlashStartupDelay.start(SWORD_STARTUP_DELAY)
 	$Timers/ParryTimer.start(SWORD_PARRY_DURATION)
+	var playback = ability_player.get_stream_playback() as AudioStreamPlaybackPolyphonic
+	if playback:
+		playback.play_stream(sword_sfx, 0.0, -12.0, randf_range(0.6,2.4))
 
 func handle_knockback(impulse: Vector2, source: Node2D) -> void:
 	if $Timers/ParryTimer.time_left == 0:
@@ -213,6 +233,9 @@ func handle_knockback(impulse: Vector2, source: Node2D) -> void:
 		$ParryParticles.position = Vector2.from_angle(parry_rotation) * PARRY_PARTICLE_DISTANCE
 		$ParryParticles.rotation = parry_rotation
 		$ParryParticles.emitting = true
+		var playback = ability_player.get_stream_playback() as AudioStreamPlaybackPolyphonic
+		if playback:
+			playback.play_stream(parry_sfx, 0.0, -12.0, randf_range(0.6,1.4))
 
 func kill(force: bool = false):
 	# TODO add preventable death maybe
@@ -227,6 +250,9 @@ func kill(force: bool = false):
 		
 		$DeathParticles.color = $Visual/ColorRect2.color
 		
+		var playback = ability_player.get_stream_playback() as AudioStreamPlaybackPolyphonic
+		if playback:
+			playback.play_stream(death_sfx, 0.0, -12.0, randf_range(2.3,3.0))
 		self._on_kill()
 
 func _on_kill() -> void:

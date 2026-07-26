@@ -80,6 +80,7 @@ func load_options() -> void:
 	options.volume_master = data.get("volume_master", 0)
 	options.volume_music = data.get("volume_music", 0)
 	options.volume_sfx = data.get("volume_sfx", 0)
+	_once_options_loaded()
 	
 func set_master_volume(value: float) -> void:
 	var bus_index = AudioServer.get_bus_index("Master")
@@ -100,3 +101,20 @@ func _input(event: InputEvent) -> void:
 	elif event is InputEventJoypadMotion or event is InputEventJoypadButton:
 		current_device = InputDevice.CONTROLLER
 		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+		
+func _once_options_loaded() -> void:
+	DisplayServer.window_set_size(Vector2i(options.resolution_x, options.resolution_y))
+	if options.fullscreen:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+	if options.vsync:
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
+		options.framerate = DisplayServer.screen_get_refresh_rate()
+	else:
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+		Engine.max_fps = options.framerate
+	set_master_volume(options.volume_master / 100.0)
+	set_music_volume(options.volume_music / 100.0)
+	set_sfx_volume(options.volume_sfx / 100.0)
+	

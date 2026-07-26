@@ -48,10 +48,10 @@ func _on_visibility_changed() -> void:
 func _on_apply_pressed() -> void:
 	GameManager.options = temp_options
 	GameManager.save_options()
+	GameManager.load_options()
 
 func _on_back_pressed() -> void:
-	GameManager.options = temp_options
-	GameManager.save_options()
+	GameManager.load_options()
 	self.hide()
 	temp_options = GameManager.options
 	emit_signal("focus_reset")
@@ -92,39 +92,31 @@ func _on_resolution_item_selected(index: int) -> void:
 	var new_res = resolutions[$"Margin/HSplitContainer/Right Column/Display/Resolution".selected]
 	temp_options.resolution_x = new_res.x
 	temp_options.resolution_y = new_res.y
-	print(str(new_res.x) + ", " + str(new_res.y))
-	DisplayServer.window_set_size(new_res)
 
 func _on_fullscreen_toggled(toggled_on: bool) -> void:
 	if toggled_on:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 		$"Margin/HSplitContainer/Right Column/Display/Resolution".disabled = true
 		temp_options.fullscreen = true
 	else:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		$"Margin/HSplitContainer/Right Column/Display/Resolution".disabled = false
 		temp_options.fullscreen = false
 
 func _on_v_sync_toggled(toggled_on: bool) -> void:
 	if toggled_on:
-		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
 		temp_options.vsync = true
-		temp_options.framerate = DisplayServer.screen_get_refresh_rate()
-		$"Margin/HSplitContainer/Right Column/Display/FPSLabel/Value".text = str(temp_options.framerate, " fps")
+		$"Margin/HSplitContainer/Right Column/Display/FPS".value = DisplayServer.screen_get_refresh_rate()
+		$"Margin/HSplitContainer/Right Column/Display/FPSLabel/Value".text = str(int(DisplayServer.screen_get_refresh_rate()), " fps")
 		$"Margin/HSplitContainer/Right Column/Display/FPS".editable = false
-		$"Margin/HSplitContainer/Right Column/Display/FPS".value = temp_options.framerate
 	else:
-		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 		temp_options.vsync = false
-		temp_options.framerate = GameManager.options.framerate
+		$"Margin/HSplitContainer/Right Column/Display/FPS".value = temp_options.framerate
 		$"Margin/HSplitContainer/Right Column/Display/FPSLabel/Value".text = str(temp_options.framerate, " fps")
 		$"Margin/HSplitContainer/Right Column/Display/FPS".editable = true
-		$"Margin/HSplitContainer/Right Column/Display/FPS".value = temp_options.framerate
 	
 func _on_fps_value_changed(value: float) -> void:
-	temp_options.framerate = $"Margin/HSplitContainer/Right Column/Display/FPS".value
-	$"Margin/HSplitContainer/Right Column/Display/FPSLabel/Value".text = str(temp_options.framerate, " fps")
-	Engine.max_fps = temp_options.framerate
+	if temp_options.vsync == false:
+		temp_options.framerate = $"Margin/HSplitContainer/Right Column/Display/FPS".value
+		$"Margin/HSplitContainer/Right Column/Display/FPSLabel/Value".text = str(temp_options.framerate, " fps")
 
 
 func _on_master_volume_value_changed(value: float) -> void:
