@@ -292,6 +292,7 @@ shape = SubResource("CircleShape2D_ikrvj")
 [connection signal="timeout" from="Timers/PlayerClock" to="." method="_on_player_clock_timeout"]
 [connection signal="timeout" from="Timers/CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
 [connection signal="timeout" from="Timers/SlashStartupDelay" to="." method="_on_slash_startup_delay_timeout"]
+[connection signal="timeout" from="Timers/HitstunTimer" to="." method="_on_hitstun_timer_timeout"]
 [connection signal="timeout" from="Timers/KillExpirationTimer" to="." method="_on_kill_expiration_timer_timeout"]
 [connection signal="finished" from="DeathParticles" to="." method="_on_death_particles_finished"]
 [connection signal="body_exited" from="Unrotatable/JumpCollisionBelow" to="." method="_on_jump_collision_below_body_exited"]

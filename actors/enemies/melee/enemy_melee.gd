@@ -1,7 +1,7 @@
 class_name EnemyMelee
 extends EnemyBase
 
-const PANIC_DASH_CHANCE: float = 0.25
+const PANIC_DASH_CHANCE: float = 0.33
 
 ###########
 # GLOBALS #
@@ -86,7 +86,7 @@ func _get_ability_1() -> bool:
 			if $Unrotatable/Senses/SenseRight.is_colliding():
 				self.target_direction = Vector2.from_angle(-PI/4)
 				return true
-			if randf() < PANIC_DASH_CHANCE:
+			if randf() < PANIC_DASH_CHANCE and self.global_position.y > 0:
 				self.target_direction = Vector2.UP
 				return true
 	return false
