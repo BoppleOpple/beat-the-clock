@@ -131,9 +131,16 @@ func _apply_actions(actions: Actions, _delta: float) -> void:
 	# keep unrotatable objects beneath player
 	$Unrotatable.rotation = -self.rotation
 	
+	for node in $JumpCollisionNearby.get_overlapping_bodies():
+		if node == self: continue
+		
+		if $Unrotatable/JumpCollisionBelow.overlaps_body(node):
+			is_on_ground = true
+			break
+	
 	if $Timers/HitstunTimer.time_left > 0.0:
 		return
-
+	
 	# get direction from input
 	var input_x: float = actions.move_x
 	
@@ -359,13 +366,6 @@ func _teleport(destination: Vector2) -> void:
 ####################
 # INCOMING SIGNALS #
 ####################
-
-func _on_jump_collision_nearby_body_entered(body: Node2D) -> void:
-	# potentially change to group-based
-	if body != self and $Unrotatable/JumpCollisionBelow.overlaps_body(body):
-		$Timers/CoyoteTimer.stop()
-		self.is_mid_jump = false
-		self.is_on_ground = true
 
 func _on_jump_collision_below_body_exited(body: Node2D) -> void:
 	# potentially change to group-based
