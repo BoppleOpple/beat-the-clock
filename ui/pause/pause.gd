@@ -10,6 +10,8 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if not is_instance_valid(self):
+		return
 	if Input.is_action_just_pressed("ui_close_dialog"):
 		$Popup.visible = not $Popup.visible
 		get_tree().paused = $Popup.visible

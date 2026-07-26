@@ -44,7 +44,6 @@ func _ready() -> void:
 	for actor in actors:
 		actor.connect("throw_grenade", _on_player_throw_grenade)
 		actor.connect("respawn", _on_actor_respawn)
-		_on_actor_respawn(actor)
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -146,5 +145,15 @@ func _on_actor_respawn(actor: ActorBase) -> void:
 	_move_actor_to_spawn_point(actor)
 
 func _on_stage_tree_exited() -> void:
-	self.add_child(new_stage)
+	if new_stage != null:
+		self.add_child(new_stage)
+		new_stage = null
+	
+	if get_tree() != null:
+		var actors: Array[Node] = [$Player]
+		actors += get_tree().get_nodes_in_group("baddies").filter(_is_ActorBase)
+		
+		for actor in actors:
+			_on_actor_respawn(actor)
+	
 	replacing_stage = false

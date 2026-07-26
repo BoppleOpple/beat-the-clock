@@ -64,11 +64,52 @@ func _get_jump() -> bool:
 			return true
 	match current_state:
 		"IDLE":
-			pass
+			var obstructed: bool = false
+			if global_position.x > 0:
+				if (
+					$Unrotatable/Senses/SenseLeft.is_colliding()
+					and global_position.distance_to($Unrotatable/Senses/SenseLeft.get_collision_point()) < 250
+				):
+					obstructed = true
+			else:
+				if (
+					$Unrotatable/Senses/SenseRight.is_colliding()
+					and global_position.distance_to($Unrotatable/Senses/SenseRight.get_collision_point()) < 250
+				):
+					obstructed = true
+			return obstructed
 		"RUSH":
-			return self.target_node.global_position.y < global_position.y + 100
+			var target_above: bool = self.target_node.global_position.y < global_position.y + 100
+			var obstructed: bool = false
+			if global_position.x > self.target_node.global_position.x:
+				if (
+					$Unrotatable/Senses/SenseLeft.is_colliding()
+					and global_position.distance_to($Unrotatable/Senses/SenseLeft.get_collision_point()) < 250
+				):
+					obstructed = true
+			else:
+				if (
+					$Unrotatable/Senses/SenseRight.is_colliding()
+					and global_position.distance_to($Unrotatable/Senses/SenseRight.get_collision_point()) < 250
+				):
+					obstructed = true
+			return target_above or obstructed
 		"EVADE":
-			return randf() < EVADE_JUMP_CHANCE
+			var random_jump: bool = randf() < EVADE_JUMP_CHANCE
+			var obstructed: bool = false
+			if global_position.x < self.target_node.global_position.x:
+				if (
+					$Unrotatable/Senses/SenseLeft.is_colliding()
+					and global_position.distance_to($Unrotatable/Senses/SenseLeft.get_collision_point()) < 250
+				):
+					obstructed = true
+			else:
+				if (
+					$Unrotatable/Senses/SenseRight.is_colliding()
+					and global_position.distance_to($Unrotatable/Senses/SenseRight.get_collision_point()) < 250
+				):
+					obstructed = true
+			return random_jump or obstructed
 		"RECOVERY":
 			return true
 	return false
