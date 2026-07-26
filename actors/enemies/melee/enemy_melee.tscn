@@ -12,3 +12,5 @@ position = Vector2(59, -19.999998)
 [node name="SlashTimer" type="Timer" parent="Timers" parent_id_path=PackedInt32Array(1078520662) index="11" unique_id=120634366]
 process_callback = 0
 one_shot = true
+
+[connection signal="body_entered" from="JumpCollisionNearby" to="." method="_on_jump_collision_nearby_body_entered"]

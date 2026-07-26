@@ -37,6 +37,8 @@ const SWORD_IMPULSE_UPKICK: float = 500.0
 const PARRY_PARTICLE_DISTANCE: float = 25
 
 const HITSTUN_DURATION: float = 0.8
+const DEFAULT_BOUNCE: float = 0.25
+const HITSTUN_BOUNCE: float = 0.8
 
 const DEATH_TIME_MOD: float = -30.0
 const KILL_TIME_MOD: float = 30.0
@@ -262,8 +264,11 @@ func _set_motion_cause(source: Node2D):
 func handle_knockback(impulse: Vector2, source: Node2D) -> void:
 	if $Timers/ParryTimer.time_left == 0:
 		_set_motion_cause(source)
-		$Timers/HitstunTimer.start(HITSTUN_DURATION)
+		
 		self.apply_central_impulse(impulse)
+		
+		$Timers/HitstunTimer.start(HITSTUN_DURATION)
+		self.physics_material_override.bounce = HITSTUN_BOUNCE
 	else:
 		var parry_rotation: float = (source.global_position - self.global_position).angle() - self.rotation
 		
@@ -415,6 +420,9 @@ func _on_death_particles_finished() -> void:
 func _on_kill_expiration_timer_timeout() -> void:
 	_set_motion_cause(self)
 
+func _on_hitstun_timer_timeout() -> void:
+	# reset physics material
+	self.physics_material_override.bounce = DEFAULT_BOUNCE
 
 ####################
 # OUTGOING SIGNALS #
