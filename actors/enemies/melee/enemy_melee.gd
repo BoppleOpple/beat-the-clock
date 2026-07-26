@@ -1,8 +1,6 @@
 class_name EnemyMelee
 extends EnemyBase
 
-const GRENADE_AWARENESS_CHANCE: float = 0.5
-
 const PANIC_DASH_CHANCE: float = 0.25
 
 ###########
@@ -37,6 +35,8 @@ func _ready() -> void:
 	ability_3 = GameManager.Ability.SWORD
 
 func _get_move_x() -> float:
+	if self.target_node == null:
+		return false
 	match current_state:
 		"IDLE":
 			return clamp(-global_position.x / 1000, -1, 1)
@@ -47,6 +47,8 @@ func _get_move_x() -> float:
 	return 0.0
 
 func _get_jump() -> bool:
+	if self.target_node == null:
+		return false
 	match current_state:
 		"IDLE":
 			pass
@@ -57,6 +59,8 @@ func _get_jump() -> bool:
 	return false
 
 func _get_slow_fall() -> bool:
+	if self.target_node == null:
+		return false
 	match current_state:
 		"IDLE":
 			return false
@@ -67,6 +71,8 @@ func _get_slow_fall() -> bool:
 	return false
 
 func _get_ability_1() -> bool:
+	if self.target_node == null:
+		return false
 	match current_state:
 		"IDLE":
 			return false
@@ -86,6 +92,8 @@ func _get_ability_1() -> bool:
 	return false
 
 func _get_ability_2() -> bool:
+	if self.target_node == null:
+		return false
 	if ( \
 		global_position.distance_to(self.target_node.global_position) < 200 \
 		and next_sword == 2 \
@@ -97,6 +105,8 @@ func _get_ability_2() -> bool:
 	return false
 
 func _get_ability_3() -> bool:
+	if self.target_node == null:
+		return false
 	if ( \
 		global_position.distance_to(self.target_node.global_position) < 200 \
 		and next_sword == 3 \
@@ -109,10 +119,3 @@ func _get_ability_3() -> bool:
 
 func _get_ability_combo() -> bool:
 	return false
-
-func _get_current_target() -> Node2D:
-	for node in nearby_nodes:
-		if (node is Grenade) and randf() < GRENADE_AWARENESS_CHANCE:
-			return node
-	
-	return GameManager.player_ref
