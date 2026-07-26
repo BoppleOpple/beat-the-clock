@@ -1,18 +1,10 @@
 extends Control
 var temp_options: Options
 
-var resolutions: Array[Vector2i] = [
-	Vector2i(1280,720),
-	Vector2i(1600,900),
-	Vector2i(1920,1080),
-	Vector2i(2560,1440),
-	Vector2i(3840,2160),
-]
-
 func _ready() -> void:
 	self.hide()
 	temp_options = GameManager.options
-	for res in resolutions:
+	for res in GameManager.options.resolutions:
 		$"Margin/HSplitContainer/Right Column/Display/Resolution".add_item("%d x %d" % [res.x, res.y])
 
 func _process(delta: float) -> void:
@@ -28,7 +20,12 @@ func _on_visibility_changed() -> void:
 	$"Margin/HSplitContainer/Left Column/Audio".disabled = false
 	$"Margin/HSplitContainer/Right Column/Display".show()
 	$"Margin/HSplitContainer/Right Column/Audio".hide()
-	$"Margin/HSplitContainer/Right Column/Display/Resolution".select(2)
+	for index in temp_options.resolutions.size():
+		if temp_options.resolutions[index].x == temp_options.resolution_x and temp_options.resolutions[index].y == temp_options.resolution_y:
+			$"Margin/HSplitContainer/Right Column/Display/Resolution".select(index)
+	if $"Margin/HSplitContainer/Right Column/Display/Resolution".get_selected_id() == -1:
+		var temp_res = DisplayServer.window_get_size()
+		$"Margin/HSplitContainer/Right Column/Display/Resolution".add_item("%d x %d" % [temp_res.x, temp_res.y])
 	$"Margin/HSplitContainer/Right Column/Display/Fullscreen".button_pressed = temp_options.fullscreen
 	$"Margin/HSplitContainer/Right Column/Display/VSync".button_pressed = temp_options.vsync
 	if temp_options.vsync == true:
@@ -89,7 +86,7 @@ func _on_audio_pressed() -> void:
 	$"Margin/HSplitContainer/Right Column/Audio".show()
 
 func _on_resolution_item_selected(index: int) -> void:
-	var new_res = resolutions[$"Margin/HSplitContainer/Right Column/Display/Resolution".selected]
+	var new_res = GameManager.options.resolutions[$"Margin/HSplitContainer/Right Column/Display/Resolution".selected]
 	temp_options.resolution_x = new_res.x
 	temp_options.resolution_y = new_res.y
 
