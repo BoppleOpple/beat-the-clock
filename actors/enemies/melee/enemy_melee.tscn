@@ -3,23 +3,12 @@
 [ext_resource type="PackedScene" uid="uid://dph6l0nqt4m0p" path="res://actors/enemies/enemy_base.tscn" id="1_hc106"]
 [ext_resource type="Script" uid="uid://devp12u3i0ytj" path="res://actors/enemies/melee/enemy_melee.gd" id="2_sihox"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ikrvj"]
-radius = 21.0
-
 [node name="EnemyMelee" unique_id=950486434 groups=["baddies"] instance=ExtResource("1_hc106")]
 script = ExtResource("2_sihox")
 
 [node name="CollisionShape2D" parent="Visual/SwordAnchor/SlashCollision" parent_id_path=PackedInt32Array(1804471) index="0" unique_id=263427324]
 position = Vector2(59, -19.999998)
 
-[node name="JumpCollisionBelow" type="Area2D" parent="." index="2" unique_id=1117522722]
-
-[node name="BelowCollider" type="CollisionShape2D" parent="JumpCollisionBelow" index="0" unique_id=1295610869]
-position = Vector2(0, 21)
-shape = SubResource("CircleShape2D_ikrvj")
-
 [node name="SlashTimer" type="Timer" parent="Timers" parent_id_path=PackedInt32Array(1078520662) index="11" unique_id=120634366]
 process_callback = 0
 one_shot = true
-
-[connection signal="body_exited" from="JumpCollisionBelow" to="." method="_on_jump_collision_below_body_exited"]

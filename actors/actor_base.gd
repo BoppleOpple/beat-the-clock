@@ -310,7 +310,7 @@ func _respawn() -> void:
 	emit_signal("respawn", self)
 
 func _die_and_free() -> void:
-	$CollisionShape2D.disabled = true
+	$CollisionShape2D.set_deferred("disabled", true)
 	self.sleeping = true
 	self.should_free = true
 	$Visual.visible = false
@@ -407,7 +407,6 @@ func _on_player_clock_timeout() -> void:
 	kill(true, false)
 
 func _on_death_particles_finished() -> void:
-	print("done??")
 	if should_free:
 		self.queue_free()
 
