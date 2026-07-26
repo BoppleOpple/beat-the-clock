@@ -6,7 +6,6 @@
 [sub_resource type="LabelSettings" id="LabelSettings_0hcq4"]
 font = ExtResource("4_02joq")
 font_size = 128
-font_color = Color(1, 0.40392157, 0.40392157, 1)
 outline_size = 16
 outline_color = Color(0, 0, 0, 1)
 shadow_size = 24
@@ -51,6 +50,7 @@ offset_transform_enabled = true
 offset_transform_position = Vector2(0, -100)
 text = "Game Over"
 label_settings = SubResource("LabelSettings_0hcq4")
+horizontal_alignment = 1
 
 [node name="MenuButtons" type="VSplitContainer" parent="UI/Modulate" unique_id=1733872931]
 layout_mode = 1
