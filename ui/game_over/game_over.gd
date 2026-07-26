@@ -1,10 +1,19 @@
 extends Control
 
+func _is_ActorBase(node: Node) -> bool:
+		return node is ActorBase
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$UI/Modulate.hide()
 	$UI/Modulate.modulate.a = 0.0
 	$UI/Modulate/MenuButtons/Restart.grab_focus()
+	
+	var actors: Array[Node] = get_tree().get_nodes_in_group("baddies").filter(_is_ActorBase)
+	
+	for actor in actors:
+		actor.connect("death", _on_player_death)
+	
 
 func _on_restart_pressed() -> void:
 	Engine.time_scale = 1.0
@@ -25,7 +34,9 @@ func _on_player_death(actor: ActorBase) -> void:
 	tween.tween_property(Engine, "time_scale", 0.01, 1.0)
 	if actor is Player:
 		$UI/Modulate/Title.text = "Game Over"
-		$UI/Modulate/Title.add_theme_color_override("font_color", Color.INDIAN_RED)
+		$UI/Modulate/Title.modulate = Color.INDIAN_RED
 	else:
 		$UI/Modulate/Title.text = "Victory!"
-		$UI/Modulate/Title.add_theme_color_override("font_color", Color.LIME_GREEN)
+		$UI/Modulate/Title.modulate = Color.LIME
+	tween.tween_property($UI/Modulate/Title, "modulate", 0.0, 0.1)
+	
