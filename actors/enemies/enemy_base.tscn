@@ -18,6 +18,9 @@ script = ExtResource("2_4d8hh")
 [node name="ColorRect" parent="Visual" parent_id_path=PackedInt32Array(1189846465) index="0" unique_id=1284086352]
 color = Color(0.9722486, 0.38292152, 0.48270053, 1)
 
+[node name="ColorRect2" parent="Visual" parent_id_path=PackedInt32Array(1189846465) index="1" unique_id=548245300]
+color = Color(0.7607843, 0.43137255, 1, 1)
+
 [node name="TimerLabel" parent="Visual/VisualTimer" parent_id_path=PackedInt32Array(645785647) index="0" unique_id=1571675406]
 label_settings = SubResource("LabelSettings_1lwnq")
 

@@ -9,11 +9,6 @@ func _ready() -> void:
 	$UI/Modulate.modulate.a = 0.0
 	$UI/Modulate/MenuButtons/Restart.grab_focus()
 	
-	var actors: Array[Node] = get_tree().get_nodes_in_group("baddies").filter(_is_ActorBase)
-	
-	for actor in actors:
-		actor.connect("death", _on_player_death)
-	
 
 func _on_restart_pressed() -> void:
 	Engine.time_scale = 1.0
@@ -27,6 +22,8 @@ func _on_main_menu_pressed() -> void:
 
 func _on_player_death(actor: ActorBase) -> void:
 	var actors: Array[Node] = get_tree().get_nodes_in_group("baddies").filter(_is_ActorBase)
+	
+	print(actors.map(func(actor): return actor.should_free))
 	
 	if actor is Player:
 		$UI/Modulate/Title.text = "Game Over"

@@ -5,8 +5,6 @@
 [ext_resource type="PackedScene" uid="uid://cpvcqwg43fwv" path="res://ui/hud/hud.tscn" id="2_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://cna1uay0kbei2" path="res://player/player.tscn" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://grjdako5rpsp" path="res://ui/pause/pause.tscn" id="5_lquwl"]
-[ext_resource type="PackedScene" uid="uid://chg4k3ky170cu" path="res://actors/enemies/melee/enemy_melee.tscn" id="6_7mycd"]
-[ext_resource type="PackedScene" uid="uid://b8iqpqvc0oocq" path="res://actors/enemies/bomber/enemy_bomber.tscn" id="7_272bh"]
 [ext_resource type="PackedScene" uid="uid://ncm7jouu3x60" path="res://ui/game_over/game_over.tscn" id="8_5vw27"]
 
 [node name="Main" type="Node" unique_id=303326613]
@@ -29,16 +27,15 @@ position = Vector2(1, -144)
 
 [node name="HUD" parent="CanvasLayer" unique_id=856797878 instance=ExtResource("2_0xm2m")]
 
+[node name="Enemies" type="Node" parent="." unique_id=2066253168]
+
 [node name="Objects" type="Node" parent="." unique_id=294892081]
 
 [node name="Pause" parent="." unique_id=181748229 instance=ExtResource("5_lquwl")]
-
-[node name="EnemyMelee" parent="." unique_id=950486434 instance=ExtResource("6_7mycd")]
-position = Vector2(-317, -186)
-
-[node name="EnemyBomber" parent="." unique_id=767976202 instance=ExtResource("7_272bh")]
 
 [node name="GameOver" parent="." unique_id=1807783136 instance=ExtResource("8_5vw27")]
 
 [connection signal="tree_exited" from="Stage" to="." method="_on_stage_tree_exited"]
 [connection signal="death" from="Player" to="GameOver" method="_on_player_death"]
+[connection signal="respawn" from="Player" to="." method="_on_actor_respawn"]
+[connection signal="throw_grenade" from="Player" to="." method="_on_player_throw_grenade"]

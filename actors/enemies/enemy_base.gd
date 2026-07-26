@@ -123,6 +123,9 @@ func _get_current_target() -> Node2D:
 	var index = randi_range(0, attackable_nodes.size() - 1)
 	return attackable_nodes[index]
 
+func set_hue(hue: float) -> void:
+	$Visual/ColorRect2.color = Color.from_hsv(hue, .6, 1.0)
+
 func _check_recovery() -> void:
 	if $Timers/PanicTimer.time_left > 0:
 		return

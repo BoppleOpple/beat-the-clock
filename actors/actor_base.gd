@@ -43,7 +43,7 @@ const HITSTUN_BOUNCE: float = 0.8
 const DEATH_TIME_MOD: float = -30.0
 const KILL_TIME_MOD: float = 30.0
 
-const KILL_EXPIRATION_TIME: float = 2.5
+const KILL_EXPIRATION_TIME: float = 4.0
 
 const jump_sfx = preload("res://assets/audio/abilities/jump.mp3")
 const dash_sfx = preload("res://assets/audio/abilities/dash.mp3")
