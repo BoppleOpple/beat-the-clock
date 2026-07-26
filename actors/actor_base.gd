@@ -43,6 +43,13 @@ const KILL_TIME_MOD: float = 30.0
 
 const KILL_EXPIRATION_TIME: float = 2.5
 
+const jump_sfx = preload("res://assets/audio/abilities/jump.mp3")
+const dash_sfx = preload("res://assets/audio/abilities/dash.mp3")
+const sword_sfx = preload("res://assets/audio/abilities/sword.mp3")
+const parry_sfx = preload("res://assets/audio/abilities/parry.mp3")
+const throw_sfx = preload("res://assets/audio/abilities/throw.mp3")
+const death_sfx = preload("res://assets/audio/entity/death.mp3")
+
 ###########
 # CLASSES #
 ###########
@@ -77,12 +84,6 @@ var teleport_pos: Vector2
 var should_free: bool = false
 
 @onready var ability_player: AudioStreamPlayer = $SFXPlayer
-var jump_sfx = preload("res://assets/audio/abilities/jump.mp3")
-var dash_sfx = preload("res://assets/audio/abilities/dash.mp3")
-var sword_sfx = preload("res://assets/audio/abilities/sword.mp3")
-var parry_sfx = preload("res://assets/audio/abilities/parry.mp3")
-var throw_sfx = preload("res://assets/audio/abilities/throw.mp3")
-var death_sfx = preload("res://assets/audio/entity/death.mp3")
 
 var motion_cause: ActorBase = self
 
@@ -314,6 +315,7 @@ func _die_and_free() -> void:
 	self.sleeping = true
 	self.should_free = true
 	$Visual.visible = false
+	emit_signal("death", self)
 
 func _handle_mod_timer(time: float) -> float:
 	var label = Label.new()
@@ -421,3 +423,5 @@ func _on_kill_expiration_timer_timeout() -> void:
 signal throw_grenade(player: ActorBase, position: Vector2, velocity: Vector2)
 
 signal respawn(actor: ActorBase)
+
+signal death(actor: ActorBase)

@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://grjdako5rpsp" path="res://ui/pause/pause.tscn" id="5_lquwl"]
 [ext_resource type="PackedScene" uid="uid://chg4k3ky170cu" path="res://actors/enemies/melee/enemy_melee.tscn" id="6_7mycd"]
 [ext_resource type="PackedScene" uid="uid://b8iqpqvc0oocq" path="res://actors/enemies/bomber/enemy_bomber.tscn" id="7_272bh"]
+[ext_resource type="PackedScene" uid="uid://ncm7jouu3x60" path="res://ui/game_over/game_over.tscn" id="7_272bh"]
 
 [node name="Main" type="Node" unique_id=303326613]
 script = ExtResource("1_1bvp3")
@@ -36,3 +37,7 @@ position = Vector2(1, -144)
 position = Vector2(-317, -186)
 
 [node name="EnemyBomber" parent="." unique_id=920122439 instance=ExtResource("7_272bh")]
+
+[node name="GameOver" parent="." unique_id=1807783136 instance=ExtResource("7_272bh")]
+
+[connection signal="death" from="Player" to="GameOver" method="_on_player_death"]
