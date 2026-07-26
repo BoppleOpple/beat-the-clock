@@ -270,21 +270,30 @@ func kill(force: bool = false, respawn: bool = true):
 	
 	# TODO add preventable death maybe
 	if force or true:
-		$DeathParticles.amount = clamp(int(self.linear_velocity.length() / 25), 4, 100)
-		
-		$DeathParticles.initial_velocity_min = self.linear_velocity.length() * 0.5
-		$DeathParticles.initial_velocity_max = self.linear_velocity.length() * 3
-		$DeathParticles.direction = -self.linear_velocity.rotated(-self.rotation)
-		
-		$DeathParticles.emitting = true
-		
-		$DeathParticles.color = $Visual/ColorRect2.color
-		
 		var playback = ability_player.get_stream_playback() as AudioStreamPlaybackPolyphonic
 		if playback:
 			playback.play_stream(death_sfx, 0.0, -12.0, randf_range(2.3,3.0))
+			
+		if respawn:
+			$DeathParticles.amount = clamp(int(self.linear_velocity.length() / 25), 4, 100)
+			
+			$DeathParticles.initial_velocity_min = self.linear_velocity.length() * 0.5
+			$DeathParticles.initial_velocity_max = self.linear_velocity.length() * 3
+			$DeathParticles.direction = -self.linear_velocity.rotated(-self.rotation)
+		else:
+			$DeathParticles.amount = 100
 		
-		self._handle_mod_timer(DEATH_TIME_MOD)
+			$DeathParticles.initial_velocity_min = 100
+			$DeathParticles.initial_velocity_max = 300
+			$DeathParticles.direction = Vector2.UP
+			$DeathParticles.spread = 180
+		
+		$DeathParticles.color = $Visual/ColorRect2.color
+	
+		$DeathParticles.emitting = true
+		
+		if self._handle_mod_timer(DEATH_TIME_MOD) <= 0:
+			respawn = false
 		
 		if motion_cause != self:
 			if is_instance_valid(motion_cause):
@@ -306,7 +315,7 @@ func _die_and_free() -> void:
 	self.should_free = true
 	$Visual.visible = false
 
-func _handle_mod_timer(time: float) -> void:
+func _handle_mod_timer(time: float) -> float:
 	var label = Label.new()
 	$Visual/VisualTimer/TimerLabel/ModTime.add_child(label)
 	$Visual/VisualTimer/TimerLabel/ModTime.move_child(label,0)
@@ -321,17 +330,22 @@ func _handle_mod_timer(time: float) -> void:
 		label.text = "- " + str(abs(time))
 		$Visual/VisualTimer/TimerLabel.modulate = Color.RED
 	else:
-		return
-	if ($Timers/PlayerClock.time_left + time) >= 0.0: 
-		$Timers/PlayerClock.start($Timers/PlayerClock.time_left + time)
+		return $Timers/PlayerClock.time_left
+	
+	var result: float = $Timers/PlayerClock.time_left + time
+	if result >= 0.0: 
+		$Timers/PlayerClock.start(result)
 	else:
-		$Timers/PlayerClock.start(0.001)
+		$Timers/PlayerClock.stop()
+	
 	if $Timers/PlayerClock.time_left >= GameManager.PLAYER_MAX_TIME:
 		$Timers/PlayerClock.start(GameManager.PLAYER_MAX_TIME)
 		$Visual/VisualTimer/TimerLabel.modulate = Color.ROYAL_BLUE
 	timer_tween.tween_property($Visual/VisualTimer/TimerLabel, "modulate", Color.WHITE, 0.5)
 	opacity_tween.tween_property(label, "modulate:a", 0.0, 1.0)
 	opacity_tween.tween_callback(label.queue_free)
+	
+	return result
 
 func get_aim_direction() -> Vector2:
 	return Vector2(1, 0)
@@ -393,6 +407,7 @@ func _on_player_clock_timeout() -> void:
 	kill(true, false)
 
 func _on_death_particles_finished() -> void:
+	print("done??")
 	if should_free:
 		self.queue_free()
 

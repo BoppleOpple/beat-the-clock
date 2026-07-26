@@ -12,4 +12,5 @@ func _process(delta: float) -> void:
 
 func _on_play_area_body_exited(body: Node2D) -> void:
 	if body is ActorBase:
-		body.kill(true)
+		if not body.should_free:
+			body.kill(true)
