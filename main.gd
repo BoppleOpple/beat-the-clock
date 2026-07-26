@@ -3,6 +3,11 @@ extends Node
 const GRENADE_SCENE = preload("res://actors/objects/grenade.tscn")
 const PLAYER_SCENE = preload("res://player/player.tscn")
 
+const STAGE_POOL: Array[PackedScene] = [
+	preload("res://stages/final_destination.tscn"),
+	preload("res://stages/outdoors.tscn")
+]
+
 const CAMERA_TRACKING_SCALE: float = 5.0
 const CAMERA_ZOOMING_SCALE: float = 10.0
 const CAMERA_PADDING: Vector2 = Vector2(200, 200)
@@ -28,6 +33,8 @@ func _is_not_player_spawn (spawn: Node):
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	_randomize_stage()
+	
 	var actors: Array[Node] = [$Player]
 	actors += get_tree().get_nodes_in_group("baddies").filter(_is_ActorBase)
 	
@@ -83,6 +90,17 @@ func _get_camera_bounds() -> Rect2:
 	max_corner = max_corner.clamp(blast_zone_rect.position, blast_zone_rect.position + blast_zone_rect.size)
 	
 	return Rect2(min_corner, max_corner - min_corner)
+
+func _set_stage(stage: PackedScene) -> void:
+	var old_stage: StageBase = $Stage
+	var new_stage: StageBase = stage.instantiate()
+	new_stage.name = "Stage"
+	$Stage.replace_by(new_stage)
+	old_stage.queue_free()
+
+func _randomize_stage() -> void:
+	var selected_index: int = randi_range(0, STAGE_POOL.size() - 1)
+	_set_stage(STAGE_POOL[selected_index])
 
 func _move_actor_to_spawn_point(actor: ActorBase) -> void:
 	var selected_spawn_location: Vector2 = Vector2.ZERO
