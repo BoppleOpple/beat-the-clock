@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://b8iqpqvc0oocq"]
+
+[ext_resource type="PackedScene" uid="uid://dph6l0nqt4m0p" path="res://actors/enemies/enemy_base.tscn" id="1_utd4u"]
+[ext_resource type="Script" uid="uid://cj0jaaw0o5qva" path="res://actors/enemies/bomber/enemy_bomber.gd" id="2_rj5nv"]
+
+[node name="EnemyBomber" unique_id=950486434 groups=["baddies"] instance=ExtResource("1_utd4u")]
+script = ExtResource("2_rj5nv")
+
+[node name="CollisionShape2D" parent="Visual/SwordAnchor/SlashCollision" parent_id_path=PackedInt32Array(1804471) index="0" unique_id=263427324]
+position = Vector2(59, -19.999998)
+
+[node name="BombTimer" type="Timer" parent="Timers" parent_id_path=PackedInt32Array(1078520662) index="11" unique_id=120634366]
+process_callback = 0
+one_shot = true
