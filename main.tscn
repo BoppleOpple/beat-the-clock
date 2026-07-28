@@ -20,6 +20,8 @@ script = ExtResource("1_1bvp3")
 position = Vector2(1, -144)
 editor_draw_limits = true
 
+[node name="Players" type="Node" parent="." unique_id=1290952913]
+
 [node name="Player" parent="." unique_id=823536844 instance=ExtResource("3_h2yge")]
 position = Vector2(1, -144)
 

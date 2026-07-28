@@ -1,22 +1,16 @@
 extends Control
 
-@onready var playbutton: Button = $UI/MenuButtons/Play
-@onready var optionsbutton: Button = $UI/MenuButtons/Options
-@onready var exitbutton: Button = $UI/MenuButtons/Exit
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$UI/MenuButtons/Play.grab_focus()
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-
 func _on_play_pressed() -> void:
 	get_tree().change_scene_to_file("res://main.tscn")
 
+func _on_multiplayer_pressed() -> void:
+	$UI/Multiplayer.show()
+	$UI/Multiplayer/MarginContainer/Rows/UpperColumns/RightColumn/IPBox/IPText.grab_focus()
 
 func _on_options_pressed() -> void:
 	$UI/Options.show()

@@ -18,3 +18,6 @@ var resolutions: Array[Vector2i] = [
 @export var volume_music: int = 100
 @export var volume_sfx: int = 100
 @export var num_of_enemies: int = 1
+
+@export var last_used_ip: String = "127.0.0.1"
+@export var last_used_port: String = "7777"
