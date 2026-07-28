@@ -6,6 +6,7 @@
 [ext_resource type="LabelSettings" uid="uid://chxdvv8elu13o" path="res://assets/fonts/Title.tres" id="2_wk0pr"]
 [ext_resource type="AudioStream" uid="uid://cxuxth58budjv" path="res://assets/audio/music/menu/bg.mp3" id="5_3c04x"]
 [ext_resource type="PackedScene" uid="uid://dp1pn6ls667vp" path="res://ui/options/options.tscn" id="5_joh67"]
+[ext_resource type="PackedScene" uid="uid://5gb2xkucy6yj" path="res://ui/multiplayer/multiplayer.tscn" id="6_u184e"]
 
 [sub_resource type="Theme" id="Theme_t7e0r"]
 default_font = ExtResource("2_0dkrt")
@@ -53,12 +54,16 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_t7e0r")
 theme_override_constants/separation = 32
-split_offsets = PackedInt32Array(0, 0)
+split_offsets = PackedInt32Array(0, 0, 0)
 dragging_enabled = false
 
 [node name="Play" type="Button" parent="UI/MenuButtons" unique_id=1282584945]
 layout_mode = 2
-text = "Play"
+text = "Singleplayer"
+
+[node name="Multiplayer" type="Button" parent="UI/MenuButtons" unique_id=335371407]
+layout_mode = 2
+text = "Multiplayer"
 
 [node name="Options" type="Button" parent="UI/MenuButtons" unique_id=1104439788]
 layout_mode = 2
@@ -71,12 +76,16 @@ text = "Exit"
 [node name="Options" parent="UI" unique_id=377516718 instance=ExtResource("5_joh67")]
 visible = false
 
+[node name="Multiplayer" parent="UI" unique_id=86774141 instance=ExtResource("6_u184e")]
+visible = false
+
 [node name="AudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=525584265]
 stream = ExtResource("5_3c04x")
 autoplay = true
 bus = &"Music"
 
 [connection signal="pressed" from="UI/MenuButtons/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="UI/MenuButtons/Multiplayer" to="." method="_on_multiplayer_pressed"]
 [connection signal="pressed" from="UI/MenuButtons/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="UI/MenuButtons/Exit" to="." method="_on_exit_pressed"]
 [connection signal="focus_reset" from="UI/Options" to="." method="_on_options_focus_reset"]

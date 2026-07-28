@@ -1,0 +1,140 @@
+[gd_scene format=3 uid="uid://5gb2xkucy6yj"]
+
+[ext_resource type="Script" uid="uid://c017cpeh17q7m" path="res://ui/multiplayer/multiplayer.gd" id="1_8mgs6"]
+
+[node name="Multiplayer" type="Control" unique_id=86774141]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8mgs6")
+
+[node name="TextureRect" type="ColorRect" parent="." unique_id=1493688162]
+custom_minimum_size = Vector2(480, 480)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -240.0
+offset_right = 240.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.2627451, 0.2627451, 0.2627451, 0.98039216)
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=912441481]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -240.0
+offset_right = 240.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="Rows" type="VBoxContainer" parent="MarginContainer" unique_id=1291798920]
+layout_mode = 2
+alignment = 1
+
+[node name="UpperColumns" type="HBoxContainer" parent="MarginContainer/Rows" unique_id=375745142]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LeftColumn" type="VBoxContainer" parent="MarginContainer/Rows/UpperColumns" unique_id=825092276]
+layout_mode = 2
+
+[node name="Close" type="Button" parent="MarginContainer/Rows/UpperColumns/LeftColumn" unique_id=1528204763]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+text = "x"
+
+[node name="VSplitContainer" type="VSplitContainer" parent="MarginContainer/Rows/UpperColumns" unique_id=670023810]
+layout_mode = 2
+dragging_enabled = false
+dragger_visibility = 1
+
+[node name="RightColumn" type="VBoxContainer" parent="MarginContainer/Rows/UpperColumns" unique_id=543574980]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="IPBox" type="HBoxContainer" parent="MarginContainer/Rows/UpperColumns/RightColumn" unique_id=236840823]
+layout_mode = 2
+alignment = 1
+
+[node name="IPLabel" type="Label" parent="MarginContainer/Rows/UpperColumns/RightColumn/IPBox" unique_id=571997485]
+layout_mode = 2
+text = "IP Address:"
+
+[node name="IPText" type="LineEdit" parent="MarginContainer/Rows/UpperColumns/RightColumn/IPBox" unique_id=44974273]
+custom_minimum_size = Vector2(192, 35)
+layout_mode = 2
+text = "127.0.0.1"
+placeholder_text = "127.0.0.1"
+alignment = 1
+expand_to_text_length = true
+context_menu_enabled = false
+emoji_menu_enabled = false
+
+[node name="PortBox" type="HBoxContainer" parent="MarginContainer/Rows/UpperColumns/RightColumn" unique_id=571787757]
+layout_mode = 2
+alignment = 1
+
+[node name="PortLabel" type="Label" parent="MarginContainer/Rows/UpperColumns/RightColumn/PortBox" unique_id=2020582318]
+layout_mode = 2
+text = "Port:"
+
+[node name="PortText" type="LineEdit" parent="MarginContainer/Rows/UpperColumns/RightColumn/PortBox" unique_id=1939466330]
+custom_minimum_size = Vector2(128, 35)
+layout_mode = 2
+text = "7777"
+placeholder_text = "7777"
+alignment = 1
+max_length = 5
+context_menu_enabled = false
+emoji_menu_enabled = false
+
+[node name="Waiting" type="HBoxContainer" parent="MarginContainer/Rows" unique_id=1009388751]
+layout_mode = 2
+alignment = 1
+
+[node name="LoadingLabel" type="Label" parent="MarginContainer/Rows/Waiting" unique_id=106735961]
+visible = false
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+text = "Waiting"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LoadingTimer" type="Timer" parent="MarginContainer/Rows/Waiting" unique_id=2115274826]
+wait_time = 0.5
+autostart = true
+
+[node name="LowerButtons" type="HBoxContainer" parent="MarginContainer/Rows" unique_id=818976028]
+layout_mode = 2
+alignment = 1
+
+[node name="CreateServer" type="Button" parent="MarginContainer/Rows/LowerButtons" unique_id=515032454]
+layout_mode = 2
+text = "  Create Server  "
+
+[node name="JoinServer" type="Button" parent="MarginContainer/Rows/LowerButtons" unique_id=1705458508]
+layout_mode = 2
+text = "  Join Server  "
+
+[connection signal="pressed" from="MarginContainer/Rows/UpperColumns/LeftColumn/Close" to="." method="_on_close_pressed"]
+[connection signal="timeout" from="MarginContainer/Rows/Waiting/LoadingTimer" to="." method="_on_loading_timer_timeout"]
+[connection signal="pressed" from="MarginContainer/Rows/LowerButtons/CreateServer" to="." method="_on_create_server_pressed"]
+[connection signal="pressed" from="MarginContainer/Rows/LowerButtons/JoinServer" to="." method="_on_join_server_pressed"]

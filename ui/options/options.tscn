@@ -196,7 +196,7 @@ horizontal_alignment = 2
 [node name="EnemyCount" type="HSlider" parent="Margin/HSplitContainer/Right Column/Experimental" unique_id=322004305]
 layout_mode = 2
 min_value = 1.0
-max_value = 16.0
+max_value = 32.0
 value = 1.0
 
 [node name="HSplitContainer2" type="HSplitContainer" parent="Margin" unique_id=983162772]
