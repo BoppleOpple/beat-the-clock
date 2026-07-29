@@ -2,10 +2,9 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$UI/MenuButtons/Play.grab_focus()
+	$UI/MenuButtons/Singleplayer.grab_focus()
 
-
-func _on_play_pressed() -> void:
+func _on_singleplayer_pressed() -> void:
 	get_tree().change_scene_to_file("res://main.tscn")
 
 func _on_multiplayer_pressed() -> void:

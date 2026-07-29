@@ -23,10 +23,20 @@ const DEATH_CLOCK_MIN_VOLUME = 0.05
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	super()
-	GameManager.player_ref = self
+	GameManager.register_player(self, get_multiplayer_authority())
+	self.player_data.timer = 300.0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
+	if !is_multiplayer_authority():
+		return
+	
+	self.player_data.timer -= delta
+	self.player_data.ability_1_cooldown -= delta
+	self.player_data.ability_2_cooldown -= delta
+	self.player_data.ability_3_cooldown -= delta
+	self.player_data.ability_c_cooldown -= delta
+	
 	var frame_actions: Actions = Actions.new()
 	
 	frame_actions.move_x = Input.get_axis("gameplay_left", "gameplay_right")

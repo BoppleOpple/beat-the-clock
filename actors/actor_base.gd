@@ -80,6 +80,8 @@ var ability_2: GameManager.Ability = GameManager.Ability.GRENADE
 var ability_3: GameManager.Ability = GameManager.Ability.SWORD
 var ability_c: GameManager.Ability = GameManager.Ability.DASH
 
+var player_data := PlayerData.new()
+
 var teleporting: bool = false
 var teleport_pos: Vector2
 
@@ -109,10 +111,10 @@ func _process(_delta: float):
 	# handle timers
 	$Visual/VisualTimer/TimerLabel.text = str(snapped($Timers/PlayerClock.time_left, 0.1))
 	$Visual/VisualTimer/TimerLabel.set_position(self.get_position() + PLAYER_TIMER_OFFSET)
-	GameManager.player.ability_1_cooldown = $Timers/LeftAbilityTimer.time_left
-	GameManager.player.ability_2_cooldown = $Timers/MiddleAbilityTimer.time_left
-	GameManager.player.ability_3_cooldown = $Timers/RightAbilityTimer.time_left
-	GameManager.player.ability_c_cooldown = $Timers/ComboAbilityTimer.time_left
+	player_data.ability_1_cooldown = $Timers/LeftAbilityTimer.time_left
+	player_data.ability_2_cooldown = $Timers/MiddleAbilityTimer.time_left
+	player_data.ability_3_cooldown = $Timers/RightAbilityTimer.time_left
+	player_data.ability_c_cooldown = $Timers/ComboAbilityTimer.time_left
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	if teleporting:
@@ -225,7 +227,7 @@ func _throw_grenade() -> void:
 	var pos: Vector2 = self.global_position + get_aim_direction() * GRENADE_SPAWN_DISTANCE
 	
 	vel += self.linear_velocity
-	
+	print("Throw signal emitted")
 	emit_signal("throw_grenade", self, pos, vel)
 	var playback = ability_player.get_stream_playback() as AudioStreamPlaybackPolyphonic
 	if playback:

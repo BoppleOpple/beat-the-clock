@@ -53,6 +53,9 @@ func _is_not_player_spawn (spawn: Node):
 func _ready() -> void:
 	_randomize_stage()
 	_spawn_enemies(GameManager.options.num_of_enemies)
+	NetworkManager.player_connected.connect(_spawn_player)
+	NetworkManager.player_disconnected.connect(_remove_player)
+	_spawn_player(1)
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -113,6 +116,25 @@ func _set_stage(stage: PackedScene) -> void:
 	$Stage.queue_free()
 	replacing_stage = true
 
+func _spawn_player(id: int) -> void:
+	var player := PLAYER_SCENE.instantiate()
+	
+	player.throw_grenade.connect(_on_player_throw_grenade)
+	player.respawn.connect(_on_actor_respawn)
+	
+	player.name = str(id)
+	player.set_multiplayer_authority(id)
+	
+	$Players.add_child(player)
+	
+	_on_actor_respawn(player)
+
+func _remove_player(id: int) -> void:
+	var player = GameManager.get_player(id)
+	if player:
+		player.queue_free()
+		GameManager.unregister_player(id)
+
 func _spawn_enemies(num_enemies: int) -> void:
 	for i in range(num_enemies):
 		var rand_val: float = randf()
@@ -156,6 +178,7 @@ func _move_actor_to_spawn_point(actor: ActorBase) -> void:
 ####################
 
 func _on_player_throw_grenade(player: ActorBase, position: Vector2, velocity: Vector2) -> void:
+	print("Main received throw signal")
 	var new_grenade: Grenade = GRENADE_SCENE.instantiate()
 	new_grenade.global_position = position
 	new_grenade.linear_velocity = velocity
@@ -178,7 +201,8 @@ func _on_stage_tree_exited() -> void:
 		new_stage = null
 	
 	if get_tree() != null:
-		var actors: Array[Node] = [$Player]
+		var actors: Array[Node] = []
+		actors += get_tree().get_nodes_in_group("Players").filter(_is_ActorBase)
 		actors += get_tree().get_nodes_in_group("baddies").filter(_is_ActorBase)
 		
 		for actor in actors:

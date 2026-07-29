@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://bubd3p77gr8x1" path="res://main.gd" id="1_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://cebxki01pqopu" path="res://stages/final_destination.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://cpvcqwg43fwv" path="res://ui/hud/hud.tscn" id="2_0xm2m"]
-[ext_resource type="PackedScene" uid="uid://cna1uay0kbei2" path="res://player/player.tscn" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://grjdako5rpsp" path="res://ui/pause/pause.tscn" id="5_lquwl"]
 [ext_resource type="PackedScene" uid="uid://ncm7jouu3x60" path="res://ui/game_over/game_over.tscn" id="8_5vw27"]
 
@@ -22,9 +21,6 @@ editor_draw_limits = true
 
 [node name="Players" type="Node" parent="." unique_id=1290952913]
 
-[node name="Player" parent="." unique_id=823536844 instance=ExtResource("3_h2yge")]
-position = Vector2(1, -144)
-
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=820136992]
 
 [node name="HUD" parent="CanvasLayer" unique_id=856797878 instance=ExtResource("2_0xm2m")]
@@ -38,6 +34,3 @@ position = Vector2(1, -144)
 [node name="GameOver" parent="." unique_id=1807783136 instance=ExtResource("8_5vw27")]
 
 [connection signal="tree_exited" from="Stage" to="." method="_on_stage_tree_exited"]
-[connection signal="death" from="Player" to="GameOver" method="_on_player_death"]
-[connection signal="respawn" from="Player" to="." method="_on_actor_respawn"]
-[connection signal="throw_grenade" from="Player" to="." method="_on_player_throw_grenade"]
