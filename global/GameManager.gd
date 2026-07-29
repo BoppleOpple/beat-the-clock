@@ -1,13 +1,23 @@
 extends Node
 
-const PLAYER_MAX_TIME: float = 300.5
-var player: PlayerData
-var player_ref: Player
-var options: Options
+#############
+# CONSTANTS #
+#############
 
+const PLAYER_MAX_TIME: float = 300.5
 
 const SAVE_GAME_PATH := "user://savegame.save"
 const SAVE_OPTIONS_PATH := "user://options.save"
+
+const ABILITY_COOLDOWN: Array[float] = [10.0, 2.0, 2.5, 3.0]
+
+###########
+# GLOBALS #
+###########
+
+#var player: PlayerData
+#var player_ref: Player REPLACING WITH "players" Dictionary
+var options: Options
 # -----------
 # ABILITY VALUES
 # 0 - Empty
@@ -15,34 +25,26 @@ const SAVE_OPTIONS_PATH := "user://options.save"
 # 2 - Sword
 # 3 - Grenade
 # -----------
-
 enum Ability {
 	EMPTY = 0,
 	DASH = 1,
 	SWORD = 2,
 	GRENADE = 3,
 }
-
-const ABILITY_COOLDOWN: Array[float] = [10.0, 2.0, 2.5, 3.0]
-
 enum InputDevice { KEYBOARD_MOUSE, CONTROLLER }
 var current_device := InputDevice.KEYBOARD_MOUSE
+var players: Dictionary = {}
 
-# Called when the node enters the scene tree for the first time.
+###########
+# METHODS #
+###########
+
 func _ready() -> void:
-	player = PlayerData.new()
 	options = Options.new()
 	load_options()
-	player.timer = 300.0
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	player.timer -= delta
-	player.ability_1_cooldown -= delta
-	player.ability_2_cooldown -= delta
-	player.ability_3_cooldown -= delta
-	player.ability_c_cooldown -= delta
+	pass
 
 func save_options() -> void:
 	var options_dict := {
@@ -126,3 +128,36 @@ func _once_options_loaded() -> void:
 	set_music_volume(options.volume_music / 100.0)
 	set_sfx_volume(options.volume_sfx / 100.0)
 	
+func register_player(player: Player, id: int = -1) -> void:
+	if id == -1:
+		id = player.get_multiplayer_authority()
+	players[id] = player
+	player_registered.emit(player)
+	if player.is_multiplayer_authority():
+		local_player_ready.emit(player)
+	
+func unregister_player(id: int) -> void:
+	if players.has(id):
+		var p = players[id]
+		players.erase(id)
+		player_unregistered.emit(p)
+		
+func get_player(id: int) -> Player:
+	return players.get(id)
+	
+func get_local_player() -> Player:
+	for p in players.values():
+		if p.is_multiplayer_authority():
+			return p
+	return null
+
+func get_all_players() -> Array:
+	return players.values()
+	
+####################
+# OUTGOING SIGNALS #
+####################
+
+signal player_registered(player: Player)
+signal player_unregistered(player: Player)
+signal local_player_ready(player: Player)

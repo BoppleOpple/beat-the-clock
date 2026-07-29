@@ -21,11 +21,13 @@ func _on_main_menu_pressed() -> void:
 	get_tree().change_scene_to_file("res://ui/main_menu/main_menu.tscn")
 
 func _on_player_death(actor: ActorBase) -> void:
-	var actors: Array[Node] = get_tree().get_nodes_in_group("baddies").filter(_is_ActorBase)
+	var actors: Array[Node] = []
+	actors += get_tree().get_nodes_in_group("Players").filter(_is_ActorBase)
+	actors += get_tree().get_nodes_in_group("baddies").filter(_is_ActorBase)
 	
-	print(actors.map(func(actor): return actor.should_free))
+	#print(actors.map(func(actor): return actor.should_free))
 	
-	if actor is Player:
+	if actor == GameManager.get_local_player():
 		$UI/Modulate/Title.text = "Game Over"
 		$UI/Modulate/Title.modulate = Color.INDIAN_RED
 	else:

@@ -94,7 +94,7 @@ func _get_current_target() -> Node2D:
 			return node
 	
 	# then, have a chance to remember the player exists
-	var player_or_null: Player = GameManager.player_ref if is_instance_valid(GameManager.player_ref) else null
+	var player_or_null: Player = GameManager.get_local_player() if is_instance_valid(GameManager.get_local_player()) else null
 	
 	if randf() < TARGET_SWITCHUP_CHANCE:
 		prev_target_node = player_or_null

@@ -57,7 +57,7 @@ theme_override_constants/separation = 32
 split_offsets = PackedInt32Array(0, 0, 0)
 dragging_enabled = false
 
-[node name="Play" type="Button" parent="UI/MenuButtons" unique_id=1282584945]
+[node name="Singleplayer" type="Button" parent="UI/MenuButtons" unique_id=1282584945]
 layout_mode = 2
 text = "Singleplayer"
 
@@ -84,7 +84,7 @@ stream = ExtResource("5_3c04x")
 autoplay = true
 bus = &"Music"
 
-[connection signal="pressed" from="UI/MenuButtons/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="UI/MenuButtons/Singleplayer" to="." method="_on_singleplayer_pressed"]
 [connection signal="pressed" from="UI/MenuButtons/Multiplayer" to="." method="_on_multiplayer_pressed"]
 [connection signal="pressed" from="UI/MenuButtons/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="UI/MenuButtons/Exit" to="." method="_on_exit_pressed"]

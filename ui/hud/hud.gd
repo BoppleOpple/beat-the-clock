@@ -4,6 +4,7 @@ var dash_texture = load("res://assets/textures/dash.png")
 var sword_texture = load("res://assets/textures/sword.png")
 var grenade_texture = load("res://assets/textures/grenade.png")
 
+var player: Player
 # -----------
 # ABILITY VALUES
 # 0 - Empty
@@ -13,68 +14,78 @@ var grenade_texture = load("res://assets/textures/grenade.png")
 # -----------
 
 func _ready() -> void:
+	GameManager.local_player_ready.connect(_initialize)
+	
+	player = GameManager.get_local_player()
+	if player:
+		_initialize(player)
+	
+
+func _initialize(p: Player):
+	player = p
 	# Ability Slot 1
-	$AbilityFG/VBoxContainer/LowerAbilities/Ability1.max_value = GameManager.ABILITY_COOLDOWN[GameManager.player_ref.ability_1]
+	$AbilityFG/VBoxContainer/LowerAbilities/Ability1.max_value = GameManager.ABILITY_COOLDOWN[player.ability_1]
 	# Ability Slot 2
-	$AbilityFG/VBoxContainer/LowerAbilities/Ability2.max_value = GameManager.ABILITY_COOLDOWN[GameManager.player_ref.ability_2]
+	$AbilityFG/VBoxContainer/LowerAbilities/Ability2.max_value = GameManager.ABILITY_COOLDOWN[player.ability_2]
 	# Ability Slot 3
-	$AbilityFG/VBoxContainer/LowerAbilities/Ability3.max_value = GameManager.ABILITY_COOLDOWN[GameManager.player_ref.ability_3]
+	$AbilityFG/VBoxContainer/LowerAbilities/Ability3.max_value = GameManager.ABILITY_COOLDOWN[player.ability_3]
 	# Ability Slot C
-	$AbilityFG/VBoxContainer/UpperAbilities/AbilityC.max_value = GameManager.ABILITY_COOLDOWN[GameManager.player_ref.ability_c]
+	$AbilityFG/VBoxContainer/UpperAbilities/AbilityC.max_value = GameManager.ABILITY_COOLDOWN[player.ability_c]
 	# Ability Slot 1 Cooldown
-	$AbilityFG/VBoxContainer/LowerAbilities/Ability1.value = GameManager.player.ability_1_cooldown
+	#$AbilityFG/VBoxContainer/LowerAbilities/Ability1.value = player.ability_1_cooldown
 	# Ability Slot 2 Cooldown
-	$AbilityFG/VBoxContainer/LowerAbilities/Ability2.value = GameManager.player.ability_2_cooldown
+	#$AbilityFG/VBoxContainer/LowerAbilities/Ability2.value = player.ability_2_cooldown
 	# Ability Slot 3 Cooldown
-	$AbilityFG/VBoxContainer/LowerAbilities/Ability3.value = GameManager.player.ability_3_cooldown
+	#$AbilityFG/VBoxContainer/LowerAbilities/Ability3.value = player.ability_3_cooldown
 	# Ability Slot C Cooldown
-	$AbilityFG/VBoxContainer/UpperAbilities/AbilityC.value = GameManager.player.ability_c_cooldown
+	#$AbilityFG/VBoxContainer/UpperAbilities/AbilityC.value = player.ability_c_cooldown
 	_ability_texture_update()
 
-
 func _process(delta: float) -> void:
-	$AbilityFG/VBoxContainer/LowerAbilities/Ability1.value = GameManager.player.ability_1_cooldown
-	$AbilityFG/VBoxContainer/LowerAbilities/Ability2.value = GameManager.player.ability_2_cooldown
-	$AbilityFG/VBoxContainer/LowerAbilities/Ability3.value = GameManager.player.ability_3_cooldown
-	$AbilityFG/VBoxContainer/UpperAbilities/AbilityC.value = GameManager.player.ability_c_cooldown
+	if player == null:
+		return
+	$AbilityFG/VBoxContainer/LowerAbilities/Ability1.value = player.player_data.ability_1_cooldown
+	$AbilityFG/VBoxContainer/LowerAbilities/Ability2.value = player.player_data.ability_2_cooldown
+	$AbilityFG/VBoxContainer/LowerAbilities/Ability3.value = player.player_data.ability_3_cooldown
+	$AbilityFG/VBoxContainer/UpperAbilities/AbilityC.value = player.player_data.ability_c_cooldown
 	ability_icon_change()
 
 func _ability_texture_update() -> void:
 	# ABILITY 1 TEXTURE
-	if GameManager.player_ref.ability_1 == 0:
+	if player.ability_1 == 0:
 		$AbilityFG/VBoxContainer/LowerAbilities/Ability1.texture_under = null
-	elif GameManager.player_ref.ability_1 == 1:
+	elif player.ability_1 == 1:
 		$AbilityFG/VBoxContainer/LowerAbilities/Ability1.texture_under = dash_texture
-	elif GameManager.player_ref.ability_1 == 2:
+	elif player.ability_1 == 2:
 		$AbilityFG/VBoxContainer/LowerAbilities/Ability1.texture_under = sword_texture
-	elif GameManager.player_ref.ability_1 == 3:
+	elif player.ability_1 == 3:
 		$AbilityFG/VBoxContainer/LowerAbilities/Ability1.texture_under = grenade_texture
 	# ABILITY 2 TEXTURE
-	if GameManager.player_ref.ability_2 == 0:
+	if player.ability_2 == 0:
 		$AbilityFG/VBoxContainer/LowerAbilities/Ability2.texture_under = null
-	elif GameManager.player_ref.ability_2 == 1:
+	elif player.ability_2 == 1:
 		$AbilityFG/VBoxContainer/LowerAbilities/Ability2.texture_under = dash_texture
-	elif GameManager.player_ref.ability_2 == 2:
+	elif player.ability_2 == 2:
 		$AbilityFG/VBoxContainer/LowerAbilities/Ability2.texture_under = sword_texture
-	elif GameManager.player_ref.ability_2 == 3:
+	elif player.ability_2 == 3:
 		$AbilityFG/VBoxContainer/LowerAbilities/Ability2.texture_under = grenade_texture
 	# ABILITY 3 TEXTURE
-	if GameManager.player_ref.ability_3 == 0:
+	if player.ability_3 == 0:
 		$AbilityFG/VBoxContainer/LowerAbilities/Ability3.texture_under = null
-	elif GameManager.player_ref.ability_3 == 1:
+	elif player.ability_3 == 1:
 		$AbilityFG/VBoxContainer/LowerAbilities/Ability3.texture_under = dash_texture
-	elif GameManager.player_ref.ability_3 == 2:
+	elif player.ability_3 == 2:
 		$AbilityFG/VBoxContainer/LowerAbilities/Ability3.texture_under = sword_texture
-	elif GameManager.player_ref.ability_3 == 3:
+	elif player.ability_3 == 3:
 		$AbilityFG/VBoxContainer/LowerAbilities/Ability3.texture_under = grenade_texture
 	# ABILITY C TEXTURE
-	if GameManager.player_ref.ability_c == 0:
+	if player.ability_c == 0:
 		$AbilityFG/VBoxContainer/UpperAbilities/AbilityC.texture_under = null
-	elif GameManager.player_ref.ability_c == 1:
+	elif player.ability_c == 1:
 		$AbilityFG/VBoxContainer/UpperAbilities/AbilityC.texture_under = dash_texture
-	elif GameManager.player_ref.ability_c == 2:
+	elif player.ability_c == 2:
 		$AbilityFG/VBoxContainer/UpperAbilities/AbilityC.texture_under = sword_texture
-	elif GameManager.player_ref.ability_c == 3:
+	elif player.ability_c == 3:
 		$AbilityFG/VBoxContainer/UpperAbilities/AbilityC.texture_under = grenade_texture
 		
 func ability_icon_change() -> void:
@@ -97,3 +108,5 @@ func _input(event: InputEvent) -> void:
 		GameManager.current_device = GameManager.InputDevice.KEYBOARD_MOUSE
 	elif event is InputEventJoypadMotion or event is InputEventJoypadButton:
 		GameManager.current_device = GameManager.InputDevice.CONTROLLER
+	
+	
