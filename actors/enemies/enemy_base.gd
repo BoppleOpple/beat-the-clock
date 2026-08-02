@@ -29,13 +29,15 @@ var nearby_nodes: Array[Node2D]
 # METHODS #
 ###########
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	super()
 	$Timers/StateTransitionTimer.start(state_durations[current_state])
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
+	if not _has_authority():
+		return
+	
 	self.nearby_nodes = $Unrotatable/Senses/SenseArea.get_overlapping_bodies()
 	self.target_node = self._get_current_target()
 
@@ -93,8 +95,9 @@ func _get_current_target() -> Node2D:
 		if (node is Grenade) and randf() < GRENADE_AWARENESS_CHANCE:
 			return node
 	
-	# then, have a chance to remember the player exists
-	var player_or_null: Player = GameManager.get_local_player() if is_instance_valid(GameManager.get_local_player()) else null
+	# then, have a chance to remember the player(s) exists
+	var candidates: Array = GameManager.get_all_players()
+	var player_or_null: Node2D = candidates[randi_range(0, candidates.size() - 1)] if not candidates.is_empty() else null
 	
 	if randf() < TARGET_SWITCHUP_CHANCE:
 		prev_target_node = player_or_null

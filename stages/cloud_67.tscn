@@ -8,10 +8,10 @@
 [node name="Outdoors" parent="Platforms" parent_id_path=PackedInt32Array(1209469810) index="0" unique_id=943197408 instance=ExtResource("2_w2v3a")]
 
 [node name="TopLeftPOI" parent="." index="3" unique_id=878759041]
-position = Vector2(-490, -247)
+position = Vector2(-497, -252)
 
 [node name="BottomRightPOI" parent="." index="4" unique_id=565622059]
-position = Vector2(517, 480)
+position = Vector2(494, 469)
 
 [node name="Marker2D" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(355737548) index="0" unique_id=1558997581]
 position = Vector2(-284, -47)

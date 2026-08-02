@@ -15,5 +15,5 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	time_elapsed += delta
 	var speed = lerp(0.5, MAX_SPEED, time_elapsed/30)
-	$"Blade1".rotate(delta * speed)
-	$"Blade2".rotate(delta * -speed)
+	Blade1.rotate(delta * speed)
+	Blade2.rotate(delta * -speed)

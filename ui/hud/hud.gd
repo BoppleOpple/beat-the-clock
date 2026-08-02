@@ -31,14 +31,6 @@ func _initialize(p: Player):
 	$AbilityFG/VBoxContainer/LowerAbilities/Ability3.max_value = GameManager.ABILITY_COOLDOWN[player.ability_3]
 	# Ability Slot C
 	$AbilityFG/VBoxContainer/UpperAbilities/AbilityC.max_value = GameManager.ABILITY_COOLDOWN[player.ability_c]
-	# Ability Slot 1 Cooldown
-	#$AbilityFG/VBoxContainer/LowerAbilities/Ability1.value = player.ability_1_cooldown
-	# Ability Slot 2 Cooldown
-	#$AbilityFG/VBoxContainer/LowerAbilities/Ability2.value = player.ability_2_cooldown
-	# Ability Slot 3 Cooldown
-	#$AbilityFG/VBoxContainer/LowerAbilities/Ability3.value = player.ability_3_cooldown
-	# Ability Slot C Cooldown
-	#$AbilityFG/VBoxContainer/UpperAbilities/AbilityC.value = player.ability_c_cooldown
 	_ability_texture_update()
 
 func _process(delta: float) -> void:
@@ -99,8 +91,6 @@ func ability_icon_change() -> void:
 		$AbilityBG/VBoxContainer/UpperIcons_KB.hide()
 		$AbilityBG/VBoxContainer/LowerIcons_Con.show()
 		$AbilityBG/VBoxContainer/LowerIcons_KB.hide()
-	else:
-		print("error")
 	return
 
 func _input(event: InputEvent) -> void:

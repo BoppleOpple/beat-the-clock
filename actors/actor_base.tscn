@@ -83,6 +83,35 @@ point_count = 2
 [sub_resource type="CircleShape2D" id="CircleShape2D_ikrvj"]
 radius = 21.0
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3f5id"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("Visual/ColorRect2/Eyes/LeftPupil:position")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("Visual/ColorRect2/Eyes/RightPupil:position")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:synced_time_left")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath(".:should_free")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath(".:owner_id")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+properties/7/path = NodePath("Visual/ColorRect2:color")
+properties/7/spawn = true
+properties/7/replication_mode = 1
+properties/8/path = NodePath("Visual/ColorRect:color")
+properties/8/spawn = true
+properties/8/replication_mode = 1
+
 [node name="ActorBase" type="RigidBody2D" unique_id=950486434 groups=["POI"]]
 physics_material_override = SubResource("PhysicsMaterial_rkbax")
 script = ExtResource("1_ii06v")
@@ -285,6 +314,9 @@ bus = &"SFX"
 [node name="BelowCollider" type="CollisionShape2D" parent="Unrotatable/JumpCollisionBelow" unique_id=1295610869]
 position = Vector2(0, 21)
 shape = SubResource("CircleShape2D_ikrvj")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=823013022]
+replication_config = SubResource("SceneReplicationConfig_3f5id")
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="animation_finished" from="Visual/SwordAnchor/SwordSlash" to="." method="_on_sword_slash_animation_finished"]

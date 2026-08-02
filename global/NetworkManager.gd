@@ -74,6 +74,17 @@ func _on_server_disconnected() -> void:
 	print("Server disconnected")
 	multiplayer.multiplayer_peer = null
 	players.clear()
+	_return_to_main_menu_if_needed()
+
+func _return_to_main_menu_if_needed() -> void:
+	const MAIN_MENU_PATH := "res://ui/main_menu/main_menu.tscn"
+	var tree = get_tree()
+	if tree == null:
+		return
+	var current_scene = tree.current_scene
+	if current_scene and current_scene.scene_file_path == MAIN_MENU_PATH:
+		return
+	tree.change_scene_to_file(MAIN_MENU_PATH)
 	
 ####################
 # INCOMING SIGNALS #
