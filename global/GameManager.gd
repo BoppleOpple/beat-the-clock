@@ -15,8 +15,6 @@ const ABILITY_COOLDOWN: Array[float] = [10.0, 2.0, 2.5, 3.0]
 # GLOBALS #
 ###########
 
-#var player: PlayerData
-#var player_ref: Player REPLACING WITH "players" Dictionary
 var options: Options
 # -----------
 # ABILITY VALUES
@@ -63,20 +61,16 @@ func save_options() -> void:
 	var file := FileAccess.open(SAVE_OPTIONS_PATH, FileAccess.WRITE)
 	file.store_string(JSON.stringify(options_dict))
 	file.close()
-	print("Options Saved")
 	
 func load_options() -> void:
 	if not FileAccess.file_exists(SAVE_OPTIONS_PATH):
-		print("Options Created")
 		return
 	var file := FileAccess.open(SAVE_OPTIONS_PATH, FileAccess.READ)
 	var text := file.get_as_text()
 	file.close()
 	var data = JSON.parse_string(text)
 	if data == null:
-		print("Options Loaded (empty)")
 		return
-	print("Options Loaded")
 	options.resolution_x = data.get("resolution_x", 0)
 	options.resolution_y = data.get("resolution_y", 0)
 	options.fullscreen = data.get("fullscreen", 0)
@@ -130,29 +124,36 @@ func _once_options_loaded() -> void:
 	
 func register_player(player: Player, id: int = -1) -> void:
 	if id == -1:
-		id = player.get_multiplayer_authority()
+		id = player.owner_id
 	players[id] = player
 	player_registered.emit(player)
-	if player.is_multiplayer_authority():
+	if _is_local_player(player):
 		local_player_ready.emit(player)
 	
-func unregister_player(id: int) -> void:
+func unregister_player(id: int, player: Player = null) -> void:
 	if players.has(id):
 		var p = players[id]
+		if player != null and p != player:
+			return
 		players.erase(id)
 		player_unregistered.emit(p)
 		
 func get_player(id: int) -> Player:
 	return players.get(id)
 	
+func _is_local_player(player: Player) -> bool:
+	if multiplayer.multiplayer_peer == null:
+		return true
+	return player.owner_id == multiplayer.get_unique_id()
+
 func get_local_player() -> Player:
 	for p in players.values():
-		if p.is_multiplayer_authority():
+		if is_instance_valid(p) and _is_local_player(p):
 			return p
 	return null
 
 func get_all_players() -> Array:
-	return players.values()
+	return players.values().filter(func(p): return is_instance_valid(p))
 	
 ####################
 # OUTGOING SIGNALS #

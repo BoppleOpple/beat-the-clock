@@ -33,4 +33,16 @@ editor_draw_limits = true
 
 [node name="GameOver" parent="." unique_id=1807783136 instance=ExtResource("8_5vw27")]
 
+[node name="MultiplayerObjectSpawner" type="MultiplayerSpawner" parent="." unique_id=2096102175]
+_spawnable_scenes = PackedStringArray("uid://cly1mm7sv546m")
+spawn_path = NodePath("../Objects")
+
+[node name="MultiplayerPlayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1193051457]
+_spawnable_scenes = PackedStringArray("uid://cna1uay0kbei2")
+spawn_path = NodePath("../Players")
+
+[node name="MultiplayerEnemySpawner" type="MultiplayerSpawner" parent="." unique_id=2016725273]
+_spawnable_scenes = PackedStringArray("uid://b8iqpqvc0oocq", "uid://chg4k3ky170cu")
+spawn_path = NodePath("../Enemies")
+
 [connection signal="tree_exited" from="Stage" to="." method="_on_stage_tree_exited"]

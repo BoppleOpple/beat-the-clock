@@ -5,6 +5,7 @@ func _ready() -> void:
 	$UI/MenuButtons/Singleplayer.grab_focus()
 
 func _on_singleplayer_pressed() -> void:
+	NetworkManager.disconnect_game()
 	get_tree().change_scene_to_file("res://main.tscn")
 
 func _on_multiplayer_pressed() -> void:

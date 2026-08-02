@@ -1,0 +1,242 @@
+[gd_scene format=3 uid="uid://cllmomvnrgord"]
+
+[ext_resource type="Script" uid="uid://cfwyj3orbxmwb" path="res://ui/multiplayer/lobby/helper/multiplayer_lobby_player_display.gd" id="1_iycjs"]
+[ext_resource type="Texture2D" uid="uid://bj1jv65perrfq" path="res://assets/textures/player/eye_white.png" id="1_k3t3i"]
+[ext_resource type="Texture2D" uid="uid://dxpvadauhx2xv" path="res://assets/textures/player/eye_pupil.png" id="2_ud7qt"]
+[ext_resource type="Script" uid="uid://bxfxxi31uo80h" path="res://actors/helper/eyeball.gd" id="3_0wjqn"]
+[ext_resource type="Texture2D" uid="uid://bscxd7id3ahll" path="res://assets/textures/ability_bg.png" id="5_ctucf"]
+[ext_resource type="Texture2D" uid="uid://bgs0d7oudv7u6" path="res://assets/textures/dash.png" id="6_iycjs"]
+[ext_resource type="Texture2D" uid="uid://bdk1wvta33iaf" path="res://assets/textures/grenade.png" id="7_p46g3"]
+[ext_resource type="Texture2D" uid="uid://dih0a044jrwlp" path="res://assets/textures/sword.png" id="8_k3t3i"]
+[ext_resource type="FontFile" uid="uid://dko5067st2fe4" path="res://assets/fonts/Baksoap.otf" id="11_x4hco"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ud7qt"]
+font = ExtResource("11_x4hco")
+
+[node name="MultiplayerLobbyPlayerDisplay" type="Control" unique_id=2131889960]
+custom_minimum_size = Vector2(320, 480)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 320.0
+offset_bottom = 480.0
+script = ExtResource("1_iycjs")
+
+[node name="MarginBG" type="MarginContainer" parent="." unique_id=501490420]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="BG" type="Panel" parent="MarginBG" unique_id=2099833580]
+layout_mode = 2
+
+[node name="InfoMargin" type="MarginContainer" parent="MarginBG/BG" unique_id=1655274579]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="CardVerticalSplits" type="VSplitContainer" parent="MarginBG/BG/InfoMargin" unique_id=1357874408]
+layout_mode = 2
+size_flags_vertical = 0
+split_offsets = PackedInt32Array(0, 0, 0, 0, 0)
+dragging_enabled = false
+dragger_visibility = 1
+
+[node name="PlayerBG" type="Panel" parent="MarginBG/BG/InfoMargin/CardVerticalSplits" unique_id=462695670]
+custom_minimum_size = Vector2(0, 196)
+layout_mode = 2
+
+[node name="Player" type="Node2D" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/PlayerBG" unique_id=1284999833]
+position = Vector2(136, 98)
+scale = Vector2(2, 2)
+
+[node name="ColorRect" type="ColorRect" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/PlayerBG/Player" unique_id=958484514]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.35912582, 0.00096218183, 0.5341435, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/PlayerBG/Player" unique_id=1048991987]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -18.0
+offset_right = 18.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.7593363, 0.42972273, 1, 1)
+
+[node name="Eyes" type="Node2D" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/PlayerBG/Player/ColorRect2" unique_id=1423611718]
+position = Vector2(18, 12)
+
+[node name="Left" type="Marker2D" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/PlayerBG/Player/ColorRect2/Eyes" unique_id=1793443036]
+position = Vector2(-8, 0)
+
+[node name="LeftWhite" type="Sprite2D" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/PlayerBG/Player/ColorRect2/Eyes/Left" unique_id=2439230]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_k3t3i")
+
+[node name="LeftPupil" type="Sprite2D" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/PlayerBG/Player/ColorRect2/Eyes" unique_id=286551592 node_paths=PackedStringArray("socket")]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_ud7qt")
+script = ExtResource("3_0wjqn")
+socket = NodePath("../Left")
+
+[node name="Right" type="Marker2D" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/PlayerBG/Player/ColorRect2/Eyes" unique_id=1896207272]
+position = Vector2(8, 0)
+
+[node name="RightWhite" type="Sprite2D" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/PlayerBG/Player/ColorRect2/Eyes/Right" unique_id=1799849183]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_k3t3i")
+
+[node name="RightPupil" type="Sprite2D" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/PlayerBG/Player/ColorRect2/Eyes" unique_id=945630149 node_paths=PackedStringArray("socket")]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_ud7qt")
+script = ExtResource("3_0wjqn")
+socket = NodePath("../Right")
+
+[node name="PlayerName" type="Label" parent="MarginBG/BG/InfoMargin/CardVerticalSplits" unique_id=1973836090]
+layout_mode = 2
+text = "Player Name"
+label_settings = SubResource("LabelSettings_ud7qt")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Color Selector" type="HSplitContainer" parent="MarginBG/BG/InfoMargin/CardVerticalSplits" unique_id=1665509893]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+split_offsets = PackedInt32Array(8, 252)
+split_offset = 8
+
+[node name="ColorLeft" type="Button" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/Color Selector" unique_id=1535321046]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+text = "<"
+
+[node name="ColorPreview" type="ColorRect" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/Color Selector" unique_id=587757270]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+
+[node name="ColorRight" type="Button" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/Color Selector" unique_id=1014752227]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+text = ">"
+
+[node name="Ability1" type="HSplitContainer" parent="MarginBG/BG/InfoMargin/CardVerticalSplits" unique_id=709575889]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+split_offsets = PackedInt32Array(32, 76)
+split_offset = 32
+
+[node name="AbilityLeft" type="Button" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/Ability1" unique_id=1279785636]
+custom_minimum_size = Vector2(32, 32)
+custom_maximum_size = Vector2(32, 32)
+layout_mode = 2
+text = "<"
+
+[node name="AbilityBG" type="TextureRect" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/Ability1" unique_id=1894179241]
+custom_maximum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("5_ctucf")
+
+[node name="AbilityPreview" type="TextureRect" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/Ability1/AbilityBG" unique_id=1337740061]
+custom_maximum_size = Vector2(32, 32)
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("6_iycjs")
+
+[node name="AbilityRight" type="Button" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/Ability1" unique_id=878073892]
+custom_minimum_size = Vector2(32, 32)
+custom_maximum_size = Vector2(32, 32)
+layout_mode = 2
+text = ">"
+
+[node name="Ability2" type="HSplitContainer" parent="MarginBG/BG/InfoMargin/CardVerticalSplits" unique_id=1920639870]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+split_offsets = PackedInt32Array(32, 76)
+split_offset = 32
+
+[node name="AbilityLeft" type="Button" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/Ability2" unique_id=1883586403]
+custom_minimum_size = Vector2(32, 32)
+custom_maximum_size = Vector2(32, 32)
+layout_mode = 2
+text = "<"
+
+[node name="AbilityBG" type="TextureRect" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/Ability2" unique_id=650190874]
+custom_maximum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("5_ctucf")
+
+[node name="AbilityPreview" type="TextureRect" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/Ability2/AbilityBG" unique_id=1086862493]
+custom_maximum_size = Vector2(32, 32)
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("7_p46g3")
+
+[node name="AbilityRight" type="Button" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/Ability2" unique_id=1369998850]
+custom_minimum_size = Vector2(32, 32)
+custom_maximum_size = Vector2(32, 32)
+layout_mode = 2
+text = ">"
+
+[node name="Ability3" type="HSplitContainer" parent="MarginBG/BG/InfoMargin/CardVerticalSplits" unique_id=1411550483]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+split_offsets = PackedInt32Array(32, 76)
+split_offset = 32
+
+[node name="AbilityLeft" type="Button" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/Ability3" unique_id=441892929]
+custom_minimum_size = Vector2(32, 32)
+custom_maximum_size = Vector2(32, 32)
+layout_mode = 2
+text = "<"
+
+[node name="AbilityBG" type="TextureRect" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/Ability3" unique_id=855369446]
+custom_maximum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("5_ctucf")
+
+[node name="AbilityPreview" type="TextureRect" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/Ability3/AbilityBG" unique_id=2050757329]
+custom_maximum_size = Vector2(32, 32)
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("8_k3t3i")
+
+[node name="AbilityRight" type="Button" parent="MarginBG/BG/InfoMargin/CardVerticalSplits/Ability3" unique_id=1168276055]
+custom_minimum_size = Vector2(32, 32)
+custom_maximum_size = Vector2(32, 32)
+layout_mode = 2
+text = ">"

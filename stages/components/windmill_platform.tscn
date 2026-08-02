@@ -295,6 +295,14 @@ texture = ExtResource("1_ldbfu")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_x8pu0")
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_63cxa"]
+properties/0/path = NodePath("Blade1:rotation")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("Blade2:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
 [node name="Windmill" type="Node2D" unique_id=943197408]
 script = ExtResource("1_vys4v")
 
@@ -323,3 +331,6 @@ scale = Vector2(4, 4)
 tile_map_data = PackedByteArray("AAAAAAAAAAAOAAYAAAD//wAAAAANAAYAAAD/////AAANAAUAAAAAAP//AAAOAAUAAAABAP//AAAMAAAAAAACAP//AAANAAAAAAADAP//AAANAAAAAAAEAP//AAANAAAAAAAFAP//AAAOAAAAAAD///7/AAAPAAIAAAD+/wAAAAAOAAAAAAAAAAEAAAAPAAAAAAD///3/AAAPAAEAAAD///z/AAAPAAEAAAD///v/AAAPAAEAAAD///r/AAAPAAAAAAD9/wAAAAANAAAAAAD8/wAAAAANAAAAAAD7/wAAAAANAAAAAAD6/wAAAAAMAAAAAAAAAAIAAAAPAAEAAAAAAAMAAAAPAAEAAAAAAAQAAAAPAAEAAAAAAAUAAAAPAAIAAAA=")
 tile_set = SubResource("TileSet_nkf4j")
 use_kinematic_bodies = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1141146389]
+replication_config = SubResource("SceneReplicationConfig_63cxa")

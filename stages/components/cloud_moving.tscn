@@ -587,6 +587,14 @@ texture = ExtResource("1_c1pca")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_ep0ss")
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_7snv5"]
+properties/0/path = NodePath("Platform Left:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("Platform Right:position")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
 [node name="CloudMoving" type="Node2D" unique_id=943197408]
 script = ExtResource("1_7snv5")
 
@@ -606,3 +614,6 @@ scale = Vector2(4, 4)
 tile_map_data = PackedByteArray("AAADAP3/AAARAAEAAAAEAP3/AAASAAEAAAAFAP3/AAASAAEAAAAGAP3/AAATAAEAAAA=")
 tile_set = SubResource("TileSet_08rpv")
 use_kinematic_bodies = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=265283426]
+replication_config = SubResource("SceneReplicationConfig_7snv5")

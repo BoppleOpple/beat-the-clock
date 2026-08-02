@@ -20,15 +20,14 @@ const DEATH_CLOCK_MIN_VOLUME = 0.05
 # METHODS #
 ###########
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	super()
-	GameManager.register_player(self, get_multiplayer_authority())
+	GameManager.register_player(self, owner_id)
 	self.player_data.timer = 300.0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
-	if !is_multiplayer_authority():
+	if not _has_authority():
 		return
 	
 	self.player_data.timer -= delta
@@ -67,17 +66,19 @@ func get_aim_direction() -> Vector2:
 		return (get_global_mouse_position() - self.position).normalized()
 		
 func death_timer() -> void:
-	var time_left = $Timers/PlayerClock.time_left
+	var time_left = synced_time_left
 	
 	if time_left > 30.0 or time_left <= 0.0:
 		if audio_player.playing:
 			audio_player.stop()
 		return
-	
+		
 	if not audio_player.playing:
 		audio_player.play()
 	
 	var progress = 1.0 - (time_left / 30.0)
 	var linear_volume = lerp(DEATH_CLOCK_MIN_VOLUME, DEATH_CLOCK_MAX_VOLUME, progress)
 	audio_player.volume_db = linear_to_db(linear_volume)
-	print(audio_player.playing)
+
+func _exit_tree() -> void:
+	GameManager.unregister_player(owner_id, self)
