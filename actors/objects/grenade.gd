@@ -18,18 +18,15 @@ var detonated: bool = false
 @onready var ability_player: AudioStreamPlayer = $SFXPlayer
 var explosion_sfx = preload("res://assets/audio/abilities/explosion.mp3")
 
-
 func _has_authority() -> bool:
 	return multiplayer.multiplayer_peer == null or is_multiplayer_authority()
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	freeze_mode = RigidBody2D.FREEZE_MODE_KINEMATIC
 	if not _has_authority():
 		freeze = true
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if $Fuse.time_left < FUSE_FLASH_BEGIN and $Fuse.time_left > 0:
 		var traced_angle: float = (PI / 2) * (1.5 + FUSE_FLASH_BEGIN / FUSE_FLASH_FREQUENCY)
@@ -64,7 +61,6 @@ func _explode(other: Node2D) -> void:
 
 	if other.has_method("apply_central_impulse"):
 		if other is ActorBase:
-
 			other.handle_blast_knockback(self)
 		else:
 			var offset_vector: Vector2 = other.position - self.position
@@ -84,7 +80,6 @@ func _on_trigger_zone_body_entered(body: Node2D) -> void:
 			$Fuse.stop()
 			self._on_fuse_timeout()
 		else:
-			
 			_request_early_detonation.rpc_id(get_multiplayer_authority())
 
 ####################
@@ -112,6 +107,4 @@ func _explosion_visual() -> void:
 	$ExplosionSprite.play("default")
 	$Smoke.emitting = true
 
-	var playback = ability_player.get_stream_playback() as AudioStreamPlaybackPolyphonic
-	if playback:
-		playback.play_stream(explosion_sfx, 0.0, -12.0, randf_range(0.9,1.1))
+	SFXManager.try_play(ability_player, explosion_sfx, 0.0, -12.0, randf_range(0.9,1.1))

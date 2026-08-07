@@ -4,6 +4,7 @@ extends Control
 @export var background_scale_y: float = 1.0
 @export var offset_x: float = -512.0
 @export var offset_y: float = 0.0
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_bg_select()

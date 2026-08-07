@@ -33,7 +33,6 @@ func host_game(input_port: int = port, input_max_players: int = max_players) -> 
 	multiplayer.multiplayer_peer = peer
 	players[1] = {"name": "Host"}
 	server_created.emit()
-	print("Server started on port ", input_port) # TODO TEMP
 	
 func join_game(ip_address: String, input_port: int = port) -> void:
 	var peer = ENetMultiplayerPeer.new()
@@ -50,28 +49,23 @@ func disconnect_game() -> void:
 	players.clear()
 	
 func _on_peer_connected(id: int) -> void:
-	print("Peer connected: ", id)
 	players[id] = {"name": "Player " + str(id)}
 	player_connected.emit(id)
 	
 func _on_peer_disconnected(id: int) -> void:
-	print("Peer disconnected: ", id)
 	players.erase(id)
 	player_disconnected.emit(id)
 	
 func _on_connected_ok() -> void:
-	print("Successfully connected to server")
 	var my_id = multiplayer.get_unique_id()
 	players[my_id] = {"name": "Player " + str(my_id)}
 	player_connected.emit(my_id)
 	
 func _on_connected_fail() -> void:
-	print("Connection failed")
 	multiplayer.multiplayer_peer = null
 	connection_failed.emit()
 	
 func _on_server_disconnected() -> void:
-	print("Server disconnected")
 	multiplayer.multiplayer_peer = null
 	players.clear()
 	_return_to_main_menu_if_needed()

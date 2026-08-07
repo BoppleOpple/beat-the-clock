@@ -1,7 +1,6 @@
 extends Control
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$Popup.visible = false
 	$Popup/Options.hide()
@@ -12,15 +11,10 @@ func _ready() -> void:
 		$Popup/MenuButtons/Reset.visible = false
 
 
-# Pause is purely local and cosmetic - it doesn't touch get_tree().paused or
-# sync to other peers, since pausing the host's tree would stall the
-# authoritative simulation for everyone.
 func _process(delta: float) -> void:
 	if not is_instance_valid(self):
 		return
 	if _is_game_over_showing():
-		# Don't let Pause pop up on top of this peer's own Game Over/Victory
-		# overlay - close it if it was already open when that overlay appeared.
 		if $Popup.visible:
 			_close()
 		return
@@ -73,9 +67,6 @@ func _is_server_or_singleplayer() -> bool:
 
 func _on_main_menu_pressed() -> void:
 	Engine.time_scale = 1.0
-	# Tear down the actual network connection, not just the local scene - see
-	# the comment on NetworkManager.disconnect_game() for why leaving it
-	# connected causes problems for whoever hosts/joins next.
 	NetworkManager.disconnect_game()
 	get_tree().change_scene_to_file("res://ui/main_menu/main_menu.tscn")
 

@@ -19,6 +19,7 @@ config/icon="uid://bgs0d7oudv7u6"
 
 GameManager="*uid://cxo4ilrx58sqj"
 NetworkManager="*uid://dr0ojn3rihyqf"
+SFXManager="*res://global/SFXManager.gd"
 
 [display]
 

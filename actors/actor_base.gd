@@ -93,10 +93,6 @@ var motion_cause: ActorBase = self
 
 @export var synced_time_left: float = 0.0
 
-# For Player instances: the peer id this actor belongs to, set by the server
-# at spawn time and replicated to everyone (unused for enemies). For
-# bookkeeping only - NOT used to assign multiplayer authority (see
-# Main._spawn_player()/_confirm_player_authority()).
 @export var owner_id: int = 0
 
 ###########
@@ -113,6 +109,7 @@ func _broadcast(method: StringName, args: Array = []) -> void:
 		callv(method, args)
 
 func _ready() -> void:
+
 	freeze_mode = RigidBody2D.FREEZE_MODE_KINEMATIC
 	_set_motion_cause(self)
 	$Timers/PlayerClock.start(GameManager.PLAYER_MAX_TIME / 2)
@@ -196,9 +193,7 @@ func _apply_actions(actions: Actions, _delta: float) -> void:
 			JUMPING_TORQUE_MAX
 		)
 		self.apply_torque_impulse(jump_torque)
-		var playback = ability_player.get_stream_playback() as AudioStreamPlaybackPolyphonic
-		if playback:
-			playback.play_stream(jump_sfx, 0.0, -30.0, randf_range(0.4,0.6))
+		SFXManager.try_play(ability_player, jump_sfx, 0.0, -30.0, randf_range(0.4,0.6))
 
 	# float (variable height + regrab)
 	if actions.slow_fall:
@@ -253,9 +248,7 @@ func _throw_grenade() -> void:
 
 	vel += self.linear_velocity
 	emit_signal("throw_grenade", self, pos, vel)
-	var playback = ability_player.get_stream_playback() as AudioStreamPlaybackPolyphonic
-	if playback:
-		playback.play_stream(throw_sfx, 0.0, -22.0, randf_range(2.3,2.7))
+	SFXManager.try_play(ability_player, throw_sfx, 0.0, -22.0, randf_range(2.3,2.7))
 
 func _slash() -> void:
 	var sword_rotation = get_aim_direction().angle() - self.rotation
@@ -458,21 +451,15 @@ func _slash_visual(sword_rotation: float) -> void:
 	$Visual/SwordAnchor/SwordSlash.visible = true
 	$Visual/SwordAnchor/SwordSlash.play("default")
 
-	var playback = ability_player.get_stream_playback() as AudioStreamPlaybackPolyphonic
-	if playback:
-		playback.play_stream(sword_sfx, 0.0, -12.0, randf_range(0.6,2.4))
+	SFXManager.try_play(ability_player, sword_sfx, 0.0, -12.0, randf_range(0.6,2.4))
 
 @rpc("authority", "call_local", "reliable")
 func _dash_visual() -> void:
-	var playback = ability_player.get_stream_playback() as AudioStreamPlaybackPolyphonic
-	if playback:
-		playback.play_stream(dash_sfx, 0.0, 0.0, randf_range(0.8,1.3))
+	SFXManager.try_play(ability_player, dash_sfx, 0.0, 0.0, randf_range(0.8,1.3))
 
 @rpc("authority", "call_local", "reliable")
 func _death_visual(respawn: bool) -> void:
-	var playback = ability_player.get_stream_playback() as AudioStreamPlaybackPolyphonic
-	if playback:
-		playback.play_stream(death_sfx, 0.0, -12.0, randf_range(2.3,3.0))
+	SFXManager.try_play(ability_player, death_sfx, 0.0, -12.0, randf_range(2.3,3.0))
 
 	if respawn:
 		$DeathParticles.amount = clamp(int(self.linear_velocity.length() / 25), 4, 100)
@@ -519,9 +506,7 @@ func _parry_visual(parry_rotation: float) -> void:
 	$ParryParticles.rotation = parry_rotation
 	$ParryParticles.emitting = true
 
-	var playback = ability_player.get_stream_playback() as AudioStreamPlaybackPolyphonic
-	if playback:
-		playback.play_stream(parry_sfx, 0.0, -12.0, randf_range(0.6,1.4))
+	SFXManager.try_play(ability_player, parry_sfx, 0.0, -12.0, randf_range(0.6,1.4))
 
 ####################
 # OUTGOING SIGNALS #
