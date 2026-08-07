@@ -1,37 +1,22 @@
 extends Control
 
-# Per-peer id: whether that player has already been told "Game Over". Keeps
-# _process() from re-sending it every frame once a player is dead.
 var game_over_sent: Dictionary = {}
 
-# Whether the ROUND (not just one player's personal Game Over) has actually
-# concluded - either someone won, or everyone died with nobody left to win.
-# Reset by _reset() when the host restarts the game. See is_showing() and
-# _broadcast_round_complete() below.
 var round_complete: bool = false
 
-# The singleplayer Game Over slow-mo tween from _show_overlay() - kept so it
-# can be explicitly killed on reset (see _kill_slowmo_tween()).
 var _slowmo_tween: Tween = null
 
 func _is_ActorBase(node: Node) -> bool:
 		return node is ActorBase
 
-# True while this peer's own Game Over/Victory overlay is on screen. Used by
-# Pause so it doesn't pop up on top of this overlay.
 func is_showing() -> bool:
 	return $UI/Modulate.visible
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
 	$UI/Modulate.hide()
 	$UI/Modulate.modulate.a = 0.0
 	if _is_server_or_singleplayer():
-		# A specific player's own Game Over can fire well before the round
-		# actually ends (other players/enemies can still be fighting it out),
-		# so the host shouldn't be able to end the round for everyone just
-		# because their own run is over. Restart stays disabled until
-		# _broadcast_round_complete() says the round has genuinely finished.
 		$UI/Modulate/MenuButtons/Restart.disabled = true
 		$UI/Modulate/MenuButtons/MainMenu.grab_focus()
 	else:
@@ -40,11 +25,6 @@ func _ready() -> void:
 		$UI/Modulate/MenuButtons/Restart.visible = false
 		$UI/Modulate/MenuButtons/MainMenu.grab_focus()
 
-# Only the host/singleplayer instance decides win/loss, polling the
-# replicated should_free state each frame rather than actors' local "death"
-# signals (those only fire for whoever has authority, so a client would
-# never learn about an enemy dying). Game Over is personal (fires the moment
-# that player dies); Victory is last-one-standing across players and enemies.
 func _process(_delta: float) -> void:
 	if not _is_server_or_singleplayer():
 		return
@@ -64,7 +44,6 @@ func _process(_delta: float) -> void:
 	var living_players: Array = players.filter(func(p): return not p.should_free)
 
 	if living_players.is_empty():
-		# Everyone died - the round is over even though nobody actually won.
 		_broadcast_round_complete_safe()
 		return
 

@@ -56,7 +56,6 @@ func _is_not_player_spawn (spawn: Node):
 
 ### LOGIC ###
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	NetworkManager.player_disconnected.connect(_remove_player)
 
@@ -67,7 +66,6 @@ func _ready() -> void:
 	elif multiplayer.multiplayer_peer != null:
 		_notify_ready.rpc_id(1)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if replacing_stage:
 		return
